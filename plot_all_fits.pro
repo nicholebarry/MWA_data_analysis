@@ -147,8 +147,8 @@ pro plot_all_fits, outdir, bottom_included=bottom_included
       D_sols[*,*,obs_i,0]=*cal.gain[0]*bp_sol[*,*,0]
       D_sols[*,*,obs_i,1]=*cal.gain[1]*bp_sol[*,*,1]
       
-      D_res[*,*,obs_i,0]=normal_input[*,*,obs_i,0]-split_nodig_quad_sols[*,*,obs_i,0]
-      D_res[*,*,obs_i,1]=normal_input[*,*,obs_i,1]-split_nodig_quad_sols[*,*,obs_i,1]
+      D_res[*,*,obs_i,0]=normal_input[*,*,obs_i,0]-D_sols[*,*,obs_i,0]
+      D_res[*,*,obs_i,1]=normal_input[*,*,obs_i,1]-D_sols[*,*,obs_i,1]
     ;D***End of One quad, constrained split, with regular modefit by obs
       
       
@@ -158,8 +158,8 @@ pro plot_all_fits, outdir, bottom_included=bottom_included
     ;E_sols[*,*,obs_i,0]=*cal.gain[0]*bp_sol[*,*,0]
     ;E_sols[*,*,obs_i,1]=*cal.gain[1]*bp_sol[*,*,1]
       
-    ;E_res[*,*,obs_i,0]=normal_input[*,*,obs_i,0]-split_nodig_quad_fancy_sols[*,*,obs_i,0]
-    ;E_res[*,*,obs_i,1]=normal_input[*,*,obs_i,1]-split_nodig_quad_fancy_sols[*,*,obs_i,1]
+    ;E_res[*,*,obs_i,0]=normal_input[*,*,obs_i,0]-E_sols[*,*,obs_i,0]
+    ;E_res[*,*,obs_i,1]=normal_input[*,*,obs_i,1]-E_sols[*,*,obs_i,1]
     ;E***End of One quad, constrained split, with cross-phase added polyscaled modefits by obs
       
     endfor
