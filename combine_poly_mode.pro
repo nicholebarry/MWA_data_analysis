@@ -62,7 +62,7 @@ pro combine_poly_mode, remove_poly=remove_poly
       
     endif
     
-    restore,'/nfs/eor-00/h1/nbarry/Aug23_std_test_twopolyquad_fancymodeobs_150only/autos/'+obs_name_arr[obs_i]+'_cal.sav'
+    restore,'/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/autos/'+obs_name_arr[obs_i]+'_cal.sav'
     
     
     ;for ruby's plotting program
@@ -91,6 +91,6 @@ pro combine_poly_mode, remove_poly=remove_poly
     
     ;free_lun,lun
     
-    save, cal, Filename='/nfs/eor-00/h1/nbarry/Aug23_std_test_twopolyquad_fancymodeobs_150only/'+obs_name_arr[obs_i]+'_cal.sav'
+    save, cal, Filename='/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/'+obs_name_arr[obs_i]+'_cal.sav'
   endfor
 end

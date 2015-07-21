@@ -53,7 +53,7 @@ pro mkbp_pointings, dir_name,day=day, advanced_plotting=advanced_plotting, longr
           ;Restore obs save file, either from a regular run or a longrun (different obs potentially)
           If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/' + obsid + '_obs.sav' else $
             ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/metadata/' + obsid + '_obs.sav'
-            restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_pointing_May2015/metadata/' + obsid + '_obs.sav'
+            restore, '/nfs/eor-03/r1/EoR2013/fhd_nb_catalog_July2015/metadata/' + obsid + '_obs.sav'
             
           ;Setup the obs structure array and fill it on successive loops
           If (i eq 0) Then obs_array = replicate(obs,parsednumbers[j]) ELSE obs_array[i]=obs
@@ -61,15 +61,15 @@ pro mkbp_pointings, dir_name,day=day, advanced_plotting=advanced_plotting, longr
           ;Restore params save file, either from regular run or a longrun
           If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/' + obsid + '_params.sav' else $
             ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/metadata/' + obsid + '_params.sav'
-            restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_pointing_May2015/metadata/' + obsid + '_params.sav'
+            restore, '/nfs/eor-03/r1/EoR2013/fhd_nb_catalog_July2015/metadata/1061311664_params.sav'
             
           ;Setup the params structure array and fill it on successive loops
-          If (i eq 0) Then params_array = replicate(params,parsednumbers[j]) ELSE params_array[i]=params
+          ;If (i eq 0) Then params_array = replicate(params,parsednumbers[j]) ELSE params_array[i]=params
           
           ;Restore cal structure from longrun or regular run
           If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/calibration/' + obsid + '_cal.sav' else $
             ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/calibration/' + obsid + '_cal.sav'
-            restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_pointing_May2015/calibration/' + obsid + '_cal.sav'
+            restore, '/nfs/eor-03/r1/EoR2013/fhd_nb_catalog_July2015/calibration/' + obsid + '_cal.sav'
             
           if keyword_set(phase_transfer) then begin
             phase_transfer=FLTARR(2,384,128)
@@ -119,7 +119,7 @@ pro mkbp_pointings, dir_name,day=day, advanced_plotting=advanced_plotting, longr
       ;****End of restore loop
       
       file_mkdir, dir_name, /NOEXPAND_PATH
-      ;bp=vis_cal_bandpass_with_cable_pointingv2(cal_array,obs_array,parsednumbers[j],pointing_num[j],cal_remainder=cal_remainder,file_path_fhd=dir_name+'/',advanced_plotting=advance_plotting)
+      bp=vis_cal_bandpass_with_cable_pointingv2(cal_array,obs_array,parsednumbers[j],pointing_num[j],cal_remainder=cal_remainder,file_path_fhd=dir_name+'/',advanced_plotting=advance_plotting)
       
       ;bp=vis_cal_polyfit_pointing(cal_array,obs_array,parsednumbers[j],pointing_num[j],degree=2,phase_degree=1,$
       ;  file_path=dir_name+'/')

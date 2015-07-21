@@ -19,15 +19,15 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
   for fl_i=0, (size(flagged_index))[1]-1 do begin
     If fl_i GT 0 then begin
       (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-1]=0
-    ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-2]=0
-    ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-3]=0
-    ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-4]=0
+      ;  (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-2]=0
+      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-3]=0
+      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-4]=0
     endif
     If fl_i LT (size(flagged_index))[1]-1 then begin
       (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+1]=0
-    ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+2]=0
-    ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+3]=0
-    ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+4]=0
+      ;  (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+2]=0
+      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+3]=0
+      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+4]=0
     endif
   endfor
   
@@ -140,44 +140,118 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
           IF mode_i EQ 0 THEN CONTINUE
           IF Keyword_Set(cal_cable_reflection_mode_fit) THEN BEGIN
             ; We are going to fit the actual mode to subtract.
+            ;************MOD
             freq_not_use=where((*obs_array[0].baseline_info).freq_use EQ 0)
+            
+            ;meangainreal=mean(real_part(gain_arr[freq_use,tile_i]))
+            ;meangainimag=mean(imaginary(gain_arr[freq_use,tile_i]))
+            ;gain_arr[freq_not_use,tile_i]=meangainreal+i_comp*meangainimag
+            
+            ;interp_arr=[freq_use,real_part(gain_arr[freq_use,tile_i])]
+            ;interp_arr=interpolate(real_part(gain_arr[freq_use,tile_i]),freq_not_use)
+            tile_name=strtrim((*obs_array[0].baseline_info).tile_names[tile_i],2)
+            
+            for fl_i=0, (size(freq_not_use))[1]-1 do begin
+              If (fl_i GT 0) AND (fl_i LT (size(freq_not_use))[1]-3) then begin
+                ;IF freq_not_use[fl_i+1] EQ (freq_not_use[fl_i]+1) then begin
+                ;  mean_real_half=mean([real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]),real_part(gain_arr[freq_not_use[fl_i]+2,tile_i])])
+                ;  mean_real_25quartile=mean([real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]),mean_real_half])
+                ;  mean_real_75quartile=mean([mean_real_half,real_part(gain_arr[freq_not_use[fl_i]+2,tile_i])])
+              
+                ;  mean_imag_half=mean([imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]),imaginary(gain_arr[freq_not_use[fl_i]+2,tile_i])])
+                ;  mean_imag_25quartile=mean([imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]),mean_imag_half])
+                ;  mean_imag_75quartile=mean([mean_imag_half,imaginary(gain_arr[freq_not_use[fl_i]+2,tile_i])])
+              
+                ;  gain_arr[freq_not_use[fl_i],tile_i]=mean_real_25quartile+i_comp*mean_imag_25quartile
+                ;  gain_arr[freq_not_use[fl_i]+1,tile_i]=mean_real_75quartile+i_comp*mean_imag_75quartile
+                ;endif
+              
+                ;IF freq_not_use[fl_i+3] EQ (freq_not_use[fl_i]+3) then begin
+                IF freq_not_use[fl_i+3] EQ (freq_not_use[fl_i]+3) then begin
+                
+                  slope_real=(real_part(gain_arr[freq_not_use[fl_i]+4,tile_i]) - real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]))/5
+                  intercept_real=real_part(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                  
+                  slope_imag=(imaginary(gain_arr[freq_not_use[fl_i]+4,tile_i]) - imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]))/5
+                  intercept_imag=imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                  ;If (tile_name EQ '53') AND (pol_i EQ 1) then stop
+                  gain_arr[freq_not_use[fl_i],tile_i]=(slope_real*1+intercept_real)+i_comp*(slope_imag*1+intercept_imag)
+                  gain_arr[freq_not_use[fl_i+1],tile_i]=(slope_real*2+intercept_real)+i_comp*(slope_imag*2+intercept_imag)
+                  gain_arr[freq_not_use[fl_i+2],tile_i]=(slope_real*3+intercept_real)+i_comp*(slope_imag*3+intercept_imag)
+                  gain_arr[freq_not_use[fl_i+3],tile_i]=(slope_real*4+intercept_real)+i_comp*(slope_imag*4+intercept_imag)
+                  ;gain_arr[freq_not_use[fl_i+4],tile_i]=(slope_real*5+intercept_real)+i_comp*(slope_imag*5+intercept_imag)
+                  ;gain_arr[freq_not_use[fl_i+5],tile_i]=(slope_real*6+intercept_real)+i_comp*(slope_imag*6+intercept_imag)
+                  ;If (tile_name EQ '53') AND (pol_i EQ 1) then stop
+                endif
+              endif
+            endfor
+            ;**************
+            
             ;gain_arr[freq_not_use,tile_i]=.1
-            ;gain_arr[freq_use,tile_i]=.1
+            ;gain_arr[freq_use,tile_i]=0
+            gain_arr[0:1,tile_i]=0
+            gain_arr[382:383,tile_i]=0
+            
+            
+            
             mode0=mode_i ; start with nominal cable length
-            dmode=0.05 ; pretty fine
-            nmodes=101 ; range around the central mode to test
+            dmode=0.025 ; pretty fine
+            ;dmode=0.1
+            nmodes=100 ; range around the central mode to test
+            ;nmodes=500
             ;nmodes=301 ; range around the central mode to test
             modes=(dindgen(nmodes)-nmodes/2)*dmode+mode0 ; array of modes to try
             modes=rebin(modes,nmodes,nf_use) ; hopefully this is right...
-            gainr=rebin(transpose(reform(real_part(gain_arr[freq_use,tile_i]))),nmodes,nf_use)
-            gaini=rebin(transpose(reform(imaginary(gain_arr[freq_use,tile_i]))),nmodes,nf_use) ; and this...
-            ;            gainr=rebin(transpose(reform(real_part(gain_arr[*,tile_i]))),nmodes,384)
-            ;            gaini=rebin(transpose(reform(imaginary(gain_arr[*,tile_i]))),nmodes,384) ; and this...
+            ;gainr=rebin(transpose(reform(real_part(gain_arr[freq_use,tile_i]))),nmodes,nf_use)
+            ;gaini=rebin(transpose(reform(imaginary(gain_arr[freq_use,tile_i]))),nmodes,nf_use) ; and this...
+            ;********MOD
+            gainr=rebin(transpose(reform(real_part(gain_arr[*,tile_i]))),nmodes,384)
+            gaini=rebin(transpose(reform(imaginary(gain_arr[*,tile_i]))),nmodes,384) ; and this...
+            ;*************
             gain_temp=gainr+i_comp*gaini ; for some reason I cant rebin complex numbers
-            freq_mat=rebin(transpose(freq_use),nmodes,nf_use) ; this too...
-            ;           freq_mat=rebin(transpose(Findgen(384)),nmodes,384) ; this too...
+            ;freq_mat=rebin(transpose(freq_use),nmodes,nf_use) ; this too...
+            ;*************MOD
+            freq_mat=rebin(transpose(Findgen(384)),nmodes,384) ; this too...
+            ;**************
             test_fits=Total(exp(i_comp*2.*!Pi/n_freq*modes*freq_mat)*gain_temp,2)
+
+            ;**********MOD
+            ;mode_ind_chunk=round((nmodes)/25)
+            ;max_arr_chunk=INTARR(25)
             
-            ;if strtrim(string(obs_array[obs_i].obsname),2) EQ '1061311784' then stop
-            ;test_fits_save[*,tile_i]=test_fits
+            ;for iter_i=0, 24 do begin
+            ;  max(abs(test_fits[*,tile_i]),max_arr_chunk)
+              
+            ;  endfor
+            
+            ;************
+            
+            
             tile_name=strtrim((*obs_array[0].baseline_info).tile_names[tile_i],2)
-            ;cgPS_Open,'/nfs/eor-00/h1/nbarry/Aug23_90m_trys/auto_polyscale_dfts/'+strtrim(string(obs_array[obs_i].obsname),2)+'_'+tile_name+'_auto_polyscaled.png',/quiet,/nomatch
-            ;cgplot, modes[*,0],abs(test_fits_save[*,tile_i]), title=strtrim(string(obs_array[obs_i].obsname),2)+' '+tile_name +' xx auto polyscaled'
-            ;stop
-            If (tile_name EQ '21') OR (tile_name EQ '25') then begin
-              plot_title=strtrim(string(obs_array[obs_i].obsname),2)+'_'+tile_name+'_1extraflagged'
-              cgPS_Open,'/nfs/eor-00/h1/nbarry/Aug23_90m_trys/'+plot_title+'.png',/quiet,/nomatch
-              cgplot, modes[*,0],abs(test_fits),yrange=[0,20], title=plot_title
-              cgoplot, [mode_i,mode_i], [0,10], linestyle=2
-              cgLegend, Title=['abs(DFT)','Theory mode'],$
-                Color=['black','black'],Location=[0.65,0.75], charsize=1,VSpace=1.1,Length=0.05, $
-                linestyle=[0,2]
-              cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
-            endif
             
-            If tile_name EQ '21' then stop
+            ;If (tile_name EQ '33') AND (pol_i EQ 1) then tile33=abs(test_fits)
             
-            If tile_name EQ '25' then stop
+            ;If (tile_name EQ '21') OR (tile_name EQ '25')  then begin
+            ;    plot_title=strtrim(string(obs_array[obs_i].obsname),2)+'_'+tile_name+'_2interp_only'
+              ;cgPS_Open,'/nfs/eor-00/h1/nbarry/Aug23_90m_trys/fakechannel_compare/'+plot_title+'.png',/quiet,/nomatch
+            ; cgplot, modes[*,0],abs(test_fits),yrange=[0,20], title=plot_title
+            ; cgoplot, [mode_i,mode_i], [0,10], linestyle=2
+              
+            ;  temp=max(abs(test_fits),mode_ind)
+            ;  cgoplot, [modes[mode_ind,0],modes[mode_ind,0]], [0,10]
+              
+            ; cgLegend, Title=['abs(DFT)','Theory mode'],$
+            ;    Color=['black','black'],Location=[0.65,0.75], charsize=1,VSpace=1.1,Length=0.05, $
+            ;    linestyle=[0,2]
+            ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
+            ;endif
+            
+            ;temp=max(abs(test_fits),mode_ind)
+            ;If (tile_name EQ '12') AND (strtrim(string(obs_array[obs_i].obsname),2) EQ '1061314832') then stop
+            
+           ;If (tile_name EQ '21') OR (tile_name EQ '25') then stop
+            
+            ;If (tile_name EQ '17') then stop
             
             ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
             

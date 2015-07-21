@@ -8,13 +8,17 @@ pro poly_comparisons, longrun=longrun, lst_compare=lst_compare, raw=raw, by_poin
   ;spread is a new option to plot spreads of the zeroth order amp params by obs , overplotted with by pointing
 
   ;days of the long run to use
-  day=['Aug23','Aug27','Sep02','Sep04','Sep06','Sep09','Sep11','Sep13','Sep17','Sep19','Sep30','Oct02','Oct04','Oct08','Oct10','Oct15','Oct23','Oct25','Oct29']
+  ;day=['Aug23','Aug27','Sep02','Sep04','Sep06','Sep09','Sep11','Sep13','Sep17','Sep19','Sep30','Oct02','Oct04','Oct08','Oct10','Oct15','Oct23','Oct25','Oct29']
+  
+  ;autos only
+  day=['Aug23','Aug27']
+  
   day_num=N_elements(day)
   rgbcolors=[[69,190,207],[144,23,3],[240,87,249],[45,165,30],[42,25,77],[1,53,8],[167,138,28],[251,193,236],[52,86,193],[246,229,194],[148,33,145],[253,88,89],[239,233,110],$
     [14,128,63],[96,50,14],[176,247,108],[74,126,157],[47,14,36],[212,120,250],[202,29,168]]
     
   ;Directory to print plots -- CAN CHANGE
-  outdir='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/'
+  outdir='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad_autos/plots/'
   
   parsednames=STRARR(day_num,6)
   for day_i=0,day_num-1 do begin

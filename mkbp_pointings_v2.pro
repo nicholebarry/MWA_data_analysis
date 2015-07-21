@@ -15,22 +15,22 @@ pro mkbp_pointings_v2, dir_name,day=day, advanced_plotting=advanced_plotting, lo
   
   ;I accidently named the longrun txt files full of correct obs slightly differently
   ;If keyword_set(longrun) then parsednames=[day+'_minusfour',day+'_minusthree',day+'_minustwo',day+'_minusone',day+'_zenith',day+'_plusone',day+'_plustwo',day+'_plusthree',day+'_plusfour'] else $
-    parsednames=[day+'minustwo',day+'minusone',day+'zenith',day+'plusone',day+'plustwo',day+'plusthree']
-  ;  parsednames=[day+'_minustwo',day+'_minusone',day+'_zenith',day+'_plusone',day+'_plustwo',day+'_plusthree']
-    
+  parsednames=[day+'minustwo',day+'minusone',day+'zenith',day+'plusone',day+'plustwo',day+'plusthree']
+  ;parsednames=[day+'_minustwo',day+'_minusone',day+'_zenith',day+'_plusone',day+'_plustwo',day+'_plusthree']
+  
   ;obs ptr is where obs of a pointing are stored. It can be made bigger than needed to account for the pointings of the longrun
   obs_ptr=PTRARR(10,/allocate)
   
   ;Different pointing ranges given if it was the longrun or not
-  ;If keyword_set(longrun) then pointing_num=[-4,-3,-2,-1,0,1,2,3,4] else 
+  ;If keyword_set(longrun) then pointing_num=[-4,-3,-2,-1,0,1,2,3,4] else
   pointing_num=[-2,-1,0,1,2,3]
   
   ;For each pointing, get the obs from the correct text file and read it to an obs_ptr array. Fill variable with 'empty' string first to create a tag if it is unfilled by
   ;the text file. Save the number of obs in that pointing.
   FOR j=0,(size(pointing_num))[1]-1 DO BEGIN
   
-    If keyword_set(longrun) then filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/longrun_queries/' + parsednames[j] + '.txt' else $
-      filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/' + parsednames[j] + '.txt'
+    ;  If keyword_set(longrun) then filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/longrun_queries/' + parsednames[j] + '.txt' else $
+    filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/' + parsednames[j] + '.txt'
     obs_temp='empty'
     readcol, filename, obs_temp, format='A', /silent
     If j NE 0 then parsednumbers=[parsednumbers,N_elements(obs_temp)] else parsednumbers=N_elements(obs_temp)
@@ -55,26 +55,29 @@ pro mkbp_pointings_v2, dir_name,day=day, advanced_plotting=advanced_plotting, lo
         IF obsid NE 'empty' THEN BEGIN
         
           ;Restore obs save file, either from a regular run or a longrun (different obs potentially)
-          If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/' + obsid + '_obs.sav' else $
-            ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/metadata/' + obsid + '_obs.sav'
-            restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/metadata/' + obsid + '_obs.sav'
-            
+          ;If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/' + obsid + '_obs.sav' else $
+          ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/metadata/' + obsid + '_obs.sav'
+          ;  restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/metadata/' + obsid + '_obs.sav'
+          ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_autogainsonly_Aug27_May2015/metadata/' + obsid + '_obs.sav'
+          
           ;Setup the obs structure array and fill it on successive loops
           If (i eq 0) Then obs_array = replicate(obs,parsednumbers[j]) ELSE obs_array[i]=obs
           
           ;Restore params save file, either from regular run or a longrun
-          If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/' + obsid + '_params.sav' else $
-            ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/metadata/' + obsid + '_params.sav'
-            restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/metadata/' + obsid + '_params.sav'
-            
+          ;If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/' + obsid + '_params.sav' else $
+          ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/metadata/' + obsid + '_params.sav'
+          ;  restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/metadata/' + obsid + '_params.sav'
+          ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_autogainsonly_Aug27_May2015/metadata/' + obsid + '_params.sav'
+          
           ;Setup the params structure array and fill it on successive loops
-          If (i eq 0) Then params_array = replicate(params,parsednumbers[j]) ELSE params_array[i]=params
+          ;If (i eq 0) Then params_array = replicate(params,parsednumbers[j]) ELSE params_array[i]=params
           
           ;Restore cal structure from longrun or regular run
-          If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/calibration/' + obsid + '_cal.sav' else $
-            ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/calibration/' + obsid + '_cal.sav'
-            restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/calibration/' + obsid + '_cal.sav'
-            
+          ;If keyword_set(longrun) then restore, '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/calibration/' + obsid + '_cal.sav' else $
+          ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/calibration/' + obsid + '_cal.sav'
+          ;  restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/calibration/' + obsid + '_cal.sav'
+          ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_autogainsonly_Aug27_May2015/calibration/'+ obsid +'_cal.sav'
+          
           if keyword_set(phase_transfer) then begin
             phase_transfer=FLTARR(2,384,128)
             phase_transfer[0,*,*]=atan(*cal.gain[0],/phase)
@@ -82,12 +85,21 @@ pro mkbp_pointings_v2, dir_name,day=day, advanced_plotting=advanced_plotting, lo
           endif
           
           ;If the autos keyword is set, restore the cal structure from a regular run (Aug23 obsids). Only an option for nonlongruns
-          If keyword_set(save_autos) then restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_autogainsonly_May2015/calibration/' + obsid + '_cal.sav'
+          If keyword_set(save_autos) and ~keyword_set(longrun) then restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_autogainsonly_May2015/calibration/' + obsid + '_cal.sav'
+          
+          If keyword_set(save_autos) and keyword_set(longrun) then begin
+            print, 'Autos only available for Aug23 and Aug27!'
+            If day EQ 'Aug23' then restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_autogainsonly_May2015/calibration/' + obsid + '_cal.sav'
+            If day EQ 'Aug27' then restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_autogainsonly_Aug27_May2015/calibration/' + obsid + '_cal.sav'
+            If (day NE 'Aug23') AND (day NE 'Aug27') then stop
+          endif
           
           ;Make an array of structures.  First make a new cal structure and fill it with the value restored.  There are various points in the init code that set the below values to
           ;zero, so they have to be refilled individually.
           cal2=fhd_struct_init_cal(obs, params, n_pol=cal.n_pol,n_freq=cal.n_freq,n_tile=cal.n_tile,freq=cal.freq,gain=cal.gain,gain_residual=cal.gain_residual, $
             n_vis_cal=cal.n_vis_cal, amp_params=cal.amp_params, phase_params=cal.phase_params,mode_params=cal.mode_params)
+          ; cal2=fhd_struct_init_cal_noparams_July2015(obs, n_pol=cal.n_pol,n_freq=cal.n_freq,n_tile=cal.n_tile,freq=cal.freq,gain=cal.gain,gain_residual=cal.gain_residual, $
+          ;   n_vis_cal=cal.n_vis_cal, amp_params=cal.amp_params, phase_params=cal.phase_params,mode_params=cal.mode_params)
           cal2.mode_params = cal.mode_params
           cal2.amp_params=cal.amp_params
           cal2.phase_params=cal.phase_params
@@ -105,22 +117,22 @@ pro mkbp_pointings_v2, dir_name,day=day, advanced_plotting=advanced_plotting, lo
             for pol_i=0,n_pol[i]-1 do *cal_array[i].gain[pol_i]=*cal_array[i].gain[pol_i]+*cal_array[i].gain_residual[pol_i]
           endif else begin
           
-          ;This is a reconstruction of the auto original gain, since window power scaled autos have had problems in the past
-          ;Note that the abs is there. shouldn't effect bp, but poly for sure since autos have no phase info.
+            ;This is a reconstruction of the auto original gain, since window power scaled autos have had problems in the past
+            ;Note that the abs is there. shouldn't effect bp, but poly for sure since autos have no phase info.
             for freq_i=0,cal_array[i].n_freq-1 do (*cal_array[i].gain[0])[freq_i,*]=(abs((*cal_array[i].gain[0])[freq_i,*])-(*cal_array[i].auto_params[0])[0,*])/(*cal_array[i].auto_params[0])[1,*]
             for freq_i=0,cal_array[i].n_freq-1 do (*cal_array[i].gain[1])[freq_i,*]=(abs((*cal_array[i].gain[1])[freq_i,*])-(*cal_array[i].auto_params[1])[0,*])/(*cal_array[i].auto_params[1])[1,*]
-          
-          ;Adding the cross phases to the amplitude of the auto gains to give a complex gain
+            
+            ;Adding the cross phases to the amplitude of the auto gains to give a complex gain
             if keyword_set(phase_transfer) then begin
               *cal_array[i].gain[0]=*cal_array[i].gain[0]*exp(Complex(0,1)*phase_transfer[0,*,*])
               *cal_array[i].gain[1]=*cal_array[i].gain[1]*exp(Complex(0,1)*phase_transfer[1,*,*])
             endif
-          
+            
           endelse
           cal_array_orig=cal_array
           
           ;Do a simple bandpass (saved run std by pointing) to prep the unfit gains to go through various polyfits/modefits
-          cal_bandpass=vis_cal_bandpass(cal_array[i],obs_array[i],cal_remainder=cal_remainder,saved_run_bp=1,cable_bandpass_fit=1)
+          cal_bandpass=vis_cal_bandpass(cal_array[i],obs_array[i],cal_remainder=cal_remainder,saved_run_bp=1,cable_bandpass_fit=1,filename_bp=1) ;TEMPPPPPPPP, take off filename_bp soon
           for pol_i=0,n_pol[i]-1 do *cal_array[i].gain[pol_i]=*cal_remainder.gain[pol_i]
           
         ENDIF
@@ -347,8 +359,8 @@ pro mkbp_pointings_v2, dir_name,day=day, advanced_plotting=advanced_plotting, lo
         ;  file_path=dir_name+'/',cal_cable_reflection_mode_fit=1,cal_cable_reflection_fit=150, compare_ratio=compare_ratio, pointingmode=pointingmode)
         ;endif
         ;*************plit pointing calc block
-        
-        
+          
+          
         ;for saving the cal structures individually for restoring, especially with adams fourth line plots
         ;if ~keyword_set(one_mode) then begin
         ;  For i=0, parsednumbers[j]-1 DO BEGIN

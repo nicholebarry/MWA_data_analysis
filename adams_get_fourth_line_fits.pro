@@ -1,18 +1,19 @@
 pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_inds,cal_cut_inds=cal_cut_inds,dir2=dir2, overplot=overplot, phase=phase, $
     ninety_only=ninety_only, onefifty_only=onefifty_only
-  dir = '/nfs/eor-00/h1/nbarry/Aug23_std_test_twopolyquad_fancymodeobs/autos/'
+  dir = '/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/'
   ;dir = '/nfs/eor-00/h1/nbarry/Aug23_autos_onemode/'
   ;if n_elements(dir) eq 0 then dir = '/nfs/eor-00/h1/nbarry/Aug23_pointing_plusmodepointing_frombp/'
   ;if n_elements(dir) eq 0 then dir = '/nfs/eor-00/h1/nbarry/Aug23_pointing_nodigjump_v2_plusmodepointing_frombp/'
   ;if keyword_set(dir2) then dir2 = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/'
   ;if keyword_set(dir2) then dir2 = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_pointing_May2015/'
-  if keyword_set(dir2) then dir2 = '/nfs/eor-03/r1/EoR2013/fhd_nb_std_test_twopolyquad/'
+  if keyword_set(dir2) then dir2 = '/nfs/eor-03/r1/EoR2013/fhd_nb_std_test_twopolyquad_fancymodeobs/'
+  ;if keyword_set(dir2) then dir2 = '/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag/'
   ;dir = '/nfs/eor-00/h1/nbarry/Aug23_pointing_nodigjump_v2_plusmodepointing_frombp/'
   
   ;Things to set per run
   save_path=dir+'mode_params_xx/'
-  text_title=' tile, M!Io!N and M!Io,a!N'
-  if keyword_set(overplot) then text_title=' tile, M!Io!N and M!Io,a!N'
+  text_title=' tile, M!Io,a,1flag!N'
+  if keyword_set(overplot) then text_title=' tile, M!Io,a!N and M!Io,a,1extraflag,interp,noedge!N'
   cal_files_text='_cal.sav'
   if keyword_set(dir2) then cal_files2_text='_cal.sav'
   cal_dir_added=1
@@ -100,7 +101,7 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
   
   
   nt=n_elements(tile_inds)
-  print,'Making plots'
+  print,'Making plots, saving to '+save_path
   if keyword_set(dir2) and ~keyword_set(overplot) then begin
     phase_fits_full=atan(fits_full2,/phase)/atan(fits_full,/phase)
     fits_full=fits_full2/fits_full
@@ -223,7 +224,7 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     
     ind=where(fits[*,*,tile_inds,0] ne 0)
     if keyword_set(dir2) and ~keyword_set(overplot) then moderange=[.9,1.1] else moderange=[37,39]
-    If keyword_set(ninety_only) then moderange=[22,26]
+    If keyword_set(ninety_only) then moderange=[21,24]
     
     cgplot,fits[0,*,tile_inds[tile_i],0],position=[.05,.05,.95,.3],/noerase,color='red',linestyle=0,charsize=.5,$
       thick=0,title='mode',yrange=moderange,xrange=[0,93],XTICKFORMAT="(A1)";,Psym=2
@@ -249,10 +250,17 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     cgText, plustwo_num_x,.63,/Normal, '2', color='black', charsize=.6
     cgText, plusthree_num_x,.63,/Normal, '3', color='black', charsize=.6
     
-    cgLegend, Title=['xx auto influenced','yy auto influenced'],$
+    ;cgLegend, Title=['xx auto influenced','yy auto influenced'],$
+    ;  Color=['red','blue'],Location=[0.65,0.1], charsize=.6, psym=[3,3],VSpace=.9,Length=0.03, $
+    ;  linestyle=[0,0]
+    ;If keyword_set(dir2) then cgLegend, Title=['xx original', 'yy original'],$
+    ;  Color=['red','blue'],Location=[0.85,0.1], charsize=.6, psym=[2,2],VSpace=.9,Length=0.0, $
+    ;  /Center_Sym
+      
+    cgLegend, Title=['xx a,1flag,noedge','yy a,1flag,noedge'],$
       Color=['red','blue'],Location=[0.65,0.1], charsize=.6, psym=[3,3],VSpace=.9,Length=0.03, $
       linestyle=[0,0]
-    If keyword_set(dir2) then cgLegend, Title=['xx original', 'yy original'],$
+    If keyword_set(dir2) then cgLegend, Title=['xx a,orig', 'yy a,orig'],$
       Color=['red','blue'],Location=[0.85,0.1], charsize=.6, psym=[2,2],VSpace=.9,Length=0.0, $
       /Center_Sym
       
