@@ -43,8 +43,8 @@ pro plot_all_fits, outdir, bottom_included=bottom_included
   cable_len=Reform(data_array[2,*])
   
   ;Define colors for plotting
-  rgbcolors=[[128,187,255],[202,18,27],[226,139,176],[229,153,89],[12,111,188]]
-  
+  ;rgbcolors=[[128,187,255],[202,18,27],[226,139,176],[229,153,89],[12,111,188]] ;orange in D kinda sucks
+  rgbcolors=[[128,187,255],[202,18,27],[226,139,176],[210,85,44],[12,111,188]]
   ;****************End setup
   
   
@@ -143,7 +143,7 @@ pro plot_all_fits, outdir, bottom_included=bottom_included
       
       ;D***One quad, constrained split, with regular modefit by obs
       titleD='Two quad cal fit pointing (+150e,+90e)'
-      restore, '/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/'+obsid+'_cal.sav'
+      restore, '/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/'+obsid+'_cal.sav'
       D_sols[*,*,obs_i,0]=*cal.gain[0]*bp_sol[*,*,0]
       D_sols[*,*,obs_i,1]=*cal.gain[1]*bp_sol[*,*,1]
       
