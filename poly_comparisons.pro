@@ -8,17 +8,17 @@ pro poly_comparisons, longrun=longrun, lst_compare=lst_compare, raw=raw, by_poin
   ;spread is a new option to plot spreads of the zeroth order amp params by obs , overplotted with by pointing
 
   ;days of the long run to use
-  ;day=['Aug23','Aug27','Sep02','Sep04','Sep06','Sep09','Sep11','Sep13','Sep17','Sep19','Sep30','Oct02','Oct04','Oct08','Oct10','Oct15','Oct23','Oct25','Oct29']
+  day=['Aug23','Aug27','Sep02','Sep04','Sep06','Sep09','Sep11','Sep13','Sep17','Sep19','Sep30','Oct02','Oct04','Oct08','Oct10','Oct15','Oct23','Oct25','Oct29']
   
   ;autos only
-  day=['Aug23','Aug27']
+  ;day=['Aug23','Aug27']
   
   day_num=N_elements(day)
   rgbcolors=[[69,190,207],[144,23,3],[240,87,249],[45,165,30],[42,25,77],[1,53,8],[167,138,28],[251,193,236],[52,86,193],[246,229,194],[148,33,145],[253,88,89],[239,233,110],$
     [14,128,63],[96,50,14],[176,247,108],[74,126,157],[47,14,36],[212,120,250],[202,29,168]]
     
   ;Directory to print plots -- CAN CHANGE
-  outdir='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad_autos/plots/'
+  outdir='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/by_tile_raw_underplot_legend/'
   
   parsednames=STRARR(day_num,6)
   for day_i=0,day_num-1 do begin
@@ -65,8 +65,13 @@ pro poly_comparisons, longrun=longrun, lst_compare=lst_compare, raw=raw, by_poin
   
   file_result=0
   If keyword_set(spread) then begin
-    file_result1=file_test('/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/gain_poi_amp.sav')
-    If keyword_set(raw) then file_result2=file_test('/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/gain_poi_amp.sav') else file_result2=1
+    file_result1=file_test(outdir+'gain_poi_amp.sav')
+    If keyword_set(raw) then file_result2=file_test(outdir+'gain_poi_amp.sav') else file_result2=1
+    file_result=file_result1*file_result2
+  endif
+  If keyword_set(line_plots) then begin
+    file_result1=file_test(outdir+'gain.sav')
+    If keyword_set(raw) then file_result2=file_test(outdir+'gain_poi_amp.sav') else file_result2=1
     file_result=file_result1*file_result2
   endif
   
@@ -140,12 +145,15 @@ pro poly_comparisons, longrun=longrun, lst_compare=lst_compare, raw=raw, by_poin
         
       endfor
     endfor ;end pointing for
-    save, gain_obs_amp, filename='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/gain_obs_amp.sav'
-    save, gain_poi_amp, filename='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/gain_poi_amp.sav'
+    save, gain_obs_amp, filename=outdir+'gain_obs_amp.sav'
+    save, gain_poi_amp, filename=outdir+'gain_poi_amp.sav'
+    save, gain_raw, filename=outdir+'gain_raw.sav'
   endif else begin
     print, 'Restoring'
-    If keyword_set(spread) AND keyword_set(raw) then restore, '/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/gain_obs_amp.sav'
-    If keyword_set(spread) then restore, '/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/plots/gain_poi_amp.sav'
+    If keyword_set(spread) AND keyword_set(raw) then restore, oudir+'gain_obs_amp.sav'
+    If keyword_set(spread) then restore, outdir+'gain_poi_amp.sav'
+    If keyword_set(line_plots) AND keyword_set(raw) then restore, outdir+'gain_raw.sav'
+    If keyword_set(line_plots) then restore, outdir+'gain.sav'
   endelse
   
   ;****************************End of read in the polyfit calibration solutions, and make the raw gains minus bp sol if specified
@@ -213,15 +221,30 @@ pro poly_comparisons, longrun=longrun, lst_compare=lst_compare, raw=raw, by_poin
               endfor
             endif
             
+            undefine,color_byte
+            
             Device, Decomposed=0
             for day_i=0,day_num-1 do begin
-              TVLCT, rgbcolors[0,day_i], rgbcolors[1,day_i], rgbcolors[2,day_i],100
-              cgoplot, abs(gain[pol_i,day_i,*,tile_i,j]), color=100B,psym=2, symsize=0.2
+              TVLCT, rgbcolors[0,day_i], rgbcolors[1,day_i], rgbcolors[2,day_i],100+day_i
+              If keyword_set(color_byte) then color_byte=[color_byte,BYTE(100+day_i)] else color_byte=BYTE(100+day_i)
+              cgoplot, abs(gain[pol_i,day_i,*,tile_i,j]), color=color_byte[day_i],psym=2, symsize=0.2
             endfor
+            
+            cgLegend, Title=day[0:5], $
+              Color=color_byte[0:5], Location=[0.2,0.87],charsize=0.6,VSpace=.9,thick=2
+            cgLegend, Title=day[6:11], $
+              Color=color_byte[6:11], Location=[0.4,0.87],charsize=0.6,VSpace=.9,thick=2
+            cgLegend, Title=day[12:18], $
+              Color=color_byte[12:18], Location=[0.6,0.87],charsize=0.6,VSpace=.9,thick=2
+              
+              
             Device, Decomposed=1
             cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
           endfor
+          
+          
         endelse
+        
         
         
       endfor
