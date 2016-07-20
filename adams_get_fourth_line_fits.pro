@@ -1,27 +1,45 @@
 pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_inds,cal_cut_inds=cal_cut_inds,dir2=dir2, overplot=overplot, phase=phase, $
     ninety_only=ninety_only, onefifty_only=onefifty_only
-  dir = '/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/'
+  ; dir = '/nfs/eor-00/h1/nbarry/Aug23_std_test_twopolyquad_extrafancymodeobs_polycheck_sqrt/'
+  ;dir = '/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_x2fix_updatecompare_phasemean_extraremove_cablebp/'
+  ;dir = '/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_autocheck/twopolyquad_combined/'
+  ;dir = '/nfs/mwa-09/r1/abrahamn/128T/eor0low/fhd_arn_percablebandpass_patticatalog/calibration/'
+  dir='/nfs/mwa-03/r1/EoR2013/fhd_nb_whitening/calibration/'
+  ;dir='/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_x2fix_updatecompare_amponly/combined/'
+  
   ;dir = '/nfs/eor-00/h1/nbarry/Aug23_autos_onemode/'
   ;if n_elements(dir) eq 0 then dir = '/nfs/eor-00/h1/nbarry/Aug23_pointing_plusmodepointing_frombp/'
   ;if n_elements(dir) eq 0 then dir = '/nfs/eor-00/h1/nbarry/Aug23_pointing_nodigjump_v2_plusmodepointing_frombp/'
   ;if keyword_set(dir2) then dir2 = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_no_cable_cal_std/'
   ;if keyword_set(dir2) then dir2 = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_pointing_May2015/'
-  if keyword_set(dir2) then dir2 = '/nfs/eor-03/r1/EoR2013/fhd_nb_std_test_twopolyquad_fancymodeobs/'
-  ;if keyword_set(dir2) then dir2 = '/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag/'
+  if keyword_set(dir2) then dir2 = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/'
+  
+  ;if keyword_set(dir2) then dir2 = '/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/'
+  ;if keyword_set(dir2) then dir2 = '/nfs/eor-00/h1/nbarry/Aug23_std_test_twopolyquad_extrafancymodeobs_comparecheck_polyscaled_normalcorrect_v2/'
+  ;if keyword_set(dir2) then dir2 = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/'
+  ;if keyword_set(dir2) then dir2 = '/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_x2fix_updatecompare_amponly/combined/'
+  ;if keyword_set(dir2) then dir2 = '/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_extrafancymodeobs_x2fix/'
   ;dir = '/nfs/eor-00/h1/nbarry/Aug23_pointing_nodigjump_v2_plusmodepointing_frombp/'
   
   ;Things to set per run
-  save_path=dir+'mode_params_xx/'
-  text_title=' tile, M!Io,a,1flag!N'
-  if keyword_set(overplot) then text_title=' tile, M!Io,a!N and M!Io,a,1extraflag,interp,noedge!N'
+  save_path=dir+'mode_params_stdcompare/'
+  ;text_title=' tile, M!Io,a,1flag!N'
+  text_title=' tile, M!Ilow!N'
+  
+  ;if keyword_set(overplot) then text_title=' tile, M!Io,std!N and M!Ia,phasesep,extraremove,crosspoly!N'
+  if keyword_set(overplot) then text_title=' tile, M!Ihigh!N and M!Ilow!N'
+  
   cal_files_text='_cal.sav'
   if keyword_set(dir2) then cal_files2_text='_cal.sav'
   cal_dir_added=1
   
   
   
-  file_path='~/MWA/IDL_code/obs_list/Aug23.txt
+  file_path='~/MWA/IDL_code/obs_list/whitening_filter_zenith_subset.txt
   textfast,obsids,header,file_path=file_path,/read,/string
+  ;cal_files=findfile(dir+'*_cal.sav') ; use this as a proxy to get the obsids
+  ;obsids=file_basename(cal_files,'_cal.sav')
+  
   obsids_name=obsids
   obsids=ulong(obsids)
   nobs=n_elements(obsids)
@@ -49,6 +67,9 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
   save,filename=save_path+'fits_save.sav',fits
   ;endelse
   
+    file_path='~/MWA/IDL_code/obs_list/Aug23zenith.txt
+  textfast,obsids_name,header,file_path=file_path,/read,/string
+  
   if keyword_set(dir2) then begin
     fits2 = fltarr(npol,nobs,ntile,3) ; last index for mode_i,amp,phase
     cal_files2=dir2+obsids_name+cal_files2_text
@@ -75,7 +96,7 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
   ; get tile info
   restore, '/nfs/eor-03/r1/EoR2013/fhd_nb_std_test_twopolyquad/metadata/1061316296_obs.sav'
   tile_names=(*obs.baseline_info).tile_names
-  tile_inds=where(fits[0,0,*,0] ne 0)
+  tile_inds=where(fits2[0,0,*,0] ne 0)
   
   If keyword_set(ninety_only) then begin
     mode_filepath=filepath(obs.instrument+'_cable_reflection_coefficients.txt',root=rootdir('FHD'),subdir='instrument_config')
@@ -83,6 +104,7 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     cable_len=Reform(data_array[2,*])
     tile_cable_inds=where(cable_len EQ 90)
     match, tile_inds, tile_cable_inds, suba
+    stop
     tile_inds=tile_inds[suba]
   endif
   If keyword_set(onefifty_only) then begin
@@ -93,7 +115,7 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     match, tile_inds, tile_cable_inds, suba
     tile_inds=tile_inds[suba]
   endif
-  
+  stop
   ; organize the fits info I actually want
   ;fits=pol,obs,tile,fitparams
   fits_full=fits[*,*,tile_inds,1]*exp(Complex(0,1)*fits[*,*,tile_inds,2]); - Complex(0,1)*2.*!Pi*fits[*,*,tile_inds,0]*findgen(384)/384.)
@@ -113,6 +135,8 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
   
   for tile_i=0,nt-1 do begin
     print,tile_i
+    
+    n_obs=15
     
     obs_num_per_pointing=[16,15,15,15,15,18] ;Aug23 golden set
     ;obs_num_per_pointing=[16,15,15,15,15,18] ;Aug27 golden set
@@ -139,8 +163,8 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     cgPS_Open,filename,scale_factor=2,/quiet,/nomatch
     if keyword_set(dir2) then begin
       maxabs2=FLTARR(2)
-      maxabs2[0]=.02;max(abs(fits_full2))
-      maxabs2[1]=.02;max(abs(fits_full))
+      maxabs2[0]=.04;max(abs(fits_full2))
+      maxabs2[1]=.04;max(abs(fits_full))
       maxabs=max(maxabs2)
       maxphase2=FLTARR(2)
       maxphase2[0]=max(abs(phase_fits_full2))
@@ -152,7 +176,7 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     endelse
     
     cgplot,abs(fits_full[0,*,tile_i]),position=[.05,.65,.95,.90],color='red',linestyle=0,title='magnitude',charsize=.5,$
-      thick=0,yrange=[0,maxabs],xrange=[0,93],XTICKFORMAT="(A1)";,Psym=2
+      thick=0,yrange=[0,maxabs],xrange=[0,n_obs],XTICKFORMAT="(A1)";,Psym=2
     cgplot,abs(fits_full[1,*,tile_i]),color='blue',linestyle=0,/overplot,thick=0;,Psym=2
     if keyword_set(overplot) then begin
       cgoplot,abs(fits_full2[0,*,tile_i]),position=[.05,.65,.95,.90],color='red',linestyle=6,title='magnitude',charsize=.5,$
@@ -161,18 +185,18 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     endif
     
     pointing_line_y=[0,maxabs]
-    cgoplot, minustwo_line_x, pointing_line_y,Linestyle=1
-    cgoplot, minusone_line_x, pointing_line_y, Linestyle=1
-    cgoplot, zenith_line_x, pointing_line_y, Linestyle=1
-    cgoplot, plusone_line_x, pointing_line_y, Linestyle=1
-    cgoplot, plustwo_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, minustwo_line_x, pointing_line_y,Linestyle=1
+ ;   cgoplot, minusone_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, zenith_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, plusone_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, plustwo_line_x, pointing_line_y, Linestyle=1
     
-    cgText, minustwo_num_x,.03,/Normal, '-2', color='black', charsize=.6
-    cgText, minusone_num_x,.03,/Normal, '-1', color='black', charsize=.6
-    cgText, zenith_num_x,.03,/Normal, '0', color='black', charsize=.6
-    cgText, plusone_num_x,.03,/Normal, '1', color='black', charsize=.6
-    cgText, plustwo_num_x,.03,/Normal, '2', color='black', charsize=.6
-    cgText, plusthree_num_x,.03,/Normal, '3', color='black', charsize=.6
+ ;   cgText, minustwo_num_x,.03,/Normal, '-2', color='black', charsize=.6
+ ;  cgText, minusone_num_x,.03,/Normal, '-1', color='black', charsize=.6
+ ;   cgText, zenith_num_x,.03,/Normal, '0', color='black', charsize=.6
+ ;   cgText, plusone_num_x,.03,/Normal, '1', color='black', charsize=.6
+ ;   cgText, plustwo_num_x,.03,/Normal, '2', color='black', charsize=.6
+ ;   cgText, plusthree_num_x,.03,/Normal, '3', color='black', charsize=.6
     
     ;cgLegend, Title=['xx','yy'], Color=['red','blue'],Length=0.03,Location=[0.85,0.87], charsize=.6
     for day=0,n_elements(date_inds_cal)-1 do begin
@@ -181,11 +205,11 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     
     if ~keyword_set(phase) then begin
       cgplot,real_part(fits_full[0,*,tile_i]),position=[.05,.35,.95,.60],/noerase,color='red',linestyle=0,charsize=.5,$
-        thick=0,title='real and imaginary parts',yrange=[-maxabs,maxabs],xrange=[0,93],XTICKFORMAT="(A1)";,Psym=2
+        thick=0,title='real and imaginary parts',yrange=[-maxabs,maxabs],xrange=[0,n_obs],XTICKFORMAT="(A1)";,Psym=2
       cgplot,imaginary(fits_full[0,*,tile_i]),color='blue',linestyle=0,/overplot,thick=0;,Psym=2
     endif else begin
       cgplot,phase_fits_full[0,*,tile_i],position=[.05,.35,.95,.60],/noerase,color='red',linestyle=0,charsize=.5,$
-        thick=0,title='phase',yrange=[-maxphase,maxphase],xrange=[0,93],XTICKFORMAT="(A1)";,Psym=2
+        thick=0,title='phase',yrange=[-maxphase,maxphase],xrange=[0,n_obs],XTICKFORMAT="(A1)";,Psym=2
       cgplot,phase_fits_full[1,*,tile_i],color='blue',linestyle=0,/overplot,thick=0;,Psym=2
     endelse
     
@@ -203,18 +227,18 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     
     pointing_line_y=[-maxabs,maxabs]
     if keyword_set(phase) then pointing_line_y=[-maxphase,maxphase]
-    cgoplot, minustwo_line_x, pointing_line_y,Linestyle=1
-    cgoplot, minusone_line_x, pointing_line_y, Linestyle=1
-    cgoplot, zenith_line_x, pointing_line_y, Linestyle=1
-    cgoplot, plusone_line_x, pointing_line_y, Linestyle=1
-    cgoplot, plustwo_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, minustwo_line_x, pointing_line_y,Linestyle=1
+ ;   cgoplot, minusone_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, zenith_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, plusone_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, plustwo_line_x, pointing_line_y, Linestyle=1
     
-    cgText, minustwo_num_x,.33,/Normal, '-2', color='black', charsize=.6
-    cgText, minusone_num_x,.33,/Normal, '-1', color='black', charsize=.6
-    cgText, zenith_num_x,.33,/Normal, '0', color='black', charsize=.6
-    cgText, plusone_num_x,.33,/Normal, '1', color='black', charsize=.6
-    cgText, plustwo_num_x,.33,/Normal, '2', color='black', charsize=.6
-    cgText, plusthree_num_x,.33,/Normal, '3', color='black', charsize=.6
+ ;   cgText, minustwo_num_x,.33,/Normal, '-2', color='black', charsize=.6
+ ;   cgText, minusone_num_x,.33,/Normal, '-1', color='black', charsize=.6
+ ;   cgText, zenith_num_x,.33,/Normal, '0', color='black', charsize=.6
+ ;   cgText, plusone_num_x,.33,/Normal, '1', color='black', charsize=.6
+ ;   cgText, plustwo_num_x,.33,/Normal, '2', color='black', charsize=.6
+ ;   cgText, plusthree_num_x,.33,/Normal, '3', color='black', charsize=.6
     
     ;if keyword_set(phase) then cgLegend, Title=['xx','yy'], Color=['red','blue'],Length=0.03,Location=[0.85,0.57], charsize=.6 $
     ;else cgLegend, Title=['real','imag'], Color=['red','blue'],Length=0.03,Location=[0.85,0.57], charsize=.6
@@ -227,7 +251,7 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     If keyword_set(ninety_only) then moderange=[21,24]
     
     cgplot,fits[0,*,tile_inds[tile_i],0],position=[.05,.05,.95,.3],/noerase,color='red',linestyle=0,charsize=.5,$
-      thick=0,title='mode',yrange=moderange,xrange=[0,93],XTICKFORMAT="(A1)";,Psym=2
+      thick=0,title='mode',yrange=moderange,xrange=[0,n_obs],XTICKFORMAT="(A1)";,Psym=2
     cgplot,fits[1,*,tile_inds[tile_i],0],color='blue',linestyle=0,/overplot,thick=0;,Psym=2
     
     if keyword_set(overplot) then begin
@@ -237,18 +261,18 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     endif
     
     pointing_line_y=moderange
-    cgoplot, minustwo_line_x, pointing_line_y,Linestyle=1
-    cgoplot, minusone_line_x, pointing_line_y, Linestyle=1
-    cgoplot, zenith_line_x, pointing_line_y, Linestyle=1
-    cgoplot, plusone_line_x, pointing_line_y, Linestyle=1
-    cgoplot, plustwo_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, minustwo_line_x, pointing_line_y,Linestyle=1
+ ;   cgoplot, minusone_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, zenith_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, plusone_line_x, pointing_line_y, Linestyle=1
+ ;   cgoplot, plustwo_line_x, pointing_line_y, Linestyle=1
     
-    cgText, minustwo_num_x,.63,/Normal, '-2', color='black', charsize=.6
-    cgText, minusone_num_x,.63,/Normal, '-1', color='black', charsize=.6
-    cgText, zenith_num_x,.63,/Normal, '0', color='black', charsize=.6
-    cgText, plusone_num_x,.63,/Normal, '1', color='black', charsize=.6
-    cgText, plustwo_num_x,.63,/Normal, '2', color='black', charsize=.6
-    cgText, plusthree_num_x,.63,/Normal, '3', color='black', charsize=.6
+ ;   cgText, minustwo_num_x,.63,/Normal, '-2', color='black', charsize=.6
+ ;   cgText, minusone_num_x,.63,/Normal, '-1', color='black', charsize=.6
+ ;   cgText, zenith_num_x,.63,/Normal, '0', color='black', charsize=.6
+ ;   cgText, plusone_num_x,.63,/Normal, '1', color='black', charsize=.6
+ ;   cgText, plustwo_num_x,.63,/Normal, '2', color='black', charsize=.6
+ ;   cgText, plusthree_num_x,.63,/Normal, '3', color='black', charsize=.6
     
     ;cgLegend, Title=['xx auto influenced','yy auto influenced'],$
     ;  Color=['red','blue'],Location=[0.65,0.1], charsize=.6, psym=[3,3],VSpace=.9,Length=0.03, $
@@ -256,11 +280,11 @@ pro adams_get_fourth_line_fits,dir=dir,fits=fits,obsids=obsids,deep2_inds=deep2_
     ;If keyword_set(dir2) then cgLegend, Title=['xx original', 'yy original'],$
     ;  Color=['red','blue'],Location=[0.85,0.1], charsize=.6, psym=[2,2],VSpace=.9,Length=0.0, $
     ;  /Center_Sym
-      
-    cgLegend, Title=['xx a,1flag,noedge','yy a,1flag,noedge'],$
+    
+    cgLegend, Title=['xx','yy'],$
       Color=['red','blue'],Location=[0.65,0.1], charsize=.6, psym=[3,3],VSpace=.9,Length=0.03, $
       linestyle=[0,0]
-    If keyword_set(dir2) then cgLegend, Title=['xx a,orig', 'yy a,orig'],$
+    If keyword_set(dir2) then cgLegend, Title=['xx orig', 'yy orig'],$
       Color=['red','blue'],Location=[0.85,0.1], charsize=.6, psym=[2,2],VSpace=.9,Length=0.0, $
       /Center_Sym
       

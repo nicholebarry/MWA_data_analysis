@@ -1,10 +1,10 @@
-FUNCTION split_vis_flags_vissigma_timestep,obs,flag_arr,bi_use=bi_use,preserve_flags=preserve_flags,even_only=even_only,odd_only=odd_only, time=time
+FUNCTION split_vis_flags_vissigma_timestep,obs,flag_arr,bi_use=bi_use,preserve_flags=preserve_flags,even_only=even_only,odd_only=odd_only, time=time,nt=nt
   ;function to create split even and odd time samples with identical flagging
 
   n_pol=N_Elements(flag_arr)
   IF Keyword_Set(preserve_flags) THEN flag_arr_use=pointer_copy(flag_arr) ELSE flag_arr_use=flag_arr
   bin_start=(*obs.baseline_info).bin_offset
-  nt=obs.n_time
+  If ~keyword_set(nt) then nt=obs.n_time
   IF nt LT 2 THEN RETURN,flag_arr_use
   nb=(size(*flag_arr_use[0],/dimension))[1]
   bin_end=fltarr(nt)

@@ -1,11 +1,16 @@
 FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_count,pointing_num,degree=degree,phase_degree=phase_degree,$
     file_path=file_path, cal_cable_reflection_mode_fit=cal_cable_reflection_mode_fit,mode_input=mode_input,compare_ratio=compare_ratio,$
-    cal_cable_reflection_fit=cal_cable_reflection_fit,cal_cable_reflection_both=cal_cable_reflection_both,pointingmode=pointingmode
+    cal_cable_reflection_fit=cal_cable_reflection_fit,cal_cable_reflection_both=cal_cable_reflection_both,pointingmode=pointingmode,longrun_mode=longrun_mode, $
+    orig_mode_flagging=orig_mode_flagging
   ;My program to get a polyfit over a pointing for a tile and not by obs id.  This is to avoid sidelobe effects we may be seeing.
   ;polyfit_gains is freq x tile x pol x obs
     
+  ;************Setup
+  ;
+  ;Fit at least the 150m
   If ~keyword_set(cal_cable_reflection_fit) then cal_cable_reflection_fit=150
   
+  ;Force fitting of the mode
   cal_mode_fit=1
   tile_use=PTRARR(obsid_count,/allocate)
   nt_use=INTARR(obsid_count)
@@ -16,25 +21,24 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
   n_tile=cal_array[0].n_tile
   freq_arr=cal_array[0].freq
   flagged_index=where((*obs_array[0].baseline_info).freq_use EQ 0)
-  for fl_i=0, (size(flagged_index))[1]-1 do begin
-    If fl_i GT 0 then begin
-      (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-1]=0
-      ;  (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-2]=0
-      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-3]=0
-      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-4]=0
-    endif
-    If fl_i LT (size(flagged_index))[1]-1 then begin
-      (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+1]=0
-      ;  (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+2]=0
-      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+3]=0
-      ;(*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+4]=0
-    endif
-  endfor
+  
+  ;Optionally flag one extra channel on either side of course channels in order to remove contamination from van Vleck corrections
+  If ~keyword_set(orig_mode_flagging) then begin
+    for fl_i=0, (size(flagged_index))[1]-1 do begin
+      If fl_i GT 0 then begin
+        (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]-1]=0
+      endif
+      If fl_i LT (size(flagged_index))[1]-1 then begin
+        (*obs_array[0].baseline_info).freq_use[flagged_index[fl_i]+1]=0
+      endif
+    endfor
+  endif
   
   freq_use=where((*obs_array[0].baseline_info).freq_use,nf_use)
   gain_arr_ptr=PTRARR(obsid_count,n_pol,/allocate)
   cal_return=cal_array
   
+  ;Create new pointers for the return structure, and find tiles to use for each observation
   For obs_i=0, obsid_count-1 do begin
   
     IF N_Elements(obs_array[obs_i]) GT 0 THEN *tile_use[obs_i]=where((*obs_array[obs_i].baseline_info).tile_use,nt_use_temp) ELSE tile_use=lindgen(n_tile)
@@ -51,13 +55,15 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
   i_comp=Complex(0,1)
   
   gain_residual=ptrarr(n_pol,n_tile,obsid_count)
-  
   undefine, gain_arr
+  
+  ;************End of Setup
+  
   
   IF Keyword_Set(cal_mode_fit) THEN BEGIN
     CASE 1 OF
-      Keyword_Set(cal_cable_reflection_fit): BEGIN
-      
+    
+      Keyword_Set(cal_cable_reflection_fit): BEGIN    
         cable_filepath=filepath(obs_array[0].instrument+'_cable_length.txt',root=rootdir('FHD'),subdir='instrument_config')
         textfast,data_array,/read,file_path=cable_filepath,first_line=1
         tile_i_file=Reform(data_array[0,*])
@@ -86,6 +92,7 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
         mode_i_arr=Fltarr(n_pol,n_tile)
         FOR pol_i=0,n_pol-1 DO mode_i_arr[pol_i,*]=bandwidth*reflect_time*tile_ref_flag
       END
+      
       (cal_mode_fit EQ -1): BEGIN
         spec_mask=fltarr(n_freq)
         spec_mask[freq_use]=1
@@ -112,9 +119,10 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
         mode_max=Max(mode_test,mode_i)
         mode_i_arr=Fltarr(n_pol,n_tile)+mode_i
       END
+      
       ELSE: mode_i_arr=Fltarr(n_pol,n_tile)+cal_mode_fit
+      
     ENDCASE
-    
     
     
     ;******************Mode fit by obs calc block
@@ -123,14 +131,32 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
     
       For obs_i=0, obsid_count-1 do begin
       
-        gain_arr=*cal_array[obs_i].gain[pol_i]
-        gain_arr_fit=polyfit_gains[*,*,pol_i,obs_i]
-        
-        ; Subtract the polyfit outright so the modefit and polyfit don't talk to one another
-        gain_arr-=gain_arr_fit
-        
-        test_fits_save=complex(FLTARR(101,128))
-        test_fits_save[*,*]=1.
+        If ~keyword_set(longrun_mode) then begin
+          gain_arr=*cal_array[obs_i].gain[pol_i]
+          gain_arr_fit=polyfit_gains[*,*,pol_i,obs_i]
+          
+          ; Subtract the polyfit outright so the modefit and polyfit don't talk to one another
+          gain_arr-=gain_arr_fit        
+        endif else begin
+          
+          gain_arr=polyfit_gains[*,*,pol_i,obs_i]
+          gain_arr_fit=complex(FLTARR(384,128))
+          gain_arr_fit[*,*]=1.
+
+        endelse
+
+        ;Extra removal of leftover gain TEST
+        ;For obs_j=0, obsid_count-1 do begin
+        ;  for tile_j=0,127 do begin
+        ;    extra_removal=mean(abs(gain_arr_res[freq_use,tile_j,obs_j])
+        ;    gain_arr_res[freq_use,tile_j,obs_j]-=extra_removal
+        ;  endfor
+        ;endfor
+
+        for tile_j=0,127 do begin
+          extra_removal=mean(real_part(gain_arr[freq_use,tile_j]))
+          gain_arr[freq_use,tile_j]-=extra_removal
+        endfor
         
         FOR ti=0L,nt_use[obs_i]-1 DO BEGIN
           tile_i=(*tile_use[obs_i])[ti]
@@ -140,106 +166,99 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
           IF mode_i EQ 0 THEN CONTINUE
           IF Keyword_Set(cal_cable_reflection_mode_fit) THEN BEGIN
             ; We are going to fit the actual mode to subtract.
-            ;************MOD
+          
             freq_not_use=where((*obs_array[0].baseline_info).freq_use EQ 0)
-            
-            ;meangainreal=mean(real_part(gain_arr[freq_use,tile_i]))
-            ;meangainimag=mean(imaginary(gain_arr[freq_use,tile_i]))
-            ;gain_arr[freq_not_use,tile_i]=meangainreal+i_comp*meangainimag
-            
-            ;interp_arr=[freq_use,real_part(gain_arr[freq_use,tile_i])]
-            ;interp_arr=interpolate(real_part(gain_arr[freq_use,tile_i]),freq_not_use)
+            gain_arr[freq_not_use,tile_i]=0
             tile_name=strtrim((*obs_array[0].baseline_info).tile_names[tile_i],2)
             
-            for fl_i=0, (size(freq_not_use))[1]-1 do begin
-              If (fl_i GT 0) AND (fl_i LT (size(freq_not_use))[1]-3) then begin
-                ;IF freq_not_use[fl_i+1] EQ (freq_not_use[fl_i]+1) then begin
-                ;  mean_real_half=mean([real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]),real_part(gain_arr[freq_not_use[fl_i]+2,tile_i])])
-                ;  mean_real_25quartile=mean([real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]),mean_real_half])
-                ;  mean_real_75quartile=mean([mean_real_half,real_part(gain_arr[freq_not_use[fl_i]+2,tile_i])])
-              
-                ;  mean_imag_half=mean([imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]),imaginary(gain_arr[freq_not_use[fl_i]+2,tile_i])])
-                ;  mean_imag_25quartile=mean([imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]),mean_imag_half])
-                ;  mean_imag_75quartile=mean([mean_imag_half,imaginary(gain_arr[freq_not_use[fl_i]+2,tile_i])])
-              
-                ;  gain_arr[freq_not_use[fl_i],tile_i]=mean_real_25quartile+i_comp*mean_imag_25quartile
-                ;  gain_arr[freq_not_use[fl_i]+1,tile_i]=mean_real_75quartile+i_comp*mean_imag_75quartile
-                ;endif
-              
-                ;IF freq_not_use[fl_i+3] EQ (freq_not_use[fl_i]+3) then begin
-                IF freq_not_use[fl_i+3] EQ (freq_not_use[fl_i]+3) then begin
+            If ~keyword_set(orig_mode_flagging) then begin
+              for fl_i=0, (size(freq_not_use))[1]-1 do begin
+                If (fl_i GT 0) AND (fl_i LT (size(freq_not_use))[1]-3) then begin
+                  ;If (fl_i GT 0) AND (fl_i LT (size(freq_not_use))[1]-1) then begin
                 
-                  slope_real=(real_part(gain_arr[freq_not_use[fl_i]+4,tile_i]) - real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]))/5
-                  intercept_real=real_part(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                  ;IF freq_not_use[fl_i+1] EQ (freq_not_use[fl_i]+1) then begin
+                  IF freq_not_use[fl_i+3] EQ (freq_not_use[fl_i]+3) then begin
                   
-                  slope_imag=(imaginary(gain_arr[freq_not_use[fl_i]+4,tile_i]) - imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]))/5
-                  intercept_imag=imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i])
-                  ;If (tile_name EQ '53') AND (pol_i EQ 1) then stop
-                  gain_arr[freq_not_use[fl_i],tile_i]=(slope_real*1+intercept_real)+i_comp*(slope_imag*1+intercept_imag)
-                  gain_arr[freq_not_use[fl_i+1],tile_i]=(slope_real*2+intercept_real)+i_comp*(slope_imag*2+intercept_imag)
-                  gain_arr[freq_not_use[fl_i+2],tile_i]=(slope_real*3+intercept_real)+i_comp*(slope_imag*3+intercept_imag)
-                  gain_arr[freq_not_use[fl_i+3],tile_i]=(slope_real*4+intercept_real)+i_comp*(slope_imag*4+intercept_imag)
-                  ;gain_arr[freq_not_use[fl_i+4],tile_i]=(slope_real*5+intercept_real)+i_comp*(slope_imag*5+intercept_imag)
-                  ;gain_arr[freq_not_use[fl_i+5],tile_i]=(slope_real*6+intercept_real)+i_comp*(slope_imag*6+intercept_imag)
-                  ;If (tile_name EQ '53') AND (pol_i EQ 1) then stop
+                    slope_real=(real_part(gain_arr[freq_not_use[fl_i]+4,tile_i]) - real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]))/5
+                    intercept_real=real_part(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                    
+                    slope_imag=(imaginary(gain_arr[freq_not_use[fl_i]+4,tile_i]) - imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]))/5
+                    intercept_imag=imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                    
+                    ;TEST
+                    ;slope_amp=(abs(gain_arr[freq_not_use[fl_i]+4,tile_i]) - abs(gain_arr[freq_not_use[fl_i]-1,tile_i]))/5
+                    ;intercept_amp=abs(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                    
+                    ;slope_phase=(atan(gain_arr[freq_not_use[fl_i]+4,tile_i],/phase) - atan(gain_arr[freq_not_use[fl_i]-1,tile_i],/phase))/5
+                    ;intercept_phase=atan(gain_arr[freq_not_use[fl_i]-1,tile_i],/phase)
+                    ;END OF TEST
+                    
+                    ;slope_real=(real_part(gain_arr[freq_not_use[fl_i]+2,tile_i]) - real_part(gain_arr[freq_not_use[fl_i]-1,tile_i]))/3
+                    ;intercept_real=real_part(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                    
+                    ;slope_imag=(imaginary(gain_arr[freq_not_use[fl_i]+2,tile_i]) - imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i]))/3
+                    ;intercept_imag=imaginary(gain_arr[freq_not_use[fl_i]-1,tile_i])
+                    
+                    
+                    gain_arr[freq_not_use[fl_i],tile_i]=(slope_real*1.+intercept_real)+i_comp*(slope_imag*1.+intercept_imag)
+                    gain_arr[freq_not_use[fl_i+1],tile_i]=(slope_real*2.+intercept_real)+i_comp*(slope_imag*2.+intercept_imag)
+                    gain_arr[freq_not_use[fl_i+2],tile_i]=(slope_real*3.+intercept_real)+i_comp*(slope_imag*3.+intercept_imag)
+                    gain_arr[freq_not_use[fl_i+3],tile_i]=(slope_real*4.+intercept_real)+i_comp*(slope_imag*4.+intercept_imag)
+                    
+                  ;TEST
+                  ;gain_arr[freq_not_use[fl_i],tile_i]=abs((slope_amp)*1.+(intercept_amp))*exp(i_comp*(slope_phase*1.+intercept_phase))
+                  ;gain_arr[freq_not_use[fl_i+1],tile_i]=abs((slope_amp)*2.+(intercept_amp))*exp(i_comp*(slope_phase*2.+intercept_phase))
+                  ;gain_arr[freq_not_use[fl_i+2],tile_i]=abs((slope_amp)*3.+(intercept_amp))*exp(i_comp*(slope_phase*3.+intercept_phase))
+                  ;gain_arr[freq_not_use[fl_i+3],tile_i]=abs((slope_amp)*4.+(intercept_amp))*exp(i_comp*(slope_phase*4.+intercept_phase))
+                  ;                  gain_arr[freq_not_use[fl_i],tile_i]=abs((slope_amp)*1.+(intercept_amp))
+                  ;gain_arr[freq_not_use[fl_i+1],tile_i]=abs((slope_amp)*2.+(intercept_amp))
+                  ;gain_arr[freq_not_use[fl_i+2],tile_i]=abs((slope_amp)*3.+(intercept_amp))
+                  ;gain_arr[freq_not_use[fl_i+3],tile_i]=abs((slope_amp)*4.+(intercept_amp))
+                  ;END OF TEST
+                    
+                  endif
                 endif
-              endif
-            endfor
+              endfor
+            endif
             ;**************
             
-            ;gain_arr[freq_not_use,tile_i]=.1
-            ;gain_arr[freq_use,tile_i]=0
             gain_arr[0:1,tile_i]=0
             gain_arr[382:383,tile_i]=0
             
+            wh_freq_nonzero=where(gain_arr[*,tile_i] NE 0, nonzero_freq_count)
             
-            
-            mode0=mode_i ; start with nominal cable length
-            dmode=0.025 ; pretty fine
-            ;dmode=0.1
-            nmodes=100 ; range around the central mode to test
-            ;nmodes=500
-            ;nmodes=301 ; range around the central mode to test
+            mode0=mode_i ;start with nominal cable length
+            dmode=0.025 ;mode delta amount
+            nmodes=71 ;range around the central mode to test
             modes=(dindgen(nmodes)-nmodes/2)*dmode+mode0 ; array of modes to try
-            modes=rebin(modes,nmodes,nf_use) ; hopefully this is right...
-            ;gainr=rebin(transpose(reform(real_part(gain_arr[freq_use,tile_i]))),nmodes,nf_use)
-            ;gaini=rebin(transpose(reform(imaginary(gain_arr[freq_use,tile_i]))),nmodes,nf_use) ; and this...
-            ;********MOD
-            gainr=rebin(transpose(reform(real_part(gain_arr[*,tile_i]))),nmodes,384)
-            gaini=rebin(transpose(reform(imaginary(gain_arr[*,tile_i]))),nmodes,384) ; and this...
-            ;*************
-            gain_temp=gainr+i_comp*gaini ; for some reason I cant rebin complex numbers
-            ;freq_mat=rebin(transpose(freq_use),nmodes,nf_use) ; this too...
-            ;*************MOD
-            freq_mat=rebin(transpose(Findgen(384)),nmodes,384) ; this too...
-            ;**************
-            test_fits=Total(exp(i_comp*2.*!Pi/n_freq*modes*freq_mat)*gain_temp,2)
 
-            ;**********MOD
-            ;mode_ind_chunk=round((nmodes)/25)
-            ;max_arr_chunk=INTARR(25)
-            
-            ;for iter_i=0, 24 do begin
-            ;  max(abs(test_fits[*,tile_i]),max_arr_chunk)
-              
-            ;  endfor
-            
-            ;************
+            modes=rebin(modes,nmodes,nonzero_freq_count)
+
+            gainr=rebin(transpose(reform(real_part(gain_arr[wh_freq_nonzero,tile_i]))),nmodes,nonzero_freq_count)
+            gaini=rebin(transpose(reform(imaginary(gain_arr[wh_freq_nonzero,tile_i]))),nmodes,nonzero_freq_count)
+
+            gain_temp=gainr+i_comp*gaini 
+
+            freq_mat=rebin(transpose(Findgen(nonzero_freq_count)+2),nmodes,nonzero_freq_count)
+
+            test_fits=Total(exp(i_comp*2.*!Pi/n_freq*modes*freq_mat)*gain_temp,2)
+           
+            ;test_fits2=Total(exp(i_comp*2.*!Pi*(modes/bandwidth)*(freq_mat/n_freq*bandwidth+min(freq_arr)))*gain_temp,2)
             
             
             tile_name=strtrim((*obs_array[0].baseline_info).tile_names[tile_i],2)
             
             ;If (tile_name EQ '33') AND (pol_i EQ 1) then tile33=abs(test_fits)
             
-            ;If (tile_name EQ '21') OR (tile_name EQ '25')  then begin
+            ;If (tile_name EQ '24') and pol_i EQ 0 then stop
             ;    plot_title=strtrim(string(obs_array[obs_i].obsname),2)+'_'+tile_name+'_2interp_only'
-              ;cgPS_Open,'/nfs/eor-00/h1/nbarry/Aug23_90m_trys/fakechannel_compare/'+plot_title+'.png',/quiet,/nomatch
+            ;cgPS_Open,'/nfs/eor-00/h1/nbarry/Aug23_90m_trys/fakechannel_compare/'+plot_title+'.png',/quiet,/nomatch
             ; cgplot, modes[*,0],abs(test_fits),yrange=[0,20], title=plot_title
             ; cgoplot, [mode_i,mode_i], [0,10], linestyle=2
-              
+            
             ;  temp=max(abs(test_fits),mode_ind)
             ;  cgoplot, [modes[mode_ind,0],modes[mode_ind,0]], [0,10]
-              
+            
             ; cgLegend, Title=['abs(DFT)','Theory mode'],$
             ;    Color=['black','black'],Location=[0.65,0.75], charsize=1,VSpace=1.1,Length=0.05, $
             ;    linestyle=[0,2]
@@ -249,19 +268,27 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
             ;temp=max(abs(test_fits),mode_ind)
             ;If (tile_name EQ '12') AND (strtrim(string(obs_array[obs_i].obsname),2) EQ '1061314832') then stop
             
-           ;If (tile_name EQ '21') OR (tile_name EQ '25') then stop
+            ;If (tile_name EQ '21') OR (tile_name EQ '25') then stop
             
-            ;If (tile_name EQ '17') then stop
             
             ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
             
             If ~keyword_set(mode_input) then begin
-              amp_use=max(abs(test_fits),mode_ind)/nf_use
+              ;amp_use=2*max(abs(test_fits),mode_ind)/380
+              amp_use=max(abs(test_fits),mode_ind)/nonzero_freq_count
+              
+              If mode_ind EQ 0 then begin
+                amp_use=max(abs(test_fits[round(nmodes/2):nmodes-1]),mode_ind)/nonzero_freq_count
+                mode_ind=mode_ind+round(nmodes/2)
+                IF mode_ind EQ nmodes-1 then amp_use=max(abs(test_fits),mode_ind)/nonzero_freq_count
+              endif
+
               if keyword_set(compare_ratio) then amp_use=amp_use/compare_ratio[tile_i,pol_i]
               phase_use=atan(test_fits[mode_ind],/phase)
+              
             endif else begin
               mode_ind_temp=min(abs((*mode_input[obs_i,pol_i,tile_i])[0] - modes[*,0]),mode_ind)
-              amp_use=abs(test_fits[mode_ind])/nf_use
+              amp_use=abs(test_fits[mode_ind])/nonzero_freq_count
               phase_use=atan(test_fits[mode_ind],/phase)
             endelse
             
@@ -276,10 +303,19 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
             phase_use=atan(mode_fit,/phase)
           ENDELSE
           
+          if keyword_set(pointingmode) then begin
+            real_use=amp_use*cos(phase_use)
+            imag_use=amp_use*sin(phase_use)
+          endif
+          
           gain_mode_fit=amp_use*exp(-i_comp*2.*!Pi*(mode_i*findgen(n_freq)/n_freq)+i_comp*phase_use)
+
           gain_arr_fit[*,tile_i]+=gain_mode_fit
-          cal_return[obs_i].mode_params[pol_i,tile_i]=PTR_NEW([mode_i,amp_use,phase_use])
+          
+          if ~keyword_set(pointingmode) then cal_return[obs_i].mode_params[pol_i,tile_i]=PTR_NEW([mode_i,amp_use,phase_use]) else $
+            cal_return[obs_i].mode_params[pol_i,tile_i]=PTR_NEW([mode_i,real_use,imag_use])
         ENDFOR
+        
         if ~keyword_set(pointingmode) then *cal_return[obs_i].gain[pol_i]=gain_arr_fit
       ENDFOR
       ;******************end of modefit by obs
@@ -293,7 +329,7 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
         FOR ti=0L,127 DO BEGIN
           ;fill a temporary array with all the modes of a single tile over the pointings obsids
           for obs_i=0,obsid_count-1 do begin
-            if mode_params[ti,obs_i] NE !Null then mode_temp[obs_i]=(*mode_params[ti,obs_i])[0] else mode_temp[obs_i]=0
+            if cal_return[obs_i].mode_params[pol_i,ti] NE !Null then mode_temp[obs_i]=(*cal_return[obs_i].mode_params[pol_i,ti])[0] else mode_temp[obs_i]=0
           endfor
           
           ;Begin a quartile analysis of the mode array over obsids. This is the same as a boxplot analysis, and assumes no prior distribution to the data
@@ -365,7 +401,7 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
               imag_use=amp_use*sin(phase_use)
             endif
             
-            *mode_params[tile_i,obs_i]=[mode_i,real_use,imag_use]
+          ;(*cal_return[obs_i].mode_params[pol_i,tile_i])=[mode_i,real_use,imag_use]
           ENDFOR
           
         ENDFOR
@@ -382,8 +418,8 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
         FOR ti=0L,127 DO BEGIN
           ;fill a temporary array with all the amp and phase of a single tile over the pointings obsids
           for obs_i=0,obsid_count-1 do begin
-            if mode_params[ti,obs_i] NE !Null then real_temp[obs_i]=(*mode_params[ti,obs_i])[1] else real_temp[obs_i]=0
-            if mode_params[ti,obs_i] NE !Null then imag_temp[obs_i]=(*mode_params[ti,obs_i])[2] else imag_temp[obs_i]=0
+            if cal_return[obs_i].mode_params[pol_i,ti] NE !Null then real_temp[obs_i]=(*cal_return[obs_i].mode_params[pol_i,ti])[1] else real_temp[obs_i]=0
+            if cal_return[obs_i].mode_params[pol_i,ti] NE !Null then imag_temp[obs_i]=(*cal_return[obs_i].mode_params[pol_i,ti])[2] else imag_temp[obs_i]=0
           endfor
           
           ;Begin a quartile analysis of the real array over obsids. This is the same as a boxplot analysis, and assumes no prior distribution to the data
@@ -464,7 +500,13 @@ FUNCTION vis_cal_modefit_only_pointing,polyfit_gains,cal_array,obs_array,obsid_c
       endif
     endfor ;end pol for
     
-  ENDIF
+  ENDIF else begin
+    for obs_i=0, obsid_count-1 do begin
+      for pol_i=0,1 do begin
+        *cal_return[obs_i].gain[pol_i]=polyfit_gains[*,*,pol_i,obs_i]
+      endfor
+    endfor
+  endelse
   
   undefine_fhd,gain_residual
   RETURN,cal_return

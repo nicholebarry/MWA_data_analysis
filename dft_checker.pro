@@ -4,15 +4,15 @@ pro dft_checker
   i_comp=Complex(0,1)
   n_freq=380
   
-  gain_arr=10*Sin(2*!Pi*5*(((FINDGEN(100))/100))+!Pi);+i_comp;+5 ;frequency of 2, once a second for 380/380 seconds, amplitude of 10
-  ;gain_arr=(10*exp(-i_comp*2*!Pi*5*((FINDGEN(100))/100)))
+  ;gain_arr=10*Sin(2*!Pi*5*(((FINDGEN(100))/100))+!Pi);+i_comp;+5 ;frequency of 2, once a second for 380/380 seconds, amplitude of 10
+  gain_arr=(10*exp(-i_comp*2*!Pi*5*((FINDGEN(100))/100)))
   ;gain_arr[0:1]=0
   ;gain_arr[382:383]=0
   
   mode0=5 ; start with nominal cable length
   dmode=.05 ; pretty fine
   ;dmode=0.1
-  nmodes=90 ; range around the central mode to test
+  nmodes=50 ; range around the central mode to test
   modes=(dindgen(nmodes)-nmodes/2)*dmode+mode0 ; array of modes to try
   
   modes=rebin(modes,nmodes,100)

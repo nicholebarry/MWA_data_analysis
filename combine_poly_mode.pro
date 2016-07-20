@@ -1,4 +1,4 @@
-pro combine_poly_mode, remove_poly=remove_poly
+pro combine_poly_mode, remove_poly=remove_poly, seperate_phase=seperate_phase
 
   day='Aug23'
   n_pol=2
@@ -20,9 +20,10 @@ pro combine_poly_mode, remove_poly=remove_poly
   
   For obs_i=0, N_elements(obs_name_arr)-1 do begin
   
-    restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_pointing_May2015/metadata/'+obs_name_arr[obs_i]+'_obs.sav'
+    restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/metadata/'+obs_name_arr[obs_i]+'_obs.sav'
     ;restore, '/nfs/eor-00/h1/nbarry/Aug23_cross_polyfit_quad_data/'+obs_name_arr[obs_i]+'pre_cal.sav'
-    restore, '/nfs/eor-00/h1/nbarry/Aug23_std_test_twopolyquad_polyonly/'+obs_name_arr[obs_i]+'_cal.sav'
+    ;restore, '/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_polyonly_constrainedphase/'+obs_name_arr[obs_i]+'_cal.sav'
+    restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/calibration/'+obs_name_arr[obs_i]+'_cal.sav'
     ;restore, '/nfs/eor-00/h1/nbarry/Aug23_onequad_polyscaled_90150/cross_polyfit_data/'+obs_name_arr[obs_i]+'post_cal.sav'
     ;restore,'/nfs/eor-00/h1/nbarry/Aug23_polyratio_quadsplit/'+obs_name_arr[obs_i]+'_cal.sav'
     
@@ -54,7 +55,7 @@ pro combine_poly_mode, remove_poly=remove_poly
           If (cal.mode_params[pol_i,tile_use[tile_i]]) NE !NULL THEN mode_params=*(cal.mode_params[pol_i,tile_use[tile_i]])
           
           gain_arr_fit[pol_i,*,tile_i]=mode_params[1]*Exp(-Complex(0,1)*2.*!Pi*mode_params[0]*findgen(n_freq)/n_freq+Complex(0,1)*(mode_params[2]))
-
+          
         ENDFOR
         
         cross_poly[*,tile_use,pol_i]=((*cal.gain[pol_i])[*,tile_use]-gain_arr_fit[pol_i,*,*])
@@ -62,7 +63,13 @@ pro combine_poly_mode, remove_poly=remove_poly
       
     endif
     
-    restore,'/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/autos/'+obs_name_arr[obs_i]+'_cal.sav'
+    If keyword_set(seperate_phase) then begin
+      mode_amp = getvar_savefile('/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_x2fix_updatecompare_amponly/'+obs_name_arr[obs_i]+'_cal.sav','cal')
+      phases = getvar_savefile('/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_x2fix_updatecompare_phaseonly/'+obs_name_arr[obs_i]+'_cal.sav','cal')
+      for i =0,127 do if mode_amp.mode_params[0,i] NE !NULL then mode_amp.mode_params[0,i]=PTR_NEW([(*mode_amp.mode_params[0,i])[0],(*mode_amp.mode_params[0,i])[1],(*phases.mode_params[0,i])[2]])
+      for i =0,127 do if mode_amp.mode_params[1,i] NE !NULL then mode_amp.mode_params[1,i]=PTR_NEW([(*mode_amp.mode_params[1,i])[0],(*mode_amp.mode_params[1,i])[1],(*phases.mode_params[1,i])[2]])
+      cal=mode_amp
+    endif else restore,'/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_autocheck/'+obs_name_arr[obs_i]+'_cal.sav'
     
     
     ;for ruby's plotting program
@@ -79,7 +86,7 @@ pro combine_poly_mode, remove_poly=remove_poly
         If (cal.mode_params[pol_i,tile_use[tile_i]]) NE !NULL THEN mode_params=*(cal.mode_params[pol_i,tile_use[tile_i]])
         
         gain_arr[pol_i,*,tile_use[tile_i]]=cross_poly[*,tile_use[tile_i],pol_i]+mode_params[1]*Exp(-Complex(0,1)*2.*!Pi*mode_params[0]*findgen(n_freq)/n_freq+Complex(0,1)*(mode_params[2]))
-
+        
       ;for ruby's plotting program
       ;mode_params_good_units=mode_params
       ;mode_params_good_units[0]=mode_params_good_units[0]/(3.072*10^7.)
@@ -91,6 +98,6 @@ pro combine_poly_mode, remove_poly=remove_poly
     
     ;free_lun,lun
     
-    save, cal, Filename='/nfs/eor-00/h1/nbarry/Aug23_std_test_towpolyquad_extrafancymodeobs/1flag_noedge/'+obs_name_arr[obs_i]+'_cal.sav'
+    save, cal, Filename='/nfs/eor-00/h1/nbarry/Aug23_twopolyquad_autocheck/stdpoly/'+obs_name_arr[obs_i]+'_cal.sav'
   endfor
 end

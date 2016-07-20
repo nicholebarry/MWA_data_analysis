@@ -1,4 +1,5 @@
-pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, mean_tile=mean_tile, quick_check=quick_check, line_plots=line_plots, spread=spread
+pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, mean_tile=mean_tile, quick_check=quick_check, line_plots=line_plots, spread=spread, $
+    make_obs_to_query=make_obs_to_query
   ;Program for plotting polyfit by pointings solutions over the longrun to check for stability. Longrun must be set at this time.
   ;lst_compare is not implemented at this time. Raw underplots the raw (minus bandpass by cable by pointing) for each obsid of the
   ;pointing or day and pointing depending on the next keyword.  by_pointing plots each all the pointings over all the days
@@ -6,7 +7,7 @@ pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, 
   ;quick_check reads in only the -2 pointing to make plots quicker
   ;line_plots makes the plots described above
   ;spread is a new option to plot spreads of the zeroth order amp params by obs , overplotted with by pointing
-
+    
   ;days of the long run to use
   day=['Aug23','Aug27','Sep02','Sep04','Sep06','Sep09','Sep11','Sep13','Sep17','Sep19','Sep30','Oct02','Oct04','Oct08','Oct10','Oct15','Oct23','Oct25','Oct29']
   
@@ -41,8 +42,10 @@ pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, 
   beginning_obsid_count=INTARR((size(pointing_num))[1])
   bftemp_pointing=FLTARR((size(pointing_num))[1],day_num)
   
-  ;GET_LUN,lun
-  ;OPENW,lun,outdir+'obs_to_query_v2.txt'
+  if keyword_set(make_obs_to_query) then begin
+    GET_LUN,lun
+    OPENW,lun,outdir+'obs_to_query_v2.txt'
+  endif
   
   FOR j=0,(size(pointing_num))[1]-1 DO BEGIN
     undefine, obsid
@@ -53,7 +56,7 @@ pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, 
       If keyword_set(longrun) then filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/longrun_queries/' + parsednames[day_i,j] + '.txt'
       
       obs_array='empty'
-      readcol, filename, obs_array, format='A'
+      readcol, filename, obs_array, format='A', /silent
       
       If obs_array[0] NE 'empty' Then begin
         textfast,obs_array,/read,file_path=filename,string=1
@@ -61,9 +64,8 @@ pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, 
         If keyword_set(obsid) then obsid=[obsid,ULONG(obs_array[*])] else obsid=ULONG(obs_array[*])
         If keyword_set(beginning_obsid) then beginning_obsid=[beginning_obsid,ULONG(obs_array[0])] else beginning_obsid=ULONG(obs_array[0])
         *obsid_day_pointing[j, day_i]=(obs_array[*])
-      ;PRINTF, lun,(*obsid_day_pointing[j,day_i])[0]
-      ;if day_i EQ 0 then stop
-      ;If (size(data_array))[1] GT 1 then bftemp_pointing[j,day_i]=mean(FLOAT(data_array[39,*]))
+        if keyword_set(make_obs_to_query) then PRINTF, lun,(*obsid_day_pointing[j,day_i])[0]
+        
       endif
       
     ENDFOR ; end day for
@@ -74,111 +76,70 @@ pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, 
   endfor ;end pointing for
   ;***************End of loop to get the obsids of each day/pointing of the longrun
   
-  ;FREE_LUN,lun
-  
-  ;stop
+  if keyword_set(make_obs_to_query) then begin
+    FREE_LUN,lun
+    stop
+  endif
   
   ;****************************Read in the polyfit calibration solutions, and make the raw gains minus bp sol if specified
   gain=complex(DBLARR(2,day_num,384,128,(size(pointing_num))[1]))
   If keyword_set(raw) then gain_raw=complex(DBLARR(2,day_num,384,128,(size(pointing_num))[1],20))
-  If keyword_set(raw) AND keyword_set(spread) then gain_obs_amp=complex(DBLARR(2,day_num,128,(size(pointing_num))[1],20))
-  If keyword_set(spread) then gain_poi_amp=complex(DBLARR(2,day_num,128,(size(pointing_num))[1]))
   
-  file_result=0
-  If keyword_set(spread) then begin
-    file_result1=file_test(outdir+'gain_poi_amp.sav')
-    If keyword_set(raw) then file_result2=file_test(outdir+'gain_poi_amp.sav') else file_result2=1
-    file_result=file_result1*file_result2
-  endif
-  
-  If file_result EQ 0 then begin
-  
-    for j=0,(size(pointing_num))[1]-1 do begin
-      print, 'Reading in pointing ' + pointing_name[j]
-      for day_i=0,day_num-1 do begin
-      
-        If *obsid_day_pointing[j, day_i] NE !NULL then begin
-          filename='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/'+day[day_i]+'/'+(*obsid_day_pointing[j, day_i])[0]+'_cal.sav'
-          restore, filename
-          
-          gain[0,day_i,*,*,j]=*cal.gain[0]
-          gain[1,day_i,*,*,j]=*cal.gain[1]
-          
-          If keyword_set(spread) then begin
-            for tile_i=0, 127 do begin
-              ;IF (*cal.amp_params[0,tile_i]) NE !NULL then gain_poi_amp[0,day_i,tile_i,j]=(*cal.amp_params[0,tile_i])[0] ;just the amplitude (zeroth order)
-              ;IF (*cal.amp_params[1,tile_i]) NE !NULL then gain_poi_amp[1,day_i,tile_i,j]=(*cal.amp_params[1,tile_i])[0] ;just the amplitude (zeroth order)
-              gain_poi_amp[0,day_i,tile_i,j]=mean(abs(gain[0,day_i,0:255,tile_i,j]))
-              gain_poi_amp[1,day_i,tile_i,j]=mean(abs(gain[1,day_i,0:255,tile_i,j]))
-            endfor
-          endif
-          
-          If keyword_set(raw) then begin
-            for obs_i=0, N_elements(*obsid_day_pointing[j, day_i])-1 do begin
-            
-              filename= '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/calibration/'+(*obsid_day_pointing[j, day_i])[obs_i]+'_cal.sav'
-              restore,filename
-              If ~keyword_set(spread) AND keyword_set(line_plots) then begin
-                filename= '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/'+(*obsid_day_pointing[j, day_i])[obs_i]+'_obs.sav'
-                restore,filename
-                for pol_i=0,1 do *cal.gain[pol_i]=*cal.gain[pol_i]+*cal.gain_residual[pol_i]
-                
-                cal_bandpass=vis_cal_bandpass(cal,obs,cal_remainder=cal_remainder,saved_run_bp=1,cable_bandpass_fit=1)
-                for pol_i=0,1 do *cal.gain[pol_i]=*cal_remainder.gain[pol_i]
-                
-                gain_raw[0,day_i,*,*,j,obs_i]=*cal.gain[0]
-                gain_raw[1,day_i,*,*,j,obs_i]=*cal.gain[1]
-              endif
-              
-              If keyword_set(spread) then begin
-                gain_arr=complex(DBLARR(2,384,128))
-                for tile_i=0,127 do begin
-                  for pol_i=0,1 do begin
-                    gain_fit=DBLARR(384)
-                    phase_fit=DBLARR(384)
-                    amp_params=*(cal.amp_params[pol_i,tile_i])
-                    phase_params=*(cal.phase_params[pol_i,tile_i])
-                    FOR di=0L,2 DO gain_fit+=amp_params[di]*findgen(384)^di
-                    FOR di=0L,1 DO phase_fit+=phase_params[di]*findgen(384)^di
-                    
-                    gain_arr[pol_i,*,tile_i]=gain_fit*Exp(Complex(0,1)*phase_fit)
-                  endfor
-                  
-                  ;IF (*cal.amp_params[0,tile_i]) NE !NULL then gain_obs_amp[0,day_i,tile_i,j,obs_i]=(*cal.amp_params[0,tile_i])[0] ;just the amplitude (zeroth order)
-                  ;IF (*cal.amp_params[1,tile_i]) NE !NULL then gain_obs_amp[1,day_i,tile_i,j,obs_i]=(*cal.amp_params[1,tile_i])[0] ;just the amplitude (zeroth order)
-                  gain_obs_amp[0,day_i,tile_i,j,obs_i]=mean(abs(gain_arr[0,0:255,tile_i]))
-                  gain_obs_amp[1,day_i,tile_i,j,obs_i]=mean(abs(gain_arr[1,0:255,tile_i]))
-                endfor
-              endif
-              
-            endfor
-          endif
-          
-        endif else begin
-          gain[0,day_i,*,*,j]=1
-          gain[1,day_i,*,*,j]=1
-        endelse
+  for j=0,(size(pointing_num))[1]-1 do begin
+    print, 'Reading in pointing ' + pointing_name[j]
+    for day_i=0,day_num-1 do begin
+    
+      If *obsid_day_pointing[j, day_i] NE !NULL then begin
+        filename='/nfs/eor-00/h1/nbarry/longrun_std_test_twopolyquad/'+day[day_i]+'/'+(*obsid_day_pointing[j, day_i])[0]+'_cal.sav'
+        restore, filename
         
-      endfor
-    endfor ;end pointing for
-    save, gain_obs_amp, filename=outdir+'gain_obs_amp.sav'
-    save, gain_poi_amp, filename=outdir+'gain_poi_amp.sav'
-  endif else begin
-    print, 'Restoring'
-    If keyword_set(spread) AND keyword_set(raw) then restore, outdir+'gain_obs_amp.sav'
-    If keyword_set(spread) then restore, outdir+'gain_poi_amp.sav'
-  endelse
+        gain[0,day_i,*,*,j]=*cal.gain[0]
+        gain[1,day_i,*,*,j]=*cal.gain[1]
+        
+        If keyword_set(raw) then begin
+          for obs_i=0, N_elements(*obsid_day_pointing[j, day_i])-1 do begin
+          
+            filename= '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/calibration/'+(*obsid_day_pointing[j, day_i])[obs_i]+'_cal.sav'
+            restore,filename
+            If ~keyword_set(spread) AND keyword_set(line_plots) then begin
+              filename= '/nfs/eor-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/metadata/'+(*obsid_day_pointing[j, day_i])[obs_i]+'_obs.sav'
+              restore,filename
+              for pol_i=0,1 do *cal.gain[pol_i]=*cal.gain[pol_i]+*cal.gain_residual[pol_i]
+              
+              cal_bandpass=vis_cal_bandpass(cal,obs,cal_remainder=cal_remainder,saved_run_bp=1,cable_bandpass_fit=1)
+              for pol_i=0,1 do *cal.gain[pol_i]=*cal_remainder.gain[pol_i]
+              
+              gain_raw[0,day_i,*,*,j,obs_i]=*cal.gain[0]
+              gain_raw[1,day_i,*,*,j,obs_i]=*cal.gain[1]
+            endif
+            
+          endfor
+        endif
+        
+      endif else begin
+        gain[0,day_i,*,*,j]=1
+        gain[1,day_i,*,*,j]=1
+      endelse
+      
+    endfor
+  endfor ;end pointing for
+  ;save, gain_obs_amp, filename=outdir+'gain_obs_amp.sav'
+  ;save, gain_poi_amp, filename=outdir+'gain_poi_amp.sav'
+  
   
   ;****************************End of read in the polyfit calibration solutions, and make the raw gains minus bp sol if specified
   
   
+  ;****************************Read in and parse temperature data
   
+  ;Find the smaller temperature data file with just the right obs to get temperature data.
+  ;To get this file, run this code with make_obs_to_query set and then run query.sh
   filename='/nfs/eor-00/h1/nbarry/longrun_poly_bftemp/obs_queried_v2.txt'
   
+  ;Read out temperature data in the form of the string due to the funky format
   textfast,data_array,/read,file_path=filename,string=1
   
-  temperature_array=FLTARR(day_num,128,8)
-  ;Want day x tile x pointing
+  temperature_array=FLTARR(day_num,128,8) ;Want day x tile x pointing
   
   tile_temp=STRARR(8)
   
@@ -195,16 +156,16 @@ pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, 
           split_temp_array[i,0]=STRING(ULONG(split_temp_array[i,0])*10)  ;Add zero to end of receiver for getting tile names easier
           split_temp_array[i,2]=strmid(split_temp_array[i,2],1) ;Remove '{' from beginning of temp data
           str_length=strlen(split_temp_array[i,2]) ;Find length of string for next command
-          split_temp_array[i,2]=strmid(split_temp_array[i,2],0,str_length-2) ;Remove '}' from end of temp data
+          split_temp_array[i,2]=strmid(split_temp_array[i,2],0,str_length-1) ;Remove '}' from end of temp data
           tile_temp[*]=strsplit(split_temp_array[i,2], ',',/EXTRACT) ;Split up temp data into 8 discrete temperatures per receiver
           
           
           
           for tile_i=0,7 do begin
             tile_index=where(tile_names EQ (ULONG(split_temp_array[i,0])+tile_i+1))
-            temperature_array[day_i,tile_index,j]=FLOAT(tile_temp[tile_i]) ;Add per tile data into array as a float
+            tile_temp_float=Convert_To_Type(tile_temp[tile_i],4)
+            temperature_array[day_i,tile_index,j]=tile_temp_float ;Add per tile data into array as a float
           endfor
-          
         endfor
         
       endif
@@ -213,211 +174,337 @@ pro poly_comparisons_bftemp, longrun=longrun, lst_compare=lst_compare, raw=raw, 
     
   endfor
   
+  ;****************************End of read in and parse temperature data
   
+  ;If printing slopes/grouping results to a file, unflag these lines
+  ;GET_LUN,lun
+  ;OPENW,lun,outdir+'linear_fits.txt',width=600
+  ;header=['pointing','tile name','pol','Group 1 days','Group 1 y-inter','Group 1 slope','Group 1 chi^2','Group 2 days','Group 2 y-inter','Group 2 slope','Group 2 chi^2']
+  ;printf,lun, header
   
-  
-  for pol_i=0,1 do begin
+  ;Loop through each pol
+  for pol_i=10,1 do begin
     if pol_i EQ 0 then pol_name='xx'
     if pol_i EQ 1 then pol_name='yy'
     
-    
+    ;Pointing name, ony -2 through 2 currently being looked at given data constraints.
     poi_name=['-2','-1','0','1','2','3']
     If keyword_set(line_plots) then begin
     
-    
-      If keyword_set(mean_tile) then begin
-        for j=0,((size(pointing_num))[1])-1 do begin
+      ;Loop through all tiles
+      for tile_i=0,127 do begin
+        ;Brief update on what tile you're on
+        print, 'Tile '+strtrim(tile_i,2)
         
-          savelocation=outdir+'beamformertemp_'+poi_name[j]+'_line_'+pol_name+'.png'
-          cgPS_Open,savelocation,/quiet,/nomatch
+        ;Initialize the string to be printed to file
+        input_str=STRARR(11,((size(pointing_num))[1]))
+        
+        ;Loop through each pointing
+        for j=0,((size(pointing_num))[1])-1 do begin
+          ;Undefine variables which depend on whether or not the exist given the following calculations
+          undefine, group1results,group2results,group1,group2, breaks
           
-          title='mean of tiles, pointing '+poi_name[j]+', longrun polyfit solutions, '+pol_name
+          ;Where to save the pngs
+          savelocation=outdir+strtrim(string(tile_names[tile_i]),2)+'_'+poi_name[j]+'_beamformertemp_fit_'+pol_name+'.png'
           
-          cgplot, mean(mean(abs(gain[pol_i,0,0:255,*,0]),dimension=4)),moon_dist_pointing[0,0],xtitle='Average Gain',ytitle='Jupiter Dist', $
-            title=title,charsize=1, psym=2, symsize=0.2, xrange=[1.2,1.8],yrange=[110,120],/NODATA
+          ;Uncomment if you want to save pngs directly to file
+          ;cgPS_Open,savelocation,/quiet,/nomatch
+          
+          ;Make a plot title for specific case
+          title='Tile ' + strtrim(string(tile_names[tile_i]),2)+', '+poi_name[j]+' pointing, gain temperature correlation, '+pol_name
+          
+          ;Create skeleton of plot
+          cgplot, mean(abs(gain[pol_i,0,0:255,tile_i,0])),mean(abs(gain[pol_i,0,0:255,tile_i,0])),xtitle='Average Gain (after bandpass removal)',ytitle='Beamformer Temperature (C)', $
+            title=title,charsize=1, psym=2, symsize=0.5,yrange=[0,50],xrange=[1,2],/NODATA
             
+            
+          ;*************Complicated sorting mechanism
+          ;Get inputs which are not flagged
+          input=mean(abs(gain[pol_i,*,0:255,tile_i,j]),dimension=3)
+          input_index=where(input NE 1)
+          ;result = LINFIT(reform(input[input_index]),reform(temperature_array[input_index,tile_i,j]),chisqr=chisqr)
+          
+          ;Sort unflagged inputs in order of coldest to hottest in anticipation that they will be grouped on temperature,
+          ;though it is no requirement
+          temperature_temp=reform(temperature_array[input_index,tile_i,j])
+          sorted_index=sort(temperature_temp)
+          temperature_sorted=temperature_temp[sorted_index]
+          input_sorted=reform(input[input_index[sorted_index]])
+          
+          ;If there is more than one element in the data, then continue the sorting mechanism
+          If N_elements(input_sorted) GT 1 then begin
+          
+            ;Find temperature differences between temp and next hottest temp for all pairs. Also find the gain differences between
+            ;each pair. Also calculate the slope between each data point and the coldest data point.
+            diff_array=abs(input_sorted[0]-input_sorted[1])
+            temperature_diff_array=abs(temperature_sorted[0]-temperature_sorted[1])
+            beg_slope_array=temperature_diff_array/diff_array
+            for diff_i=1, N_elements(input_sorted)-2 do begin
+              diff_array=[diff_array, abs(input_sorted[diff_i+1]-input_sorted[diff_i])]
+              temperature_diff_array=[temperature_diff_array, abs(temperature_sorted[diff_i+1]-temperature_sorted[diff_i])]
+              beg_slope_array=[beg_slope_array,(temperature_sorted[0]-temperature_sorted[diff_i+1])/(input_sorted[0]-input_sorted[diff_i+1])]
+            endfor
+            
+            ;Find the results of a preliminary linear fit, and the distance away each point is from this linear fit.
+            pre_results=LINFIT(reform(input_sorted),reform(temperature_sorted))
+            If pre_results[1] GT -50 then pre_results[1]=0
+            distance_from_pre=abs((reform(temperature_sorted)-pre_results[0])/pre_results[1]-input_sorted)
+            
+            ;Find the scaled hypotenuse for each pair. (scaled to make sure that the low numbers from the gains are not superseeded by
+            ;automatically larger temperature difference values.
+            hypotenuse_array=(sqrt((diff_array*20.)^2.+temperature_diff_array^2.))
+            
+            ;Find the "breaks", or deviations from the trend, given a large separation in gain between pairs sorted by temperature
+            diff_logic=INTARR(N_elements(diff_array))
+            diff_logic_break=where(diff_array GT .05,break_count)
+            ;Set a logic indicator for the large breaks in gain between pairs
+            IF break_count GT 0 then diff_logic[diff_logic_break]=1
+            
+            ;Find the "breaks", or overall deviations from the linear trend of all the data.
+            dist_logic=INTARR(N_elements(diff_array))
+            dist_logic_break=where(distance_from_pre GT .75,break_count)
+            ;If there is a large distance, then set a logic indicator. Unset the logic indicator if the slope was drastically different than usual slopes,
+            ;as set above.
+            IF break_count GT 0 then dist_logic[dist_logic_break]=1
+            if pre_results[1] EQ 0 then dist_logic[dist_logic_break]=0
+            
+            
+            beg_slope_logic=INTARR(N_elements(diff_array))
+            
+            ;Find the average slope value given the first four (coldest) data points.
+            flag=0
+            ave_flag=0
+            undefine, ave_slope
+            for diff_i=0,N_elements(diff_array)-4 do begin
+              slope_diff=(beg_slope_array[diff_i+1]-beg_slope_array[diff_i])/beg_slope_array[diff_i]
+              slope_diff=[slope_diff,(beg_slope_array[diff_i+2]-beg_slope_array[diff_i+1])/beg_slope_array[diff_i+1]]
+              slope_diff=[slope_diff,(beg_slope_array[diff_i+3]-beg_slope_array[diff_i+2])/beg_slope_array[diff_i+2]]
+              
+              temp=where(abs(slope_diff) LT .15,slope_count)
+              If (slope_count EQ 3) and (ave_flag EQ 0) then begin
+                ave_slope=mean(beg_slope_array[diff_i:diff_i+3])
+                ave_flag=1
+              endif
+            endfor
+            ;If an average slope was calculated, then continue
+            If keyword_set(ave_slope) then begin
+              for diff_i=4, N_elements(diff_array)-1 do begin
+              
+                ;Find the difference in the slope value between the average slope just calculated and the slope calculated from the
+                ;beginning (coldest) data point and the current data point in question
+                slope_diff=ave_slope-beg_slope_array[diff_i]
+                
+                ;If the slope is drastically different, then flag it if it is the first in a group
+                If abs(slope_diff) LT abs(.25*ave_slope) then begin
+                
+                  IF flag EQ 1 then begin
+                    beg_slope_logic[diff_i]=1
+                    flag=0
+                  endif
+                  
+                endif else begin
+                
+                  IF (beg_slope_logic[diff_i-1] EQ 0) and (flag EQ 0) then beg_slope_logic[diff_i]=1
+                  flag=1
+                  
+                endelse
+              endfor
+            endif
+            
+            ;If the hypotenuse is really small between a pair of points, then calculations including the slope might be wrong,
+            ;(or others), therefor a reverse logic is applied.
+            hypotenuse_logic=INTARR(N_elements(hypotenuse_array))
+            hypotenuse_logic_break=where(hypotenuse_array LT 1,break_count)
+            IF break_count GT 0 then hypotenuse_logic[hypotenuse_logic_break]=-1
+            
+            ;Add up all the logical decisions, and pick out ones greater than zero to be breaks!
+            break_logic=diff_logic+dist_logic+hypotenuse_logic+beg_slope_logic
+            breaks=where(break_logic GT 0, break_count)
+          ;*************End complicated sorting mechanism  
+          
+          
+          endif else break_count=0
+          
+          
+          ;Begin looping of groups if there is a break as determined above
+          If break_count GT 0 then begin
+          
+            pre_groups=PTRARR(N_elements(breaks)+1,/allocate)
+            IF breaks[0] NE 0 then *pre_groups[0]=INDGEN(breaks[0]+1)
+            for group_i=0,N_elements(breaks)-2 do begin
+              array_size=breaks[group_i+1]-breaks[group_i]
+              IF array_size GT 1 then *pre_groups[group_i+1]=INDGEN(array_size)+breaks[group_i]+1 else *pre_groups[group_i+1]=breaks[group_i]+1
+            endfor
+            last_index=N_elements(breaks)
+            IF breaks[last_index-1] NE max(input_index)-1 then *pre_groups[last_index]=INDGEN(max(sorted_index)-breaks[last_index-1])+breaks[last_index-1]+1
+            
+            for group_i=0, N_elements(breaks)-1, 2 do begin
+              if group1 NE !Null then group1=[group1,*pre_groups[group_i]] else group1=*pre_groups[group_i]
+              if group2 NE !Null then group2=[group2,*pre_groups[group_i+1]] else group2=*pre_groups[group_i+1]
+            endfor
+            
+          endif else group1=sorted_index
+          
+          
+          If N_elements(group1) GT 1 then begin
+            group1results=LINFIT(reform(input_sorted[group1]),reform(temperature_sorted[group1]),chisqr=group1chisqr)
+            print, 'Group 1:'
+            print, group1
+          ;cgoplot, [1.0,1.4,1.5,1.8],group1results[0]+group1results[1]*[1.0,1.4,1.5,1.8]
+          endif
+          If N_elements(group2) GT 1 then begin
+            group2results=LINFIT(reform(input_sorted[group2]),reform(temperature_sorted[group2]),chisqr=group2chisqr)
+            print, 'Group 2:'
+            print, group2
+          ;cgoplot, [1.0,1.4,1.5,1.8],group2results[0]+group2results[1]*[1.0,1.4,1.5,1.8]
+          endif
+          ;*************End of Complicated sorting mechanism
+          If (N_elements(group1) GT 1) AND  (N_elements(group2) GT 1) then begin
+            crossing_point=(group2results[0]-group1results[0])/(group1results[1]-group2results[1])
+            If (crossing_point GT min(input_sorted)-.1) AND (crossing_point LT max(input_sorted)+.1) then begin
+              undefine, group2results,group2
+              group1=sorted_index
+              group1results=LINFIT(reform(input_sorted[group1]),reform(temperature_sorted[group1]),chisqr=group1chisqr)
+              print, 'Group 2 ignored'
+            endif
+          endif
+          
+          ;IF group1results NE !Null then cgoplot, [1.0,1.4,1.5,1.8],group1results[0]+group1results[1]*[1.0,1.4,1.5,1.8]
+          ;If group2results NE !Null then cgoplot, [1.0,1.4,1.5,1.8],group2results[0]+group2results[1]*[1.0,1.4,1.5,1.8]
+          
+          
+          ;If (result3[0]-100 GT result2[0]) OR (result3[0]+100 LT result2[0]) then result=result2
+          
+          
+          ;if j NE ((size(pointing_num))[1])-1 then temp_diff=temperature_array[input_index,tile_i,j]-temperature_array[input_index,tile_i,j+1] else $
+          ;  temp_diff=temperature_array[input_index,tile_i,j]-temperature_array[input_index,tile_i,j-1]
+          IF group1results EQ !NULL then begin
+            group1results=[0,0]
+            group1chisqr=0
+          endif
+          If group1 EQ !NULL then group1days=0 else begin
+            group1days=' '+day[group1[0]]
+            for i=1,N_elements(group1)-1 do group1days=group1days+','+day[group1[i]]
+          endelse
+          
+          IF group2results EQ !NULL then begin
+            group2results=[0,0]
+            group2chisqr=0
+          endif
+          
+          If group2 EQ !NULL then group2days=0 else begin
+            group2days=' '+day[group2[0]]
+            for i=1,N_elements(group2)-1 do group2days=group2days+','+day[group2[i]]
+          endelse
+          
+          input_str[0,j]=poi_name[j]
+          ;input_str[j,1]=Convert_to_type(tile_names[tile_i],7)
+          tile_names_str=Convert_to_type(tile_names[tile_i],7)
+          group1results_str=Convert_to_type(group1results,7)
+          ;group1results_str=Convert_to_type(group1results,7)
+          group1chisqr_str=Convert_to_type(group1chisqr,7)
+          ;group1chisqr_str=Convert_to_type(group1chisqr,7)
+          If group2days EQ 0 then group2days=Convert_to_type(group2days,7)
+          group2results_str=Convert_to_type(group2results,7)
+          group2chisqr_str=Convert_to_type(group2chisqr,7)
+          input_str[*,j]=[poi_name[j],tile_names_str,pol_name,group1days,group1results_str,group1chisqr_str,group2days,group2results_str,group2chisqr_str]
+          
+          
           If keyword_set(raw) then begin
             for day_i=0,day_num-1 do begin
               temp=where(abs(gain_raw[pol_i,day_i,0,tile_i,j,*]) NE 0, obs_num)
               If obs_num EQ -1 then obs_num=0
-              for obs_i=0,obs_num-1 do cgoplot, abs(gain_raw[pol_i,day_i,*,tile_i,j,obs_i]), color='light grey',psym=2, symsize=0.2
+              for obs_i=0,obs_num-1 do cgoplot, abs(gain_raw[pol_i,day_i,*,tile_i,j,obs_i]), color='light grey',psym=2, symsize=0.6
             endfor
           endif
           
+          undefine, color_array
+          cgLoadCT, 25, clip=[0,190], Ncolors=day_num+1
           Device, Decomposed=0
           for day_i=0,day_num-1 do begin
-            TVLCT, rgbcolors[0,day_i], rgbcolors[1,day_i], rgbcolors[2,day_i],100
-            cgoplot, mean(mean(abs(gain[pol_i,day_i,0:255,*,j]),dimension=4)),moon_dist_pointing[j,day_i], color=100B,psym=2, symsize=0.6
+            ;TVLCT, rgbcolors[0,day_i], rgbcolors[1,day_i], rgbcolors[2,day_i],10+day_i
+            cgoplot, mean(abs(gain[pol_i,day_i,0:255,tile_i,j])),temperature_array[day_i,tile_i,j], color=day_i+1,psym=2, symsize=1
+            if ~keyword_set(color_array) then color_array=day_i+1 else color_array=[color_array,day_i+1]
+            
           endfor
+          
+          stop
+          ;*****************
+          If group2 EQ !NULL then group2days=0 else begin
+            group2days=' '+day[group2[0]]
+            for i=1,N_elements(group2)-1 do group2days=group2days+','+day[group2[i]]
+          endelse
+          undefine, group1results, group2results
+          group1results=LINFIT(reform(input_sorted[group1]),reform(temperature_sorted[group1]),chisqr=group1chisqr)
+          If group2 NE !NULL then group2results=LINFIT(reform(input_sorted[group2]),reform(temperature_sorted[group2]),chisqr=group2chisqr)
+          IF group1results NE !Null then cgoplot, [1.0,1.4,1.5,1.8],group1results[0]+group1results[1]*[1.0,1.4,1.5,1.8]
+          If group2results NE !Null then cgoplot, [1.0,1.4,1.5,1.8],group2results[0]+group2results[1]*[1.0,1.4,1.5,1.8]
+          
+          If group1 EQ !NULL then group1days=0 else begin
+            group1days=' '+day[group1[0]]
+            for i=1,N_elements(group1)-1 do group1days=group1days+','+day[group1[i]]
+          endelse
+          If group2 EQ !NULL then group2days=0 else begin
+            group2days=' '+day[group2[0]]
+            for i=1,N_elements(group2)-1 do group2days=group2days+','+day[group2[i]]
+          endelse
+          
+          If group1 NE !NULL then begin
+            print, 'Group1:   '
+            print, group1days
+            print, 'y:   ' +strtrim(group1results[0],2)
+            print, 'm:   ' +strtrim(group1results[1],2)
+            print, 'chi:    ' + strtrim(group1chisqr,2)
+            print, group1days+'       '+strtrim(group1results[0],2)+'       '+strtrim(group1results[1],2)+'       '+strtrim(group1chisqr,2)
+          endif
+          If group2 NE !NULL then begin
+            print, 'Group2:   '
+            print, group2days
+            print, 'y:   ' +strtrim(group2results[0],2)
+            print, 'm:   ' +strtrim(group2results[1],2)
+            print, 'chi:    ' + strtrim(group2chisqr,2)
+            print, group1days+'       '+strtrim(group1results[0],2)+'       '+strtrim(group1results[1],2)+'       '+strtrim(group1chisqr,2)+'       '+$
+              group2days+'       '+strtrim(group2results[0],2)+'       '+strtrim(group2results[1],2)+'       '+strtrim(group2chisqr,2)
+          endif
+          stop
+          
+          cgPS_Open,savelocation,/quiet,/nomatch
+          cgplot, mean(abs(gain[pol_i,0,0:255,tile_i,0])),mean(abs(gain[pol_i,0,0:255,tile_i,0])),xtitle='Average Gain (after bandpass removal)',ytitle='Beamformer Temperature (C)', $
+            title=title,charsize=1, psym=2, symsize=0.5,yrange=[0,50],xrange=[1,2],/NODATA
+          undefine, color_array
+          cgLoadCT, 25, clip=[0,190], Ncolors=day_num+1
+          Device, Decomposed=0
+          for day_i=0,day_num-1 do begin
+            ;TVLCT, rgbcolors[0,day_i], rgbcolors[1,day_i], rgbcolors[2,day_i],10+day_i
+            cgoplot, mean(abs(gain[pol_i,day_i,0:255,tile_i,j])),temperature_array[day_i,tile_i,j], color=day_i+1,psym=2, symsize=1
+            if ~keyword_set(color_array) then color_array=day_i+1 else color_array=[color_array,day_i+1]
+          endfor
+          IF group1results NE !Null then cgoplot, [1.0,1.4,1.5,1.8],group1results[0]+group1results[1]*[1.0,1.4,1.5,1.8]
+          If group2results NE !Null then cgoplot, [1.0,1.4,1.5,1.8],group2results[0]+group2results[1]*[1.0,1.4,1.5,1.8]
+          
+          ;*****************
+          
+          daytitle=day
+          for star_i=0, N_elements(day)-1 do begin
+            IF strmatch(group2days,'*'+day[star_i]+'*') then daytitle[star_i]=day[star_i]+' (2)'
+          endfor
+          
+          cgLegend, Title=daytitle, $
+            Color=color_array, Location=[0.8,0.87],charsize=0.7,VSpace=.9,thick=2, $
+            /center_sym,psyms=2, length=0
+            
           Device, Decomposed=1
+          stop
           cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
         endfor
-        
-      endif else begin
-      
-        ;GET_LUN,lun
-        ;OPENW,lun,outdir+'linear_fits.txt'
-      
-        for tile_i=2,127 do begin
-        
-          for j=2,((size(pointing_num))[1])-1 do begin
-          
-            savelocation=outdir+strtrim(string(tile_names[tile_i]),2)+'_'+poi_name[j]+'_beamformertemp_fit_'+pol_name+'.png'
-            ;cgPS_Open,savelocation,/quiet,/nomatch
-            
-            title='Tile ' + strtrim(string(tile_names[tile_i]),2)+', '+poi_name[j]+' pointing, gain temperature correlation, '+pol_name
-            
-            cgplot, mean(abs(gain[pol_i,0,0:255,tile_i,0])),mean(abs(gain[pol_i,0,0:255,tile_i,0])),xtitle='Average Gain (after bandpass removal)',ytitle='Beamformer Temperature (C)', $
-              title=title,charsize=1, psym=2, symsize=0.5,yrange=[10,40],xrange=[1.1,1.8],/NODATA
-              
-            input=mean(abs(gain[pol_i,*,0:255,tile_i,j]),dimension=3)
-            input_index=where(input NE 1)
-            result = LINFIT(reform(input[input_index]),reform(temperature_array[input_index,tile_i,j]),chisqr=chisqr)
-            ;resistant_mean,sigma,2,res_mean
-            
-            ;Before bad day calc
-            input=mean(abs(gain[pol_i,0:15,0:255,tile_i,j]),dimension=3)
-            input_index=where(input NE 1)
-            result2 = LINFIT(reform(input[input_index]),reform(temperature_array[input_index,tile_i,j]),chisqr=chisqr2)
-            ;After bad day calc
-            input=mean(abs(gain[pol_i,16:day_num-1,0:255,tile_i,j]),dimension=3)
-            input_index=where(input NE 1)
-            result3 = LINFIT(reform(input[input_index]),reform(temperature_array[input_index,tile_i,j]),chisqr=chisqr3)
-            
-            ;Complicated sorting mechanism
-            input=mean(abs(gain[pol_i,*,0:255,tile_i,j]),dimension=3)
-            input_index=where(input NE 1)
-            result = LINFIT(reform(input[input_index]),reform(temperature_array[input_index,tile_i,j]),chisqr=chisqr)
-            
-            temperature_temp=reform(temperature_array[input_index,tile_i,j])
-            sorted_index=sort(temperature_temp)
-            temperature_sorted=temperature_temp[sorted_index]
-            input_sorted=reform(input[input_index[sorted_index]])
-            
-            diff_array=abs(input_sorted[0]-input_sorted[1])
-            for diff_i=1, N_elements(input_sorted)-2 do begin
-              diff_array=[diff_array, abs(input_sorted[diff_i+1]-input_sorted[diff_i])]
-            endfor
-            
-            grouping_ptr=PTRARR(N_elements(input_sorted), /allocate)
-            breaks=where(diff_array GT 1.5*mean(diff_array),break_count)
-            If break_count GT 0 then begin
-            
-              for break_i=0, N_elements(breaks)-1 do begin
-                for previous_i=1, breaks[break_i] do begin
-                  previous_diff= abs(input_sorted[break_i]-input_sorted[break_i-previous_i])
-                  IF previous_diff LT 1.5*mean(diff_array) then begin
-                    if keyword_set(grouping) then grouping=[grouping,breaks[break_i]-previous_i] else grouping=breaks[break_i]-previous_i
-                  endif
-                endfor
-                for after_i=1, N_elements(input_sorted)-1-breaks[break_i] do begin
-                  after_diff= abs(input_sorted[break_i]-input_sorted[break_i+after_i])
-                  IF after_diff LT 1.5*mean(diff_array) then begin
-                    if keyword_set(grouping) then grouping=[grouping,breaks[break_i]+after_i] else grouping=breaks[break_i]+after_i
-                  endif
-                endfor
-                *grouping_ptr[breaks[break_i]]=grouping
-                undefine, grouping
-              endfor
-              
-            endif else *grouping_ptr[0]=sorted_index
-            
-            for group_i=0, N_elements(sorted_index)-1 do begin
-              If *grouping_ptr[group_i] NE !NULL then begin
-                input_index=Uniq(*grouping_ptr[group_i])
-                results=LINFIT(reform(input_sorted[input_index]),reform(temperature_sorted[input_index]))
-                cgoplot, [1.1,1.4,1.5,1.8],result[0]+result[1]*[1.1,1.4,1.5,1.8]
-              endif
-              
-            endfor
-            
-            
-            ;If (result3[0]-100 GT result2[0]) OR (result3[0]+100 LT result2[0]) then result=result2
-            
-            
-            ;if j NE ((size(pointing_num))[1])-1 then temp_diff=temperature_array[input_index,tile_i,j]-temperature_array[input_index,tile_i,j+1] else $
-            ;  temp_diff=temperature_array[input_index,tile_i,j]-temperature_array[input_index,tile_i,j-1]
-            ;result_to_print=[0,poi_name[j],tile_i,result,res_mean]
-            ;printf,lun, result_to_print
-            ;cgoplot, [1.1,1.4,1.5,1.8],result[0]+result[1]*[1.1,1.4,1.5,1.8]
-            
-            If keyword_set(raw) then begin
-              for day_i=0,day_num-1 do begin
-                temp=where(abs(gain_raw[pol_i,day_i,0,tile_i,j,*]) NE 0, obs_num)
-                If obs_num EQ -1 then obs_num=0
-                for obs_i=0,obs_num-1 do cgoplot, abs(gain_raw[pol_i,day_i,*,tile_i,j,obs_i]), color='light grey',psym=2, symsize=0.6
-              endfor
-            endif
-            
-            undefine, color_array
-            cgLoadCT, 25, clip=[0,190], Ncolors=day_num+1
-            Device, Decomposed=0
-            for day_i=0,day_num-1 do begin
-              ;TVLCT, rgbcolors[0,day_i], rgbcolors[1,day_i], rgbcolors[2,day_i],10+day_i
-              cgoplot, mean(abs(gain[pol_i,day_i,0:255,tile_i,j])),temperature_array[day_i,tile_i,j], color=day_i+1,psym=2, symsize=1
-              if ~keyword_set(color_array) then color_array=day_i+1 else color_array=[color_array,day_i+1]
-              
-            endfor
-            
-            stop
-            cgLegend, Title=day, $
-              Color=color_array, Location=[0.8,0.87],charsize=0.7,VSpace=.9,thick=2, $
-              /center_sym,psyms=2, length=0
-              
-            Device, Decomposed=1
-            ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
-          endfor
-          
-        endfor
-      ;FREE_LUN,lun
-      endelse
+      ;printf,lun, input_str
+      endfor
       
       
     endif ;end of line plots
     
-    if keyword_set(spread) then begin
-    
-      for tile_i=0, 127 do begin
-        savelocation=outdir+strtrim(string(tile_i),2)+'_spread_'+pol_name+'.png'
-        cgPS_Open,savelocation,/quiet,/nomatch
-        
-        title='tile ' +strtrim(string(tile_i),2)+', longrun amp solutions, '+pol_name
-        minmax_array=gain_obs_amp[0,0,tile_i,*,*] ;CAN CHANGE 0 TO day_i
-        temp_indices=where(minmax_array NE 0)
-        yrange=minmax(minmax_array[temp_indices])
-        
-        cgplot,[-2,-1,0,1,2,3],[2,2,2,2,2,2], title=title,xtitle='Pointing Index',ytitle='Amplitude (zeroth order of fit)',$
-          xrange=[-3,4],yrange=yrange,/NODATA
-          
-        day_num=1
-        
-        for day_i=0, day_num-1 do begin
-        
-          Device, Decomposed=0
-          for j=0,(size(pointing_num))[1]-1 do begin
-            TVLCT, rgbcolors[0,day_i], rgbcolors[1,day_i], rgbcolors[2,day_i],100
-            temp= where(gain_obs_amp[0,day_i,tile_i,j,*] NE 0,obs_count)
-            If obs_count EQ 0 then continue
-            for obs_i=0, obs_count-1 do cgoplot, j-2,gain_obs_amp[0,day_i,tile_i,j,obs_i],color=100B,psym=2, symsize=0.5
-          endfor
-          Device, Decomposed=1
-          
-        endfor
-        
-        ;to overplot the pointing value
-        for day_i=0, day_num-1 do begin
-          for j=0,(size(pointing_num))[1]-1 do begin
-            cgoplot, j-2,gain_poi_amp[0,day_i,tile_i,j],color='black',psym=7, symsize=0.5
-          endfor
-        endfor
-        
-        cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
-      endfor
-      
-    endif
-    
     
   endfor
-  
+;FREE_LUN,lun
   
 end
