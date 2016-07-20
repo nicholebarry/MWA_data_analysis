@@ -62,12 +62,16 @@ pro seti_make_plots
   
   ;Movie style plots
   longrun_names_match
-  restore, '~/vis_res/thesis/seti_all_3D_20_thesis_evenodd2.sav'
+  restore, '~/vis_res/thesis/seti_all_3D_20_thesis_evenodd2_total.sav'
   ;quick_image, all_3D_20[*,*,70],title=obs_names[70,0] + ' ' +obs_names[70,1] + ' ' +obs_names[70,2], xtitle = 'frequency index', ytitle = 'time index' ;;;;;test
-  for obs_i=0, 1028 do if max(all_3D_20[*,*,obs_i]) GT 0 then quick_image, all_3D_20[*,*,obs_i],title=obs_names[obs_i,0] + ' ' +obs_names[obs_i,1] + ' ' +obs_names[obs_i,2] $
+  for obs_i=0, 1028 do if max(all_3D_20_total[*,*,obs_i]) GT 0 then quick_image, all_3D_20_total[*,0:27,obs_i],title=obs_names[obs_i,0] + ' ' +obs_names[obs_i,1] + ' ' +obs_names[obs_i,2] $
     + ' even-odd thesis cut, start of deviation', xtitle = 'frequency index', ytitle = 'time index',charsize = 1.2, data_range=[0,10], $
-    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/vis_res_movie/thesis_300/'+string(obs_i,format='(I4.4)')
+    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/vis_res_movie/evenodd2/'+string(obs_i,format='(I4.4)')
   
-  
+  minustwo_obs = where(obs_names[*,1] EQ 'minustwo')
+  minusone_obs = where(obs_names[*,1] EQ 'minusone')
+  zenith_obs = where(obs_names[*,1] EQ 'zenith')
+  plusone_obs = where(obs_names[*,1] EQ 'plusone')
+  plustwo_obs = where(obs_names[*,1] EQ 'plustwo') 
   
 end
