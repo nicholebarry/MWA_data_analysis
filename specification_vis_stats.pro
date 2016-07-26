@@ -17,7 +17,7 @@ pro specification_vis_stats
   (*cal_overfit.gain[0])[*,76] = 0
   ;******************Data read-in done
   
-  ;******************Trad Amp
+  ;******************AMP
   ;
   ;******Visibilities
   ; - [ deltab* + deltaa + deltaa deltab* ]
@@ -74,29 +74,10 @@ pro specification_vis_stats
   cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
   
   
-  
-  ;***Vis phase
-  ;binsize = .0001
-  ;Had to modify the equation for the phase, since perfect phase is 0, and dividing by 0 was not helpful
-  ;his_perf_over_diff_phase = histogram(atan((*vis_perfect[0]-*vis_overfit[0]),/phase), binsize=binsize, /NAN, locations=locations )
-  
-  ;Display phase histogram
-  ;x_arr_full_phase=[0,FINDGEN(N_elements(his_perf_over_diff_phase))*binsize+binsize/2.,N_elements(his_perf_over_diff_phase)*binsize-binsize/2.]
-  ;y_arr_full_phase=[his_perf_over_diff_phase[0],his_perf_over_diff_phase,his_perf_over_diff_phase[N_elements(his_perf_over_diff_phase)-1]]
-  ;cgPS_Open,'/nfs/eor-00/h1/nbarry/vis_res/thesis/seti_res_vis_thesis_log_evenodd2.png',/quiet,/nomatch
-  ;cgplot, x_arr_full_phase,y_arr_full_phase, xrange=[0,1], xtitle='Gain deviations', ytitle='Binned Result', $
-  ;  title='Phase of $\Delta$g$\downb$$\up*$ + $\Delta$g$\downa$ + $\Delta$g$\downa$$\Delta$g$\downb$$\up*$ for Traditional Cal', charsize=1
-  ;mean_string = strtrim(string(mean(atan(vis_perf_over_diff,/phase),/NAN),Format='(F10.4)'),2)
-  ;stddev_string = strtrim(string(stddev(atan(vis_perf_over_diff,/phase),/NAN),Format='(F10.4)'),2)
-  ;cglegend, title=['mean='+ mean_string, '$\sigma$='+ stddev_string], color=['black','black'],length=0,location=[.7,.8],charsize=1
-  ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
-  ;*******
-  
-  
-  
-  
   ;
   ;*******Average
+  ;
+  ;*******Visibilities
   ; - [ deltab* + deltaa + deltaa deltab* ]
   vis_perf_ave_diff = (*vis_perfect[0]-*vis_saved[0])/(*vis_perfect[0])
   
@@ -145,5 +126,27 @@ pro specification_vis_stats
   cglegend, title=['Cal deviations ($\Delta$g)','mean='+ mean_string, '$\sigma$='+ stddev_string, 'max=' + max_string], $
     tcolors=['blue','blue','blue','blue'],length=0,location=[.5,.7],charsize=1
   cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
+  ;********
+  
+  ;******************END OF AMP
+  
+  ;******************PHASE
+  
+    ;***Vis phase
+  binsize = .0001
+  ;Had to modify the equation for the phase, since perfect phase is 0, and dividing by 0 was not helpful
+  his_perf_over_diff_phase = histogram(atan((*vis_perfect[0]-*vis_overfit[0]),/phase), binsize=binsize, /NAN, locations=locations )
+  
+  ;Display phase histogram
+  ;x_arr_full_phase=[0,FINDGEN(N_elements(his_perf_over_diff_phase))*binsize+binsize/2.,N_elements(his_perf_over_diff_phase)*binsize-binsize/2.]
+  ;y_arr_full_phase=[his_perf_over_diff_phase[0],his_perf_over_diff_phase,his_perf_over_diff_phase[N_elements(his_perf_over_diff_phase)-1]]
+  ;cgPS_Open,'/nfs/eor-00/h1/nbarry/vis_res/thesis/seti_res_vis_thesis_log_evenodd2.png',/quiet,/nomatch
+  ;cgplot, x_arr_full_phase,y_arr_full_phase, xrange=[0,1], xtitle='Gain deviations', ytitle='Binned Result', $
+  ;  title='Phase of $\Delta$g$\downb$$\up*$ + $\Delta$g$\downa$ + $\Delta$g$\downa$$\Delta$g$\downb$$\up*$ for Traditional Cal', charsize=1
+  ;mean_string = strtrim(string(mean(atan(vis_perf_over_diff,/phase),/NAN),Format='(F10.4)'),2)
+  ;stddev_string = strtrim(string(stddev(atan(vis_perf_over_diff,/phase),/NAN),Format='(F10.4)'),2)
+  ;cglegend, title=['mean='+ mean_string, '$\sigma$='+ stddev_string], color=['black','black'],length=0,location=[.7,.8],charsize=1
+  ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
+  ;*******
   
 end

@@ -7,27 +7,39 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
 
   ;Things that can be set in the code below to make grid engine compatibility:
   ;parallelizing for Grid Engine. Unset if testing code on head node
-  parralleled=0
+  paralleled=1
   ;pointing
-  ;obs_id_chunk
+  chunk=1
   quick_run=0
   ;save_point
-  even_odd=1
+  even_odd=0
+  ;outlier_min_arr = [300,650] ;beginning of tail and extended part of tail for even-odd
+  ;outlier_min_arr = [650,1230] ; ~20 and ~40 sigma for residual visibilities
+  outlier_min_arr = [300,600] ; 
   
   ;Looks like I can either run the parallelization by chunking up the obsids sequentially or by pointing
-  pointing=1
+  ;pointing=1
   ;chunk=1
+  
+  ;Modify the number of time samples if even-odd
+  if keyword_set(even_odd) then mod_num=28 else mod_num=56 ;number of time samples
+  
+  print, "Running visibility statistics"
   
   ;Read in the obsids
   filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/beardsley_thesis_list.txt'
   readcol, filename, obsids, format='A', /silent
   
   if keyword_set(paralleled) then begin
+    print, "Begin parallelization"
     compile_opt strictarr
     args = Command_Line_Args(count=nargs)
     if keyword_set(chunk) then begin
       obs_id_chunk = args[0]
-      if (100*obs_id_chunk) LT N_elements(obsids) then obsids =obsids[(100*obs_id_chunk)-100:(100*obs_id_chunk)-1] else obsids =obsids[(100*obs_id_chunk)-100:N_elements(obsids)-1]
+      if (100*ULONG(obs_id_chunk)) LT N_elements(obsids) then obsids =obsids[(100*ULONG(obs_id_chunk))-100:(100*ULONG(obs_id_chunk))-1] $
+      else obsids =obsids[(100*ULONG(obs_id_chunk))-100:N_elements(obsids)-1]
+      print, "Will analyze obsids from " + strtrim(obsids[0],2) + " to " + strtrim(obsids[N_elements(obsids)-1],2) + $
+        ". There are " + strtrim(N_elements(obsids),2) + " obsids in this chunk."
     endif
     if keyword_set(pointing) then begin
       obs_id_pointing=args[0]
@@ -36,6 +48,7 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
       where_pointing = where(obs_names[*,2] EQ pointing_names[obs_id_pointing],n_count)
       if n_count LE 0 then message, 'n_count is zero'
       obsids = obsids[where_pointing]
+      print, "Will analyze obsids as a function of pointing."
     endif
   endif
   
@@ -73,6 +86,7 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
     
   endif else obs_i_start=0
   
+  
   ;****Restore the necessary information from the standard run to run this script outside of FHD.
   for obs_i=obs_i_start, N_elements(obsids)-1 do begin
     ;for obs_i=0, 3 do begin
@@ -99,8 +113,8 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
       bin_i=split_vis_flags(obs,flag_arr,bi_use=bi_use,/preserve_flags)
       vis_XX_res = vis_XX_res[*,*bi_use[0]] - vis_XX_res[*,*bi_use[1]]
       
-      
-      tile_a = ((*obs.baseline_info).tile_a)[*bi_use[0]] ; tile_a iformation with the even-odd formulism
+      ;Bins refer to time samples, so an arbitrary one will work to pick out the right tiles
+      tile_a = ((*obs.baseline_info).tile_a)[*bi_use[0]] ; tile_a information with the even-odd formulism
       tile_b = ((*obs.baseline_info).tile_b)[*bi_use[0]]
       
     endif
@@ -112,7 +126,7 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
     ;binned_diff is the binned visibility residuals over all obsids, and result is the binned visibility residuals for this particular obsid
     ;BUILT-IN ASSUMPTION: There are at least some in the 0th bin. It's a fantastic assumption; most are 0.
     ;If this is the first obsid to be binned, set that equal to the all-obs binning.
-    IF obs_i EQ 0 then begin
+    IF obs_i EQ obs_i_start then begin
       binned_diff=uLong64(result)
     endif else begin
     
@@ -136,13 +150,6 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
     ;extra processing
     If ~keyword_set(quick_run) then begin
     
-    
-      ;outlier_min = 650 ; ~20sigma
-      ;outlier_min = 1230 ; ~40sigma
-      outlier_min_arr = [300,650] ;beginning of tail and extended part of tail
-      
-      
-      
       ;Sort processing by various "sigma" cuts
       for out_i=0, N_elements(outlier_min_arr) - 1 do begin
         outlier_min = outlier_min_arr[out_i]
@@ -159,32 +166,20 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
           row = outliers / ncol
           
           binsize=1
-          ;outlier_result=histogram(col,binsize=binsize,locations=locations,omax=omax, /NAN)
-          ;outlier_row=histogram(row,binsize=binsize,locations=locations_row,omax=omax, /NAN)
           
-          
-          
-          ;tile_a_outliers=tile_a[row]
-          ;tile_b_outliers=tile_b[row]
           ;dependent on even-odd
           
-          ;Histograms the outliers with tile information. The tile names corresponding to the outlier exist in locations
-          his_tile_a_outliers=histogram(tile_a[row],binsize=binsize,locations=locations_tile_a,omax=omax,reverse_indices=ri_a, /NAN) ;index it from 0
-          his_tile_b_outliers=histogram(tile_b[row],binsize=binsize,locations=locations_tile_b,omax=omax, /NAN)
-          
-          ;At each of the tile names, insert how many times it contributed to the outliers
-          his_tile_a_outliers_full = LONG(INTARR(129))
-          his_tile_b_outliers_full = LONG(INTARR(129))
-          his_tile_a_outliers_full[locations_tile_a] = his_tile_a_outliers
-          his_tile_b_outliers_full[locations_tile_b] = his_tile_b_outliers
-          
-          
-          ;Modify the number of time samples if even-odd
-          if keyword_set(even_odd) then mod_num=28 else mod_num=56 ;number of time samples
-          
-          ;The 20 sigma loop
-          If out_i EQ 0 then begin
-          
+          If keyword_set(even_odd) then begin
+            ;Histograms the outliers with tile information. The tile names corresponding to the outlier exist in locations
+            his_tile_a_outliers=histogram(tile_a[row],binsize=binsize,locations=locations_tile_a,omax=omax,reverse_indices=ri_a, /NAN) ;index it from 0
+            his_tile_b_outliers=histogram(tile_b[row],binsize=binsize,locations=locations_tile_b,omax=omax, /NAN)
+            
+            ;At each of the tile names, insert how many times it contributed to the outliers
+            his_tile_a_outliers_full = LONG(INTARR(129))
+            his_tile_b_outliers_full = LONG(INTARR(129))
+            his_tile_a_outliers_full[locations_tile_a] = his_tile_a_outliers
+            his_tile_b_outliers_full[locations_tile_b] = his_tile_b_outliers
+            
             ;For each tile in tile_a's outlier histogram
             For tile_i=0, N_elements(his_tile_a_outliers) - 1 do begin
             
@@ -194,42 +189,20 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
               
               ;For every row value for that tile_a (which is every tile_b), pick out the name that corresponds to tile a
               ;and the name that corresponds to tile b, and add 1 to that bin
-              for tile_j=0, N_elements(tile_subset)-1 do begin
-                tiles_20[locations_tile_a[tile_i],tile_b[row[tile_subset[tile_j]]],obs_i] += 1
-              endfor
+              ;OOPS, locations_tile_a is indexed from 0, tile_b is indexed from 0. Saved data in July 2016 is off by 1 bin
+              If out_i EQ 0 then begin
+                for tile_j=0, N_elements(tile_subset)-1 do tiles_20[locations_tile_a[tile_i],tile_b[row[tile_subset[tile_j]]],obs_i] += 1
+              endif else for tile_j=0, N_elements(tile_subset)-1 do tiles_40[locations_tile_a[tile_i],tile_b[row[tile_subset[tile_j]]],obs_i] += 1
               
             endfor
-            ;Find the times of ....
-            For loc_i = 0, N_elements(col)-1 do begin
-              all_3D_20[col[loc_i],row[loc_i] mod mod_num,obs_i]=all_3D_20[col[loc_i],row[loc_i] mod mod_num,obs_i]+uLong64(1)
-            endfor
             
-          ;The 40 sigma loop
-          endif else begin
+          endif
           
-            For tile_i=0, N_elements(his_tile_a_outliers) - 1 do begin
-            
-              ;If the i-vector does not change between the bins, then no outliers were present so continue the for loop
-              ;otherwise, pick out the row values for that tile_a
-              if ri_a[tile_i] ne ri_a[tile_i+1] then tile_subset=ri_a[ri_a[tile_i]:ri_a[tile_i+1]-1] else continue
-              
-              ;For every row value for that tile_a (which is every tile_b), pick out the name that corresponds to tile a
-              ;and the name that corresponds to tile b, and add 1 to that bin
-              for tile_j=0, N_elements(tile_subset)-1 do begin
-                tiles_40[locations_tile_a[tile_i],tile_b[row[tile_subset[tile_j]]],obs_i] += 1
-              endfor
-              
-            endfor
-            
-            ;tiles_40[*,*,obs_i] = [his_tile_a_outliers_full,his_tile_b_outliers_full]
-            For loc_i = 0, N_elements(col)-1 do begin
-              all_3D_40[col[loc_i],row[loc_i] mod mod_num,obs_i]=all_3D_40[col[loc_i],row[loc_i] mod mod_num,obs_i]+uLong64(1)
-            endfor
-          endelse
-          
-        ;obs_to_fill = strarr((N_elements(all_row)))
-        ;obs_to_fill[*]=obsids[obs_i]
-        ;If obs_i EQ 0 then all_obs = obs_to_fill else all_obs=[obs_to_fill,all_obs]
+          ;Find the times of ....
+          If out_i EQ 0 then begin
+            For loc_i = 0, N_elements(col)-1 do all_3D_20[col[loc_i],row[loc_i] mod mod_num,obs_i]=all_3D_20[col[loc_i],row[loc_i] mod mod_num,obs_i]+uLong64(1)
+          endif else For loc_i = 0, N_elements(col)-1 do all_3D_40[col[loc_i],row[loc_i] mod mod_num,obs_i]=all_3D_40[col[loc_i],row[loc_i] mod mod_num,obs_i]+uLong64(1)
+                    
         endif
         
       endfor
@@ -295,11 +268,11 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
   endif else begin
   
     if keyword_set(obs_id_chunk) then begin
-      save, binned_diff, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_binned_diff_thesis_evenodd2_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
-      save, all_3D_20, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_all_3D_20_thesis_evenodd2_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
-      save, all_3D_40, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_all_3D_40_thesis_evenodd2_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
-      save, tiles_20, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_tiles20_thesis_evenodd2_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
-      save, tiles_40, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_tiles40_thesis_evenodd2_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
+      save, binned_diff, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_binned_diff_thesis_residual_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
+      save, all_3D_20, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_all_3D_20_thesis_residual_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
+      save, all_3D_40, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_all_3D_40_thesis_residual_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
+      save, tiles_20, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_tiles20_thesis_residual_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
+      save, tiles_40, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_tiles40_thesis_residual_'+strtrim(STRING(obs_id_chunk),2)+'.sav'
     endif
     if keyword_set(obs_id_pointing) then begin
       save, binned_diff, filename='/nfs/eor-00/h1/nbarry/vis_res/thesis/seti_binned_diff_thesis_evenodd2_'+pointing_names[obs_id_pointing]+'.sav'
@@ -355,6 +328,32 @@ PRO vis_res_seti,save_point=save_point, quick_run=quick_run, even_odd=even_odd
   endfor
   save, all_3D_20_total, filename = '/nfs/eor-00/h1/nbarry/vis_res/thesis/seti_all_3D_20_thesis_evenodd2_total.sav'
   save, all_3D_40_total, filename = '/nfs/eor-00/h1/nbarry/vis_res/thesis/seti_all_3D_40_thesis_evenodd2_total.sav'
+  
+  ;*********For even-odd, paralleled, time analysis
+  all_3D_20_total = LONG(INTARR(384,56,3000))
+  all_3D_40_total = LONG(INTARR(384,56,3000))
+  
+  for i=1,11 do begin
+    restore, '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_all_3D_20_thesis_evenodd2_'+strtrim(STRING(i),2)+'.sav'
+    all_3D_20_total[*,*,(i-1)*100:(i*100-1)] = all_3D_20[*,*,0:99]
+    restore, '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_all_3D_40_thesis_evenodd2_'+strtrim(STRING(i),2)+'.sav'
+    all_3D_40_total[*,*,(i-1)*100:(i*100-1)] = all_3D_40[*,*,0:99]
+  endfor
+  save, all_3D_20_total, filename = '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_all_3D_20_thesis_evenodd2_total.sav'
+  save, all_3D_40_total, filename = '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_all_3D_40_thesis_evenodd2_total.sav'
+  
+  ;***********For even-odd, paralleled, antenna analysis
+  tiles20_total = LONG(INTARR(129,129,3000))
+  tiles40_total = LONG(INTARR(129,129,3000))
+  
+  for i=1,11 do begin
+    restore, '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_tiles20_thesis_evenodd2_'+strtrim(STRING(i),2)+'.sav'
+    tiles20_total[*,*,(i-1)*100:(i*100-1)] = tiles_20[*,*,0:99]
+    restore, '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_tiles40_thesis_evenodd2_'+strtrim(STRING(i),2)+'.sav'
+    tiles40_total[*,*,(i-1)*100:(i*100-1)] = tiles_40[*,*,0:99]
+  endfor
+  save, tiles20_total, filename = '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_tiles20_thesis_evenodd2_total.sav'
+  save, tiles40_total, filename = '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_tiles40_thesis_evenodd2_total.sav'
   
   
 end
