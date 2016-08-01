@@ -1,4 +1,6 @@
 pro variance_noise_factor, pol=pol
+;Procedure to make frequency-averaged and night-averaged apparent frame data and variance cubes from pre-run data. 
+;Here, the apparent frame is defined as data / weights and variance / weights^2.
 
   if ~keyword_set(pol) then pol='XX'
   
@@ -12,6 +14,7 @@ pro variance_noise_factor, pol=pol
   vis_noise=FLTARR(N_elements(obsids),384)
   nf_vis=FLTARR(N_elements(obsids),384)
   
+  ;Find the calculated noise for each obsid
   for obs_i=0, N_elements(obsids)-1 do begin
     obs = getvar_savefile(fhd_path+'/metadata/'+strtrim(string(obsids[obs_i]),2)+'_obs.sav','obs')
     vis_noise[obs_i,*] = (*obs.vis_noise)[0,*] ;grab XX for now
@@ -20,16 +23,22 @@ pro variance_noise_factor, pol=pol
   
   vis_sigma = total(vis_noise*nf_vis)/total(nf_vis)
   
+  ;Grab the odd and even residual uvf data cubes and add them together. Sum them in frequency
   data_odd = getvar_savefile(fhd_path+'/ps/Combined_obs_'+obs_name+'_odd_cube'+pol+'_res_uvf.idlsave','data_cube')
   data_even = getvar_savefile(fhd_path+'/ps/Combined_obs_'+obs_name+'_even_cube'+pol+'_res_uvf.idlsave','data_cube')
   data_evenodd = data_odd + data_even
   data_cube = total(data_evenodd,3)
   
+  ;Grab the odd and even variance uvf data cubes and add them together. Sum them in frequency
   variance_odd = getvar_savefile(fhd_path+'/ps/Combined_obs_'+obs_name+'_odd_cube'+pol+'_weights_uvf.idlsave','variance_cube')
   variance_even = getvar_savefile(fhd_path+'/ps/Combined_obs_'+obs_name+'_even_cube'+pol+'_weights_uvf.idlsave','variance_cube')
   variance_evenodd = variance_odd + variance_even
   variance_cube = total(variance_evenodd,3)
   
+    ;Grab the odd and even weights uvf data cubes and add them together. Sum them in frequency
+    ;Note: there is a bit of a choice when it comes to squaring the weights for creating the apparent variances.
+    ;Here, we have chosen to square then sum rather than sum then square. This is wholly dependent on your choice
+    ;of variance definition and the desired result.
   weights_odd = getvar_savefile(fhd_path+'/ps/Combined_obs_'+obs_name+'_odd_cube'+pol+'_weights_uvf.idlsave','weights_cube')
   weights_even = getvar_savefile(fhd_path+'/ps/Combined_obs_'+obs_name+'_even_cube'+pol+'_weights_uvf.idlsave','weights_cube')
   weights_evenodd = weights_odd + weights_even
@@ -46,10 +55,10 @@ pro variance_noise_factor, pol=pol
     apparent_data_XX = data_cube/weights_cube
     apparent_variance_XX = variance_cube / weights_cube_squared
     quick_image, abs(apparent_data_XX), x_arr, y_arr, xtitle='U (wavelengths)', ytitle='V (wavelengths)', title='Magnitude of frequency weighted res in uv plane (xx) in Jy', $
-      charsize=1, window=1, data_range = [0,1E1];, savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_data_XX_bh',/png
+      charsize=1, window=1, data_range = [0,1E1], savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_data_XX_bh_large',/png
     quick_image, abs(apparent_variance_XX), x_arr, y_arr, xtitle='U (wavelengths)', ytitle='V (wavelengths)', title='Magnitude of frequency weighted variance in uv plane (xx) in Jy', $
-      charsize=1, window=2;,savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_variance_XX_bh',/png
-    save, apparent_data_XX, x_arr, y_arr, apparent_variance_XX, filename = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_variance_XX_bh.sav'
+      charsize=1, window=2,savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_variance_XX_bh_large',/png
+    save, apparent_data_XX, x_arr, y_arr, apparent_variance_XX, filename = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_variance_XX_bh_large.sav'
     stop
   endif else begin
     apparent_data_YY = data_cube/weights_cube
