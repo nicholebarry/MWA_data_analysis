@@ -1,8 +1,10 @@
 pro seti_make_plots, plot_data_file=plot_data_file
 
   ;Restore data for plotting
-  if not keyword_set(plot_data_file) then plot_data_file = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/seti_binned_diff_thesis_evenodd2.sav'
+  if not keyword_set(plot_data_file) then plot_data_file = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/residual/seti_binned_diff_thesis_residual_total.sav'
+  
   restore, plot_data_file
+  If keyword_set(binned_diff_total) then binned_diff = binned_diff_total
   ;restore,'/nfs/mwa-00/h1/nbarry/seti_all_col_40sig_2000.sav'
   ;restore,'/nfs/mwa-00/h1/nbarry/seti_all_row_40sig_2000.sav'
   
@@ -37,8 +39,12 @@ pro seti_make_plots, plot_data_file=plot_data_file
   ;evenodd2 - plusone
   ;[ 688.71176183*10000000    37.37008034]
   
-  area=1217.50858531*10000000
-  s=39.5904041
+  ;total, not split, no even-odd
+  ;[ 10177.61541761*10000000     28.04886802]
+  
+  
+  area=10177.61541761*10000000
+  s=28.04886802
   y_arr_dist=area*x_arr_dist*exp(-x_arr_dist^2./(2.*s^2.))/s^2.
   
   
@@ -48,8 +54,8 @@ pro seti_make_plots, plot_data_file=plot_data_file
   x_arr_full=[0,FINDGEN(N_elements(binned_diff))+.5,N_elements(binned_diff)-.5]
   y_arr_full=[binned_diff[0],binned_diff,binned_diff[N_elements(binned_diff)-1]]
   
-  cgPS_Open,'/nfs/eor-00/h1/nbarry/vis_res/thesis/seti_res_vis_thesis_log_evenodd2_minustwo_fit.pdf',/quiet,/nomatch
-  cgplot, x_arr_full,y_arr_full, xrange=[1,2000], yrange=[1,10^10.], xtitle='Residual Visibility Amplitude (Jy)', ytitle='Binned Result', title='-2 Fall 2013 Residual Even-Odd Visibilties', charsize=1.5, /ylog
+  cgPS_Open,'/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_res_vis_thesis_linear_residual_fit.pdf',/quiet,/nomatch
+  cgplot, x_arr_full,y_arr_full, xrange=[1,2000], xtitle='Residual Visibility Amplitude (Jy)', ytitle='Binned Result', title='Fall 2013 Residual Visibilties', charsize=1.5
   cgoplot, x_arr_dist, y_arr_dist, color='blue'
   cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
   stop
@@ -98,16 +104,39 @@ pro seti_make_plots, plot_data_file=plot_data_file
     xtitle = 'Frequency (MHz)', ytitle = 'Time index (Even-Odd 2 second intervals)',charsize = 1.5,$
     savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/vis_res_movie/evenodd2/'+string(obs_i,format='(I4.4)')
   
-  ;*******Even-Odd timing across pointings
+  ;*******Timing across pointings
     longrun_names_match,obs_names=obs_names
-  restore, '/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/seti_all_3D_20_thesis_evenodd2_total.sav'
+  restore, '/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_all_3D_20_thesis_residual_total.sav'
   all_3D_20 = ULONG64(INTARR(384,56))
   for obs_i=0,1028 do if (where(obs_i EQ minustwo_obs) NE -1) and (obs_names[obs_i,1] NE 'Oct31') then all_3D_20 = all_3D_20 + all_3D_20_total[*,*,obs_i]
-  ;quick_image, all_3D_20[*,*,70],title=obs_names[70,0] + ' ' +obs_names[70,1] + ' ' +obs_names[70,2], xtitle = 'frequency index', ytitle = 'time index' ;;;;;test
-  quick_image, all_3D_20[*,0:27],freq_arr, INDGEN(28),title='-2 Fall 2013 Residual Even-Odd Visibilities', $
-    xtitle = 'Frequency (MHz)', ytitle = 'Time index (Even-Odd 2 second intervals)',charsize = 1.5,$
-    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/vis_res_movie/evenodd2/'+string(obs_i,format='(I4.4)')
+  quick_image, all_3D_20[*,*],freq_arr, INDGEN(56),title='-2 Fall 2013 Residual Visibilities', $
+    xtitle = 'Frequency (MHz)', ytitle = 'Time index (2 second intervals)',charsize = 1.5,$
+    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/residual/timing_pointing_-2.pdf'
+    
+     all_3D_20 = ULONG64(INTARR(384,56))
+  for obs_i=0,1028 do if (where(obs_i EQ minusone_obs) NE -1) and (obs_names[obs_i,1] NE 'Oct31') then all_3D_20 = all_3D_20 + all_3D_20_total[*,*,obs_i]
+  quick_image, all_3D_20[*,*],freq_arr, INDGEN(56),title='-1 Fall 2013 Residual Visibilities', $
+    xtitle = 'Frequency (MHz)', ytitle = 'Time index (2 second intervals)',charsize = 1.5, $
+    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/residual/timing_pointing_-1.pdf'
   
+       all_3D_20 = ULONG64(INTARR(384,56))
+  for obs_i=0,1028 do if (where(obs_i EQ zenith_obs) NE -1) and (obs_names[obs_i,1] NE 'Oct31') then all_3D_20 = all_3D_20 + all_3D_20_total[*,*,obs_i]
+  quick_image, all_3D_20[*,*],freq_arr, INDGEN(56),title='0 Fall 2013 Residual Visibilities', $
+    xtitle = 'Frequency (MHz)', ytitle = 'Time index (2 second intervals)',charsize = 1.5, $
+    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/residual/timing_pointing_0.pdf'
+    
+         all_3D_20 = ULONG64(INTARR(384,56))
+  for obs_i=0,1028 do if (where(obs_i EQ plusone_obs) NE -1) and (obs_names[obs_i,1] NE 'Oct31') then all_3D_20 = all_3D_20 + all_3D_20_total[*,*,obs_i]
+  quick_image, all_3D_20[*,*],freq_arr, INDGEN(56),title='+1 Fall 2013 Residual Visibilities', $
+    xtitle = 'Frequency (MHz)', ytitle = 'Time index (2 second intervals)',charsize = 1.5, $
+    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/residual/timing_pointing_+1.pdf' 
+    
+         all_3D_20 = ULONG64(INTARR(384,56))
+  for obs_i=0,1028 do if (where(obs_i EQ plustwo_obs) NE -1) and (obs_names[obs_i,1] NE 'Oct31') then all_3D_20 = all_3D_20 + all_3D_20_total[*,*,obs_i]
+  quick_image, all_3D_20[*,*],freq_arr, INDGEN(56),title='+2 Fall 2013 Residual Visibilities', $
+    xtitle = 'Frequency (MHz)', ytitle = 'Time index (2 second intervals)',charsize = 1.5, $
+    savefile = '/nfs/mwa-00/h1/nbarry/vis_res/thesis/residual/timing_pointing_+2.pdf' 
+    
   
   ;*******Antenna plots
   longrun_names_match, obs_names=obs_names
