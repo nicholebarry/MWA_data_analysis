@@ -48,7 +48,7 @@ pro RTS_cal_solutions
   rts_bp_gains_fullband = rts_bp_gains
   for band_i=0,22 do rts_bp_gains_fullband = [rts_bp_gains_fullband,rts_bp_gains]
   ;************end of bp correction setup
-  
+  stop
   ;************begin rts calibration read in
   rts_unfitted_cal=complex(FLTARR(2,384*2,128))
   rts_unfitted_cal_80kHz=complex(FLTARR(2,384,128))
