@@ -1,4 +1,5 @@
 import idlsave
+from scipy import optimize
 
 f = idlsave.read('seti_all_3D_20_thesis_evenodd2_minustwo.sav')
 

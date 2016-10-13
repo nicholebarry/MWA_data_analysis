@@ -7,13 +7,15 @@ pro variance_noise_factor, pol=pol,deluv=deluv
   if ~keyword_set(deluv) then deluv = '' else deluv = '_deluv' + deluv
   
   ;vis_sigma = sum(sum(vis_noise(freq, obs)*n_vis_freq(freq, obs))/sum(n_freq_vis(freq, obs))
-  ;fhd_path='/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_decon_March2016_small_through_firstpass_largeind'
-  fhd_path='/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_decon_March2016_small'
-  ps_dir='ps'
+  ;fhd_path='/nfs/mwa-08/d1/DiffuseSurvey2015/fhd_rlb_diffuse_survey_oneobs_nodiffuse_flag_rec14'
+  fhd_path='/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_decon_July2016_through_firstpass'
+  ps_dir='ps_none_unspecified'
   obs_name='Aug23';_forlarge'
+  ;obs_name='diffuse_survey_oneobs_eor0'
   
   filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/'+obs_name+'.txt'
   readcol, filename, obsids, format='A', /silent
+  ;obsids='1131454296'
   
   vis_noise=FLTARR(N_elements(obsids),384)
   nf_vis=FLTARR(N_elements(obsids),384)
@@ -60,11 +62,11 @@ pro variance_noise_factor, pol=pol,deluv=deluv
     apparent_data_XX = data_cube/weights_cube
     apparent_variance_XX = variance_cube / weights_cube_squared
     quick_image, abs(apparent_data_XX), x_arr, y_arr, xtitle='U (wavelengths)', ytitle='V (wavelengths)', title='Mag of weighted res in uv plane (xx) in Jy, full night', $
-      charsize=1, window=1, data_range = [0,1E1];, savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_data_XX_large_fullnight',/png
+      charsize=1, window=1, data_range = [0,1E1], savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/updated_July2016/uv_weighted_data_XX_fullnight_none',/png
     quick_image, abs(apparent_variance_XX), x_arr, y_arr, xtitle='U (wavelengths)', ytitle='V (wavelengths)', title='Mag of weighted variance in uv plane (xx) in Jy, full night', $
-      charsize=1, window=2;,savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_variance_XX_large_fullnight',/png
+      charsize=1, window=2,savefile = '/nfs/mwa-00/h1/nbarry/UVfromFHD/updated_July2016/uv_weighted_variance_XX_fullnight_none',/png
       stop
-    save, apparent_data_XX, x_arr, y_arr, apparent_variance_XX, filename = '/nfs/mwa-00/h1/nbarry/UVfromFHD/uv_weighted_datavariance_XX_large_fullnight.sav'
+    save, apparent_data_XX, x_arr, y_arr, apparent_variance_XX, filename = '/nfs/mwa-00/h1/nbarry/UVfromFHD/updated_July2016/uv_weighted_datavariance_XX_fullnight_none.sav'
     stop
   endif else begin
     apparent_data_YY = data_cube/weights_cube

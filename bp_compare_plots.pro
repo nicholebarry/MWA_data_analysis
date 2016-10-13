@@ -56,7 +56,7 @@ pro bp_compare_plots
     ;!P.Multi = [0, 6, 4]
     
     
-    cgPS_Open,'/nfs/eor-00/h1/nbarry/bp_compare_'+bp_day[bp_comparison_i]+'.png',/quiet,/nomatch
+    ;cgPS_Open,'/nfs/eor-00/h1/nbarry/bp_compare_'+bp_day[bp_comparison_i]+'.png',/quiet,/nomatch
     cgDisplay
     pos=cgLayout([6,4],XGap=3, YGap=3,OXMargin=[5,5], OYMargin=[5,7])
     
