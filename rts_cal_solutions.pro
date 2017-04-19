@@ -48,7 +48,15 @@ pro RTS_cal_solutions
   rts_bp_gains_fullband = rts_bp_gains
   for band_i=0,22 do rts_bp_gains_fullband = [rts_bp_gains_fullband,rts_bp_gains]
   ;************end of bp correction setup
-  stop
+  
+  ;Create another version for FHD resolution
+  range_memo_low = where((findgen(128) mod 8) EQ 0)
+  range_memo_high = where((findgen(128) mod 8) EQ 7)
+  memo_bp_gains_fhdaveraged = FLTARR(16)
+  for band_i=0, 15 do memo_bp_gains_fhdaveraged[band_i] = mean(memo_bp_gains[range_memo_low[band_i]:range_memo_high[band_i]])
+  memo_bp_gains_fhdaveraged_fullband = memo_bp_gains_fhdaveraged
+  for band_i=0,22 do memo_bp_gains_fhdaveraged_fullband = [memo_bp_gains_fhdaveraged_fullband,memo_bp_gains_fhdaveraged]
+  
   ;************begin rts calibration read in
   rts_unfitted_cal=complex(FLTARR(2,384*2,128))
   rts_unfitted_cal_80kHz=complex(FLTARR(2,384,128))
@@ -84,19 +92,30 @@ pro RTS_cal_solutions
       endif else flagged_num = flagged_num + 1
     ;move on to 2
     endfor
-    
   endfor
   ;************end rts calibration read in
   
   ;Correct for bp difference between the two bp's
-  for pol_i=0,1 do begin
-    for tile_i=0,127 do begin
-      rts_unfitted_cal[pol_i,*,tile_i] = abs(rts_unfitted_cal[pol_i,*,tile_i]) * (rts_bp_gains_fullband/memo_bp_gains_averaged_fullband)* $
-        exp(Complex(0,1)*atan(rts_unfitted_cal[pol_i,*,tile_i],/phase))
-      rts_fitted_cal[pol_i,*,tile_i] = abs(rts_fitted_cal[pol_i,*,tile_i]) * (rts_bp_gains_fullband/memo_bp_gains_averaged_fullband)* $
-        exp(Complex(0,1)*atan(rts_fitted_cal[pol_i,*,tile_i],/phase))
+  version5=1
+  if ~keyword_set(version5) then begin
+    for pol_i=0,1 do begin
+      for tile_i=0,127 do begin
+        rts_unfitted_cal[pol_i,*,tile_i] = abs(rts_unfitted_cal[pol_i,*,tile_i]) * (rts_bp_gains_fullband/memo_bp_gains_averaged_fullband)* $
+          exp(Complex(0,1)*atan(rts_unfitted_cal[pol_i,*,tile_i],/phase))
+        rts_fitted_cal[pol_i,*,tile_i] = abs(rts_fitted_cal[pol_i,*,tile_i]) * (rts_bp_gains_fullband/memo_bp_gains_averaged_fullband)* $
+          exp(Complex(0,1)*atan(rts_fitted_cal[pol_i,*,tile_i],/phase))
+      endfor
     endfor
-  endfor
+  endif else begin
+    for pol_i=0,1 do begin
+      for tile_i=0,127 do begin
+        rts_unfitted_cal[pol_i,*,tile_i] = abs(rts_unfitted_cal[pol_i,*,tile_i]) * (rts_bp_gains_fullband)* $
+          exp(Complex(0,1)*atan(rts_unfitted_cal[pol_i,*,tile_i],/phase))
+        rts_fitted_cal[pol_i,*,tile_i] = abs(rts_fitted_cal[pol_i,*,tile_i]) * (rts_bp_gains_fullband)* $
+          exp(Complex(0,1)*atan(rts_fitted_cal[pol_i,*,tile_i],/phase))
+      endfor
+    endfor
+  endelse
   
   ;Average down to FHD freq resolution
   for pol_i=0,1 do begin
@@ -113,14 +132,24 @@ pro RTS_cal_solutions
   rts_fitted_cal_80kHz_rec = (1./abs(rts_fitted_cal_80kHz))*exp(-Complex(0,1)*atan(rts_fitted_cal_80kHz,/phase))
   rts_unfitted_cal_80kHz_rec[where(finite(rts_unfitted_cal_80kHz_rec,/nan) EQ 1)] = 0
   rts_fitted_cal_80kHz_rec[where(finite(rts_fitted_cal_80kHz_rec,/nan) EQ 1)] = 0
-  rts_unfitted_cal_80kHz_rec[*,255:383,*] = rts_unfitted_cal_80kHz_rec[*,255:383,*]*2.
-  rts_fitted_cal_80kHz_rec[*,255:383,*] = rts_fitted_cal_80kHz_rec[*,255:383,*]*2.
+  ;remove digital gain jump, remove rec
+  rts_unfitted_cal_80kHz_rec = rts_unfitted_cal_80kHz
+  rts_fitted_cal_80kHz_rec = rts_fitted_cal_80kHz
+  rts_unfitted_cal_80kHz_rec[*,255:383,*] = rts_unfitted_cal_80kHz[*,255:383,*]/2.
+  rts_fitted_cal_80kHz_rec[*,255:383,*] = rts_fitted_cal_80kHz[*,255:383,*]/2.
+  
+  ;I seem to be wrong, reverting
+  ;rts_unfitted_cal_80kHz_rec = (1./abs(rts_unfitted_cal_80kHz_rec))*exp(-Complex(0,1)*atan(rts_unfitted_cal_80kHz_rec,/phase))
+  ;rts_fitted_cal_80kHz_rec = (1./abs(rts_fitted_cal_80kHz_rec))*exp(-Complex(0,1)*atan(rts_fitted_cal_80kHz_rec,/phase))
+  ;rts_unfitted_cal_80kHz_rec[where(finite(rts_unfitted_cal_80kHz_rec,/nan) EQ 1)] = 0
+  ;rts_fitted_cal_80kHz_rec[where(finite(rts_fitted_cal_80kHz_rec,/nan) EQ 1)] = 0
   
   ;*******begin unapplied correction based off of Jones entries and spectral slope
   ;RTS does not whiten their data, but FHD does. FHD forces the spectral slope to be flat across the band
   
   ;setup
   spectral_correction = FLTARR(2,384,128)
+  spectral_correction_fhd = FLTARR(2,384,128)
   linfit_rts = FLTARR(2,384,128)
   jones_first_entry = FLTARR(24)
   
@@ -144,15 +173,18 @@ pro RTS_cal_solutions
       
       ;linear fit divided by the mean of the linear fit to get a spectral correction across the band without changing amplitude
       linfit_rts[pol_i,*,tile_i] = (linfit_coeff[1] * (*obs.baseline_info).freq + linfit_coeff[0])/mean(linfit_coeff[1] * (*obs.baseline_info).freq + linfit_coeff[0])
+      
+      ;Spectral correction for FHD. 0.8 is the default
+      spectral_correction_fhd[pol_i,*,tile_i] =(((180E6)/(findgen(384)*80000.+1.67155E8))^(0.8))/mean(((180E6)/(findgen(384)*80000.+1.67155E8))^(0.8))
     endfor
   endfor
   
-  full_correction = spectral_correction * linfit_rts
+  full_correction = spectral_correction; * linfit_rts
   ;*******end unapplied correction
   
   ;unapplied correction, uncomment to apply
-  ;rts_unfitted_cal_80kHz_rec2 = abs(rts_unfitted_cal_80kHz_rec)*full_correction*exp(Complex(0,1)*atan(rts_unfitted_cal_80kHz_rec,/phase))
-  ;rts_fitted_cal_80kHz_rec2 = abs(rts_fitted_cal_80kHz_rec)*full_correction*exp(Complex(0,1)*atan(rts_fitted_cal_80kHz_rec,/phase))
+  rts_unfitted_cal_80kHz_rec2 = abs(rts_unfitted_cal_80kHz_rec)*full_correction*exp(Complex(0,1)*atan(rts_unfitted_cal_80kHz_rec,/phase))
+  rts_fitted_cal_80kHz_rec2 = abs(rts_fitted_cal_80kHz_rec)*full_correction*exp(Complex(0,1)*atan(rts_fitted_cal_80kHz_rec,/phase))
   
   ;*****cal fhd read-in
   restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_devel_June2015/calibration/1061316296_cal.sav'
@@ -166,6 +198,18 @@ pro RTS_cal_solutions
   cal_mode = FLTARR(2,128,3)
   for pol_i=0, 1 do for tile_i=0, 127 do if cal.mode_params[pol_i,tile_i] NE !NULL then cal_mode[pol_i,tile_i,*] = (*cal.mode_params[pol_i,tile_i])[*]
   ;*****end cal fhd read-in
+  
+  for pol_i=0,1 do begin
+    for tile_i=0, 127 do begin
+      cal_fhd[pol_i,*,tile_i] = cal_fhd[pol_i,*,tile_i] * memo_bp_gains_fhdaveraged_fullband
+      raw_fhd[pol_i,*,tile_i] = raw_fhd[pol_i,*,tile_i] * memo_bp_gains_fhdaveraged_fullband
+    endfor
+  endfor
+  
+  ;*****correct for spectral index in FHD cals
+  raw_fhd = abs(raw_fhd)/spectral_correction_fhd*exp(Complex(0,1)*atan(raw_fhd,/phase))
+  cal_fhd = abs(cal_fhd)/spectral_correction_fhd*exp(Complex(0,1)*atan(cal_fhd,/phase))
+  ;*****end correct for spectral index in FHD cals
   
   ;*****rebuild the cable reflection mode as a function of frequency
   cal_freq_mode = complex(FLTARR(2,128,384))
@@ -184,7 +228,7 @@ pro RTS_cal_solutions
         linfit_unfit_rts[pol_i,*,tile_i] = linfit_rts_coeff[1]*findgen(384)+ linfit_rts_coeff[0]
       endif
       
-      notmissing_index=where(abs(raw_fhd[pol_i,*,tile_i]) GT 0.0001,n_count)
+      notmissing_index=where((*obs.baseline_info).freq_use,n_count)
       if n_count NE 0 then begin
         linfit_fhd_coeff = linfit((findgen(384))[notmissing_index],abs(raw_fhd[pol_i,notmissing_index,tile_i]))
         linfit_unfit_fhd[pol_i,*,tile_i] = linfit_fhd_coeff[1]*findgen(384)+ linfit_fhd_coeff[0]
@@ -200,6 +244,30 @@ pro RTS_cal_solutions
   cal_fhd[where(abs(rts_fitted_cal_80kHz_rec_norm) EQ 0)] = 0
   fitted_fhd_norm = abs(cal_fhd)/(linfit_unfit_fhd)*exp(Complex(0,1)*atan(cal_fhd,/phase))
   ;***
+  
+  ;*****RTS has different naming convention for tiles.
+  tile_matrix= [75,74,73,72,79,78,77,76,51,50,49,48,55,54,53,52,123,122,121,120,127,126,125,124,115,114,113,$
+    112,119,118,117,116,11,10,9,8,15,14,13,12,3,2,1,0,7,6,5,4,67,66,65,64,71,70,69,68,59,58,57,56,63,62,61,$
+    60,91,90,89,88,95,94,93,92,83,82,81,80,87,86,85,84,107,106,105,104,111,110,109,108,99,98,97,96,103,102,101,100,19,18,17,$
+    16,23,22,21,20,27,26,25,24,31,30,29,28,43,42,41,40,47,46,45,44,35,34,33,32,39,38,37,36]
+    
+  cables_150m =[2,3,4,6,11,12,13,14,19,20,21,22,23,24,25,26,27,28,30,40,41,42,43,45,46,47,57,66,74,77]
+  for cable_i=0, N_elements(cables_150m)-1 do begin
+    if cable_i EQ 0 then cable_matrix = where(tile_matrix EQ cables_150m[cable_i]) else cable_matrix = [cable_matrix, where(tile_matrix EQ cables_150m[cable_i])]
+  endfor
+  
+  tile_matrix_opp = tile_matrix
+  for tile_i=0, N_elements(tile_matrix) -1 do begin
+    tile_matrix_opp[tile_i] = where((INDGEN(128))[tile_i] EQ tile_matrix)
+  endfor
+  
+  rts_unfitted_cal_80kHz_rec = rts_unfitted_cal_80kHz_rec[*,*,tile_matrix_opp]
+  rts_fitted_cal_80kHz_rec = rts_fitted_cal_80kHz_rec[*,*,tile_matrix_opp]
+  
+  ;unfitted_fhd_norm = unfitted_fhd_norm[*,*,tile_matrix]
+  ;fitted_fhd_norm = fitted_fhd_norm[*,*,tile_matrix]
+  ;raw_fhd = raw_fhd[*,*,tile_matrix]
+  ;cal_fhd = cal_fhd[*,*,tile_matrix]
   
   ;***Take the fourier transform of the absolute values of the normalized fhd and rts solutions, multiply by a convention factor,
   ;and take the residual between fhd and rts. Do it for raw and gain solutions
@@ -219,21 +287,21 @@ pro RTS_cal_solutions
   
   cgPS_Open,'/nfs/mwa-00/h1/nbarry/RTScal/fitted_fft.png',/quiet,/nomatch
   cgplot, abs(fourier_modefitted_fhd[0,2,*]), yrange=[0,2],xrange=[384/2,384], title='Fitted, Tile 3, XX
-  cgoplot, abs(fourier_fitted_fhd[0,*,2]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='red'
-  cgoplot, abs(fourier_fitted_rts[0,*,2]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='blue'
+  cgoplot, abs(fourier_fitted_fhd[0,*,38]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='red'
+  cgoplot, abs(fourier_fitted_rts[0,*,38]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='blue'
   cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
   
   cgPS_Open,'/nfs/mwa-00/h1/nbarry/RTScal/unfitted_fft.png',/quiet,/nomatch
   cgplot, abs(fourier_modefitted_fhd[0,2,*]), yrange=[0,2],xrange=[384/2,384], title='Unfitted, Tile 3, XX
-  cgoplot, abs(fourier_unfitted_fhd[0,*,2]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='red'
-  cgoplot, abs(fourier_unfitted_rts[0,*,2]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='blue'
+  cgoplot, abs(fourier_unfitted_fhd[0,*,38]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='red'
+  cgoplot, abs(fourier_unfitted_rts[0,*,38]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='blue'
   cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
   
   cgPS_Open,'/nfs/mwa-00/h1/nbarry/RTScal/residual_unfitted_fft.png',/quiet,/nomatch
   cgplot, abs(fourier_modefitted_fhd[0,2,*]), yrange=[0,2],xrange=[384/2,384], title='Unfitted, Tile 3, XX
-  cgoplot, abs(fourier_unfitted_residual[0,*,2]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='green'
-  cgoplot, abs(fourier_fitted_residual[0,*,2]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='purple'
-
+  cgoplot, abs(fourier_unfitted_residual[0,*,38]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='green'
+  cgoplot, abs(fourier_fitted_residual[0,*,38]), yrange=[0,2],xrange=[384/2,384],title='Fitted, Tile 3, XX',color='purple'
+  
   cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
   
   
@@ -244,11 +312,42 @@ pro RTS_cal_solutions
   fitted_residual = abs(rts_fitted_cal_80kHz_rec_norm)-abs(fitted_fhd_norm)
   fitted_residual[where(abs(rts_fitted_cal_80kHz_rec_norm) EQ 0)] = 0
   ;***
-  stop
+  
   ;ranges = where((findgen(384) mod 16) EQ 0)
+  mode_filepath=filepath(obs.instrument+'_cable_reflection_coefficients.txt',root=rootdir('FHD'),subdir='instrument_config')
+  textfast,data_array,/read,file_path=mode_filepath,first_line=1
+  cable_len=Reform(data_array[2,*])
+  ;Taking tile information and cross-matching it with the nonflagged tiles array, resulting in nonflagged tile arrays
+  ;grouped by cable length
+  cable_length_ref=cable_len[Uniq(cable_len,Sort(cable_len))]
+  n_cable=N_Elements(cable_length_ref)
+  tile_use_arr=Ptrarr(n_cable)
+  FOR cable_i=0,n_cable-1 DO tile_use_arr[cable_i]=Ptr_new(where((*obs.baseline_info).tile_use AND cable_len EQ cable_length_ref[cable_i]))
   
+  tile_matrix_90 = INTARR(N_elements(*tile_use_arr[0]))
+  tile_matrix_150 = INTARR(N_elements(*tile_use_arr[1]))
+  tile_matrix_230 = INTARR(N_elements(*tile_use_arr[2]))
+  tile_matrix_320 = INTARR(N_elements(*tile_use_arr[3]))
+  tile_matrix_400 = INTARR(N_elements(*tile_use_arr[4]))
+  tile_matrix_524 = INTARR(N_elements(*tile_use_arr[5]))
+  for tile_i=0, N_elements(*tile_use_arr[0])-1 do tile_matrix_90[tile_i] = where((*tile_use_arr[0])[tile_i] EQ tile_matrix)
+  for tile_i=0, N_elements(*tile_use_arr[1])-1 do tile_matrix_150[tile_i] = where((*tile_use_arr[1])[tile_i] EQ tile_matrix)
+  for tile_i=0, N_elements(*tile_use_arr[2])-1 do tile_matrix_230[tile_i] = where((*tile_use_arr[2])[tile_i] EQ tile_matrix)
+  for tile_i=0, N_elements(*tile_use_arr[3])-1 do tile_matrix_320[tile_i] = where((*tile_use_arr[3])[tile_i] EQ tile_matrix)
+  for tile_i=0, N_elements(*tile_use_arr[4])-1 do tile_matrix_400[tile_i] = where((*tile_use_arr[4])[tile_i] EQ tile_matrix)
+  for tile_i=0, N_elements(*tile_use_arr[5])-1 do tile_matrix_524[tile_i] = where((*tile_use_arr[5])[tile_i] EQ tile_matrix)
+  freq_use=where((*obs.baseline_info).freq_use)
+  freq_arr = (*obs.baseline_info).freq
   
+  rts_unfit_amp = abs(rts_unfitted_cal_80kHz_rec)*2.
+  rts_fit_amp = abs(rts_fitted_cal_80kHz_rec)*2.
+  rts_unfit_phase_conj = atan(conj(rts_unfitted_cal_80kHz_rec),/phase)
+  rts_unfit_phase = atan((rts_unfitted_cal_80kHz_rec),/phase)
   
+  fhd_unfit_amp = abs(raw_fhd)
+  fhd_unfit_phase = atan(raw_fhd,/phase)
+  
+  stop
   
   ;*Plotting included
   mode_filepath=filepath('mwa_cable_reflection_coefficients.txt',root=rootdir('FHD'),subdir='instrument_config')
@@ -262,7 +361,7 @@ pro RTS_cal_solutions
     for tile_i=0,127 do begin
     
       ;Naming convention
-      if pol_i EQ 0 then pol_name='xx'
+      if pol_i EQ 0 then pol_name='xx
       if pol_i EQ 1 then pol_name='yy'
       
       cgPS_Open,outdir+'comparisons_'+pol_name+'_'+strtrim(string(tile_i),2)+'.png',/quiet,/nomatch

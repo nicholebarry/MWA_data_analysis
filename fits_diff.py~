@@ -1,19 +1,18 @@
 from astropy.io import fits
 
-image_file = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_beamsim_beam2b_perfect_all/output_data/1061316296_uniform_Dirty_XX.fits'
+image_file = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_notimeavg_cal_cableave/output_data/1061316296_uniform_Dirty_XX.fits'
 hdu_list = fits.open(image_file)
-hdu_list.info()
 image_data1 = hdu_list[0].data
 hdu_list.close()
 
-image_file = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_beamsim_beam1b_perfect_input2b_all/output_data/1061316296_uniform_Dirty_XX.fits'
-hdu_list = fits.open(image_file)
-hdu_list.info()
-image_data2 = hdu_list[0].data
-hdu_list.close()
+for i in range(2, 3, 2):
+	image_file = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_notimeavg_cal_cableave_flippedbeam/output_data/1061316296_uniform_Dirty_XX.fits'
+	hdu_list = fits.open(image_file)
+	image_data2 = hdu_list[0].data
+	hdu_list.close()
 
-final_image= image_data1 - image_data2
+	final_image= image_data1 - image_data2
 
-outfile = '/nfs/mwa-00/h1/nbarry/fits_diff.fits'
-hdu = fits.PrimaryHDU(final_image)
-hdu.writeto(outfile, clobber=True)
+	outfile = '/nfs/mwa-00/h1/nbarry/beam_fits_diffXX_'+str(i)+'.fits'
+	hdu = fits.PrimaryHDU(final_image)
+	hdu.writeto(outfile, clobber=True)

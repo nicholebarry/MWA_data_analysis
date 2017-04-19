@@ -1,7 +1,7 @@
 pro confusion_limit_catalog
 
   id = 3
-  schetcher=1
+  ;schetcher=1
   
   ;Schetcher model using fits from Willott 2001, no evolution
   if keyword_set(schetcher) then begin
@@ -31,7 +31,7 @@ pro confusion_limit_catalog
       Jy_sources[TOTAL(num_per_bin[0:source_bin_i-1])-1:TOTAL(num_per_bin[0:source_bin_i])-1]=Jy_bins[source_bin_i-1]
     endfor
   endif else begin
-    
+  
     fita = exp(6.64084)
     fitb = -2.13177
     
@@ -39,7 +39,8 @@ pro confusion_limit_catalog
     density_tot=fita*Jy_bins^(fitb)
     density_norm=TOTAL(density_tot)
     
-    num_sources=10000. ;Gives 20 sources between 9 and 10 Jy (we see 10 in real data)
+   ; num_sources=10000. ;Gives 20 sources between 9 and 10 Jy (we see 10 in real data)
+    num_sources=5000. ;temp
     num_per_bin=density_tot/density_norm*num_sources
     num_per_bin=FIX(num_per_bin)
     num_sources=Total(num_per_bin) ;After making integers
@@ -51,14 +52,26 @@ pro confusion_limit_catalog
       Jy_sources[TOTAL(num_per_bin[0:source_bin_i-1])-1:TOTAL(num_per_bin[0:source_bin_i])-1]=Jy_bins[source_bin_i-1]
     endfor
     
-    stop
+  
   endelse
   
   ;dec
-  dec=-(65*RANDOMU(Seed,num_sources)-15) ;about 0
+  ;dec=-(65*RANDOMU(Seed,num_sources)-15) ;about 0
+  ;dec=-(20*RANDOMU(Seed,num_sources)+15) ;about 0
+  num_sources=1
+  Jy_sources=FLTARR(num_sources)
+  Jy_sources[*]=1000
+  t = 1.*!Pi*RANDOMU(Seed,num_sources)
+u = 1.*sqrt(RANDOMU(Seed,num_sources));+14.*RANDOMU(Seed,num_sources)
+;fold_index = where(u GT 7, n)
+r = u
+;r[fold_index] = 14- u[fold_index]
+ra = -.2;r*cos(t)-.2
+dec = -26.8;r*sin(t)-26.8
   
   ;ra -- approx two generators about 0 line with half the numbers
-  ra=(50*RANDOMU(Seed,num_sources)-25)
+  ;ra=(50*RANDOMU(Seed,num_sources)-25)
+ ; ra=(20*RANDOMU(Seed,num_sources)-10)
   ; ra2=(25*RANDOMU(Seed,num_sources/2)+335)
   ;ra=[ra1,ra2]
   
@@ -74,18 +87,55 @@ pro confusion_limit_catalog
   ;flux_u = flux_i * u_frac
   ;flux_v = flux_i * v_frac
   
-  catalog = source_comp_init(id=source_id, frequency=freq, ra=ra, dec=dec, flux=Jy_sources)
+  ;catalog = source_comp_init(id=source_id, frequency=freq, ra=ra, dec=dec, flux=Jy_sources)
   
-  complete_sources = where(Jy_sources GE .1, n_count)
+  uniform=1
+  if keyword_set(uniform) then begin
+   
+    catalog = source_comp_init(id=source_id, frequency=freq, ra=ra, dec=dec, flux=Jy_sources)
+        save_path=filepath('1uniform.sav',root=rootdir('FHD'),subdir='catalog_data')
+        stop
+    save, catalog, filename=save_path
+  endif
   
-  completeness_catalog = source_comp_init(id=source_id, frequency=freq, ra=ra[complete_sources], dec=dec[complete_sources], flux=Jy_sources[complete_sources])
+  ;double_lobe=1
+  if keyword_set(double_lobe) then begin
+    save_path=filepath('dlt_point_sources'+number_formatter(id)+'.sav',root=rootdir('FHD'),subdir='catalog_data')
+    save, catalog, filename=save_path
+    
+    brightest = reverse(sort(Jy_sources))
+    top_brightest = brightest[0:499]
+    double_index = Round(500*RANDOMU(Seed,100))
+    sig = .0055
+    lobe_sep = sig * sqrt(-2. * alog(1. - RANDOMU(Seed,100))) ;to get a rayleigh distributed random number
+    deg_angle = 2.*!Pi*RANDOMU(Seed,100)
+    ra_sep = lobe_sep * sin(deg_angle)
+    dec_sep = lobe_sep * cos(deg_angle)
+    
+    ra[top_brightest[double_index]] = ra[top_brightest[double_index]] - ra_sep/2.
+    dec[top_brightest[double_index]] = dec[top_brightest[double_index]] - dec_sep/2.
+    ra = [ra,ra[top_brightest[double_index]] + ra_sep/2.]
+    dec = [dec,dec[top_brightest[double_index]] + dec_sep/2.]
+    Jy_sources = [Jy_sources,Jy_sources[top_brightest[double_index]]/2.]
+    Jy_sources[top_brightest[double_index]] = Jy_sources[top_brightest[double_index]]/2.
+    
+    catalog = source_comp_init(id=source_id, frequency=freq, ra=ra, dec=dec, flux=Jy_sources)
+    save_path=filepath('dlt_double_lobed'+number_formatter(id)+'.sav',root=rootdir('FHD'),subdir='catalog_data')
+    save, catalog, filename=save_path
+    
+  endif
   
-  stop
-  save_path=filepath('confusion'+number_formatter(id)+'.sav',root=rootdir('FHD'),subdir='catalog_data')
-  save, catalog, filename=save_path
-  
-  catalog=completeness_catalog
-  save_path=filepath('confusion_completeness'+number_formatter(id)+'.sav',root=rootdir('FHD'),subdir='catalog_data')
-  save, catalog, filename=save_path
+  if keyword_set(completeness) then begin
+    complete_sources = where(Jy_sources GE .1, n_count)
+    completeness_catalog = source_comp_init(id=source_id, frequency=freq, ra=ra[complete_sources], dec=dec[complete_sources], flux=Jy_sources[complete_sources])
+    
+    stop
+    save_path=filepath('confusion'+number_formatter(id)+'.sav',root=rootdir('FHD'),subdir='catalog_data')
+    save, catalog, filename=save_path
+    
+    catalog=completeness_catalog
+    save_path=filepath('confusion_completeness'+number_formatter(id)+'.sav',root=rootdir('FHD'),subdir='catalog_data')
+    save, catalog, filename=save_path
+  endif
   
 end

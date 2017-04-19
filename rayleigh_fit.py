@@ -11,8 +11,8 @@ def f(x,a,s):
 	return f
 
 #f = idlsave.read('seti_all_3D_20_thesis_evenodd2_minustwo.sav')
-binned_y = readsav('/nfs/eor-00/h1/nbarry/vis_res/thesis/residual/seti_binned_diff_thesis_residual_total.sav')
-y = binned_y['binned_diff_total']
+binned_y = readsav('/nfs/eor-00/h1/nbarry/vis_res/thesis/antenna/center-1_freq_pointing/seti_binned_diff_thesis_evenodd2_minustwo.sav')
+y = binned_y['binned_diff']
 
 x = n.array([i for i in range(len(y))])
 
@@ -20,5 +20,5 @@ popt, pcov = optimize.curve_fit(f, x[3:200], y[3:200]/10000000)
 print popt
 
 
-popt, pcov = optimize.curve_fit(f, x[3:150], y[3:150]/1000000)
+popt, pcov = optimize.curve_fit(f, x[3:100], y[3:100]/100000)
 print popt
