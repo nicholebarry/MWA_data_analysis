@@ -44,7 +44,8 @@ pro dig_jump_calc
   
   stop
   
-  mode = .2*sin(2.*!Pi*(0.78125E-6)*freq_arr)+1.
+  ;mode = .2*sin(2.*!Pi*(0.78125E-6)*freq_arr)+1.
+  mode = .2*sin(2.*!Pi*(1.237E-6)*freq_arr)+1.
   fft_mode = shift(fft(mode),384/2)
   wh_fft_mode = where(abs(fft_mode) GT .0001,n_count)
   flat = FLTARR(384)

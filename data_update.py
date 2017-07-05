@@ -1,0 +1,92 @@
+#!/usr/bin/python
+
+import os
+from astropy.time import Time
+from astropy.io import fits
+import psycopg2
+import sys
+import socket
+from optparse import OptionParser
+import subprocess
+import datetime
+import time
+import zipfile
+import numpy as np
+import shutil
+
+#********************************
+#Script that moves updates a few necessary stats
+
+#Script written by Nichole Barry, May 2017.
+
+def main():
+
+	#test!!
+	#obsids = ['1064768840']
+
+	#Assume cotter version is the same for files in eor-14 batch folder, and version, subversion
+	#cotter_version = 'version 3.2 (2014-10-22)'
+	version=4
+	subversion=1
+
+	#Get obsids to download
+	obsfile_name='/nfs/mwa-00/h1/nbarry/MWA/IDL_code/obs_list/data_update6.txt'
+	obsfile = open(obsfile_name, "r")
+	obsids = [line.split( ) for line in obsfile.readlines()]
+	obsids = [obs[0] for obs in obsids]
+	obsfile.close()
+	nonredundant_obsids = list(set(obsids))
+	if len(obsids) != len(nonredundant_obsids):
+		print "WARNING: Obs list contains redundant entries."
+		obsids = nonredundant_obsids
+
+	#Connect to the database on eor-00 using the mwa username.
+	try:
+		conn = psycopg2.connect(database='mwa_qc',user='mwa',password='BowTie',host='eor-00.mit.edu')
+	except:
+		print 'Could not connect to mwa database.'
+		sys.exit(1)
+
+	#Module only works on the MIT cluster.
+	if not 'mit.edu' in socket.gethostname():
+		print 'Sorry, this script is currently only supported on eor-xx.mit.edu machines.'
+		sys.exit(1)  
+		
+	cur = conn.cursor()
+
+	for obsid in obsids:
+
+		obs_index = obsids.index(obsid)
+
+		#Open up the metafits file that was made with the uvfits file (assumes they are in the same location)
+		#metafits_file = "/nfs/mwa-14/r1/EoRuvfits/batch/" + obsid + ".metafits"
+		metafits_file = "/nfs/mwa-13/r1/EoRuvfits/batch/" + obsid + ".metafits"
+		if not os.path.exists(metafits_file):
+			print metafits_file + ' does not exist, skipping'
+			continue
+		hdu_list_metafits = fits.open(metafits_file)
+		header_metafits = hdu_list_metafits[0].header
+
+		#Get the frequency center and bandwidth (assumes contiguous frequency channels)
+		freq_cent = header_metafits['FREQCENT']
+		bandwidth = header_metafits['BANDWDTH']
+		top_freq_mhz = "{0:.2f}".format(freq_cent + bandwidth/2)
+		bottom_freq_mhz = "{0:.2f}".format(freq_cent - bandwidth/2)
+
+		#Close the metafits file
+		hdu_list_metafits.close()
+
+		#Create the database row, and fill it with the inputs. 
+		#cur.execute("UPDATE uvfits SET (cotter_version,bottom_freq_mhz,top_freq_mhz)=(%s,%s,%s) WHERE (path,obsid)=(%s,%s);", \
+			#(cotter_version,bottom_freq_mhz,top_freq_mhz,"/nfs/eor-14/r1/EoRuvfits/batch/" + obsid + ".uvfits",obsid))
+		cur.execute("UPDATE uvfits SET (bottom_freq_mhz,top_freq_mhz)=(%s,%s) WHERE (path,obsid)=(%s,%s);", \
+			(bottom_freq_mhz,top_freq_mhz,"/nfs/eor-13/r1/EoRuvfits/batch/" + obsid + ".uvfits",obsid))
+		conn.commit()
+
+	#Commit all the cur.execute, and close the connection.
+	conn.commit()
+	cur.close()
+	conn.close()
+
+if __name__ == '__main__':
+	main()

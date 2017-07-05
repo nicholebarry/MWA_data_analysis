@@ -213,7 +213,7 @@ pro pfb_edge_compare
   color_byte = [10B,12B,14B,16B,18B,20B,22B,24B,26B,28B,30B,32B,34B,36B,38B,40B,42B];,44B,46B,48B]
   temperature_array2 = temperature_array[nonzero,*]
   stop
-  cgps_open,'/nfs/eor-00/h1/nbarry/pfb/temp_season_predig.png',/quiet,/nomatch
+  cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_predig.png',/quiet,/nomatch
   
   x_range= [.984,.988]
   

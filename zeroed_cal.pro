@@ -1,7 +1,9 @@
 pro zeroed_cal
 
-  lower_band_only=1
-  double_mode=1
+  ;lower_band_only=1
+  ;double_mode=1
+  find_modes=1
+  hyperfine_dft=1
   
   n_tiles=128
   n_pol=2
@@ -64,7 +66,7 @@ pro zeroed_cal
     freq_use_logic=freq_use_logic[0:255]
   endif else freq_use_logic = (*obs.baseline_info).freq_use
   freq_use=where(freq_use_logic,nf_use)
-  freq_not_use=where(freq_use_logic EQ 0,nf_use)
+  freq_not_use=where(freq_use_logic EQ 0)
   
   if keyword_set(lower_band_only) then longrun_gain = longrun_gain[*,*,0:255,*]
   longrun_gain[*,*,freq_not_use,*]=0
@@ -83,16 +85,42 @@ pro zeroed_cal
   for pol_i=0, n_pol-1 do for poi_i=0, n_poi-1 do for tile_i=0, n_tiles-1 do fft_flat_ar[pol_i,poi_i,*,tile_i]=fft_flat
   
   ;n_coarse_bands = N_elements(wh_fft_flat)
-
+  
   
   
   if ~keyword_set(double_mode) then n_mode = 3 else n_mode=5
   mode_index = INTARR(n_pol,n_poi,n_mode,n_tiles) ;3 modes for each cable reflection: neg, center, and pos ;5 modes for each cable reflection: neg, center, pos, next to neg, next to pos
   
+  cable_len_to_fit = [90.,150.,230.,320.,400.,524.]
+  c_light=299792458.
+  mode_i_arr=Fltarr(n_pol,n_tiles)
+  ; Set up to fit for the reflection amplitude and phase
+  ; Get the nominal tile lengths and velocity factors:
+  cable_filepath=filepath(obs.instrument+'_cable_length.txt',root=rootdir('FHD'),subdir='instrument_config')
+  textfast,data_array,/read,file_path=cable_filepath,first_line=1
+  tile_i_file=Reform(data_array[0,*])
+  tile_name_file=Reform(data_array[1,*])
+  cable_len=Reform(data_array[2,*])
+  cable_vf=Reform(data_array[3,*])
+  
+  
   for cable_i=0,3 do begin
+  
+    ;***Calculate the mode
+    tile_ref_flag=0>Reform(data_array[4,*])<1
+    ; Choose which cable lengths to fit
+    cable_cut_i=where(cable_len NE cable_len_to_fit[cable_i],n_cable_cut)
+    IF n_cable_cut GT 0 THEN tile_ref_flag[cable_cut_i]=0
+    
+    reflect_time=2.*cable_len/(c_light*cable_vf) ; nominal reflect time
+    bandwidth=(Max((*obs.baseline_info).freq)-Min((*obs.baseline_info).freq))*n_freq/(n_freq-1)
+    
+    FOR pol_i=0,n_pol-1 DO mode_i_arr[pol_i,where(tile_ref_flag)]=bandwidth*reflect_time[where(tile_ref_flag)]
+    ;***
+    
     if cable_i EQ 0 then freq_channels = (*coarse_1[0])+round(N_elements(*coarse_1[0])/2) $
     else freq_channels = *coarse_1[cable_i-1]
-   
+    
     temp = max( (abs(fft_longrun - fft_flat_ar))[*,*,freq_channels,*tile_use_arr[cable_i]] , max_subscript,dim=3)
     
     ;find the index of the 150m cable reflections (pos and neg in fft space)
@@ -109,7 +137,7 @@ pro zeroed_cal
     if keyword_set(double_mode) then begin
       temp2 = (fft_longrun - fft_flat_ar)[*,*,freq_channels,*tile_use_arr[cable_i]]
       for pol_i=0, n_pol-1 do for poi_i=0, n_poi-1 do for tile_i=0, N_elements(*tile_use_arr[cable_i])-1 do $
-         temp2[pol_i,poi_i,z[pol_i,poi_i,tile_i],tile_i] -= reform(fft_longrun[pol_i,poi_i,freq_channels[z[pol_i,poi_i,tile_i]],(*tile_use_arr[cable_i])[tile_i]])
+        temp2[pol_i,poi_i,z[pol_i,poi_i,tile_i],tile_i] -= reform(fft_longrun[pol_i,poi_i,freq_channels[z[pol_i,poi_i,tile_i]],(*tile_use_arr[cable_i])[tile_i]])
       temp2 = max(abs(temp2),max_subscript,dim=3)
       
       s = SIZE(abs(fft_longrun[*,*,freq_channels,*tile_use_arr[cable_i]]))
@@ -124,8 +152,43 @@ pro zeroed_cal
     
   endfor
   
+  ones = FLTARR(n_freq)
+  ones[*] = 1.
+  gain_mode_fit = complex(FLTARR(n_pol,n_poi,n_freq,n_tiles))
+  
+  if keyword_set(hyperfine_dft) then begin
+    for pol_i=0, n_pol-1 do begin
+      for tile_i=0, n_tiles-1 do begin
+        mode_i=mode_i_arr[pol_i,tile_i]
+        IF mode_i EQ 0 THEN CONTINUE
+        ; We are going to fit the actual mode to subtract.
+        mode0=mode_i ; start with nominal cable length
+        dmode=0.05 ; overresolve the FT used for the fit (normal resolution would be dmode=1)
+        nmodes=101 ; range around the central mode to test
+        modes=(dindgen(nmodes)-nmodes/2)*dmode+mode0 ; array of modes to try
+        modes=rebin(modes,nmodes,nf_use) ; reshape for ease of computing
+        
+        for poi_i=0, n_poi-1 do begin
+          gain_temp = rebin_complex(transpose(reform(abs(longrun_gain[pol_i,poi_i,freq_use,tile_i]))),nmodes,nf_use)
+          flat_temp = rebin_complex(transpose(reform(flat[freq_use])),nmodes,nf_use)
+          freq_mat=rebin(transpose(freq_use),nmodes,nf_use) ; freq_use matrix to multiply/collapse in fit
+          test_fits=Total(exp(Complex(0,1)*2.*!Pi/n_freq*modes*freq_mat)*gain_temp,2) ; Perform DFT of gains to test modes
+          flat_dft=Total(exp(Complex(0,1)*2.*!Pi/n_freq*modes*freq_mat)*flat_temp,2) ; Perform DFT of gains to test modes
+          amp_use=max(abs(test_fits-flat_dft),mode_ind)/nf_use*2. ; Pick out highest amplitude fit (mode_ind gives the index of the mode)
+          phase_use=atan((test_fits-flat_dft)[mode_ind],/phase) ; Phase of said fit
+          mode_i=modes[mode_ind,0] ; And the actualy mode
+          
+          gain_mode_fit[pol_i,poi_i,*,tile_i]=amp_use*exp(-Complex(0,1)*2.*!Pi*(mode_i*findgen(n_freq)/n_freq)+Complex(0,1)*phase_use)+ones
+        ;gain_arr_fit[*,tile_i]+=gain_mode_fit
+        ;cal_return.mode_params[pol_i,tile_i]=Ptr_new([mode_i,amp_use,phase_use])
+        endfor
+      endfor
+    endfor
+  endif
+  
+  
   con_signal=complex(FLTARR(n_pol,n_poi,n_freq,n_tiles))
-
+  
   for cable_i=0,3 do begin
     for pol_i=0,n_pol-1 do begin
       for poi_i=0,n_poi-1 do begin
@@ -157,6 +220,11 @@ pro zeroed_cal
       endfor
     endfor
   endfor
+  
+  if keyword_set(hyperfine_dft) then begin
+    gain_mode_fit[*,*,freq_not_use,*]=0.
+    con_signal = shift(abs(fft(abs(gain_mode_fit),dim=3)),0,0,shift_num,0)
+  endif
   
   zero_longrun = fft_longrun
   for harmonic_i=6, 0, -1 do begin
