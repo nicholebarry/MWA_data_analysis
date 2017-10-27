@@ -2,30 +2,35 @@ pro export_1dkpower
 
   ;coarse_harm_width = 3
   ;wedge_angles=120d
-  n_cubes=2
+  n_cubes=3
   
   cut = STRARR(n_cubes)
-  ;cut[1]='wedge_cut_plus_res_cut'
-  ;cut[1] = 'beardsley_thesis_list'
-  cut[1] = 'Aug23'
+  ;cut[2]='wedge_cut_plus_res_cut'
+  cut[2] = 'beardsley_thesis_list_8shist'
+  cut[1] = 'beardsley_thesis_list'
+  ;cut[1] = 'Aug23'
   ;cut='Beardsley2016_zenith'
-  ;cut[0] = 'beardsley_thesis_list'
-  cut[0] = 'Aug23'
+  cut[0] = 'beardsley_thesis_list_harshcut'
+  ;cut[0] = 'Aug23'
   
   ;chans='ch0-95' & band='low'
-  chans='ch96-191' & band='high'
-  ;chans='ch48-143' & band='mid'
+  ;chans='ch96-191' & band='high'
+  chans='ch48-143' & band='mid'
+  ;chans='ch10-127'
   
   basefile = STRARR(n_cubes)
-  ;basefile[1]=['/nfs/mwa-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/ps_jan2016/Combined_obs_'+cut[1]+'_cubeXX__even_odd_joint_'+chans+'_']
-  basefile[0]=['/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_notimeavg_delaymodel/ps/Combined_obs_'+cut[0]+'_cubeXX__even_odd_joint_'+chans+'_']
-  basefile[1]=['/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_notimeavg_delaymodel_quarter/ps/Combined_obs_'+cut[0]+'_cubeXX__even_odd_joint_'+chans+'_']
+  ;basefile[2]=['/nfs/mwa-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/ps_jan2016/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_'+chans+'_']
+  ;basefile[2]=['/nfs/mwa-05/r1/EoRuvfits/EoR2013/fhd_nb_2013longrun_savedbp/ps_large/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_tk_'+chans+'_']
+  basefile[2]=['/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/ps/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_'+chans+'_']
+  basefile[1]=['/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/ps/Combined_obs_'+cut[1]+'_cubeXX__even_odd_joint_'+chans+'_']
+  basefile[0]=['/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/ps/Combined_obs_'+cut[0]+'_cubeXX__even_odd_joint_'+chans+'_']
   
   cubes=['res']
   pols=['xx','yy']
   
   endfile = STRARR(n_cubes)
-  ;endfile[1]='_bh_dencorr_no_120deg_wedge_cbw3_kperplambda10-60_kpar0.15-200_1dkpower.idlsave'
+  ;endfile[2]='_bh_dencorr_no_120deg_wedge_cbw3_kperplambda10-60_kpar0.15-200_1dkpower.idlsave'
+  endfile[2]='_averemove_bh_dencorr_no_120deg_wedge_kperplambda10-60_kpar0.15-200_1dkpower.idlsave'
   endfile[1]='_averemove_bh_dencorr_no_120deg_wedge_kperplambda10-60_kpar0.15-200_1dkpower.idlsave'
   endfile[0]='_averemove_bh_dencorr_no_120deg_wedge_kperplambda10-60_kpar0.15-200_1dkpower.idlsave'
   
@@ -51,16 +56,17 @@ pro export_1dkpower
       power=[0.,power] ; first element a placeholder to match size of k_edges
       weights=[0.,weights]
       foo=transpose([[k_edges],[power],[weights]])
-      outfile='~/'+band+'_'+cubes+'_'+pols[j]+'.txt'
+      ;outfile='~/'+band+'_'+cubes+'_'+pols[j]+'.txt'
       ;textfast,foo,[header,'',''],file_path=outfile,/write
       
-      if (cube_i EQ 0) then cgPS_Open,'/nfs/mwa-00/h1/nbarry/'+pols[j]+'_delaymodel2_quarter_nb_limit_comparison'+chans+'.png',/quiet,/nomatch
+      if (cube_i EQ 0) then cgPS_Open,'/nfs/mwa-00/h1/nbarry/'+pols[j]+'_supercut_limit_comparison'+chans+'.png',/quiet,/nomatch
       if cube_i EQ 0 then cgplot, k_edges,limits,/xlog,/ylog,psym=10, xrange=[.08,1.5], ytitle='$\Delta$$\up2$ (mK$\up2$)', $
         xtitle='k (h Mpc$\up-1$)', title=pols[j] + ' Limit Comparisons ' + chans, charsize =1.5
       if cube_i EQ 1 then cgoplot, k_edges,limits,/xlog,/ylog,psym=10, xrange=[.08,1.5],color='blue'
-      if cube_i EQ 1 then cglegend, title=['no delay filter','delay filter'],color=['black','blue'], location=[.2,.85], charsize=1
-      if (cube_i EQ 1) then cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
-     ; stop
+      if cube_i EQ 2 then cgoplot, k_edges,limits,/xlog,/ylog,psym=10, xrange=[.08,1.5],color='green'
+      if cube_i EQ 2 then cglegend, title=['harsh cut','new thesis list','8hist'],color=['black','blue','green'], location=[.2,.85], charsize=1
+      if (cube_i EQ 2) then cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
+
     ;textfast,foo,file_path=outfile,/write
     endfor
   endfor

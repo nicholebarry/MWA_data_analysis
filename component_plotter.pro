@@ -2,11 +2,13 @@ pro component_plotter
 
   for day_i=0,0 do begin
     ;readcol, '/nfs/mwa-00/h1/nbarry/MWA/IDL_code/obs_list/Aug27.txt', obs_id, format='A', /silent
-    if day_i EQ 0 then dir = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_decon_southsidelobe/deconvolution/'
-    ;if day_i EQ 1 then dir = '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_decon_July2016_presidelobe_Aug27/deconvolution/'
+    ;if day_i EQ 0 then dir = '/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_decon_gleamcal_sidelobe_skip/deconvolution/'
+    if day_i EQ 0 then dir = '/nfs/mwa-08/d1/DiffuseSurvey2015/fhd_rlb_GLEAM_cal_decon_Nov2016/deconvolution/'
     
     filenames = FILE_SEARCH(dir, '*_fhd.sav')
     obs_id = FILE_BASENAME(filenames, '_fhd.sav')
+    
+    obs_id = ['1131454296', '1131462216', '1131473016', '1131478656', '1131478776', '1131534824', '1131557504', '1131709192']
     
     if day_i EQ 0 then num_tot_obs = N_elements(obs_id) else num_tot_obs = num_tot_obs + N_elements(obs_id)
     
@@ -40,8 +42,11 @@ pro component_plotter
     ;ra_range_sculptor = [11.7,12.1]
     ;dec_range_sculptor = [-25.15,-25.45]
     
-   ra_range_sculptor = [-.5,0]
-   dec_range_sculptor =  [-60.7,-61.1]
+   ;ra_range_sculptor = [-.5,0]
+   ;dec_range_sculptor =  [-60.7,-61.1]
+   
+   ra_range_sculptor = [-3.2,-2.9]
+   dec_range_sculptor =  [-28,-28.3]
     ;ra_range_sculptor = [-1.,1.]
     ;dec_range_sculptor =  [-40.2,-41.7]
     
@@ -83,12 +88,12 @@ pro component_plotter
     endfor
   endfor
   
-  n_bins = 50
+  n_bins = 50.
   ;n_bins = 1000.
   
   binsize = (ra_range_sculptor[1]-ra_range_sculptor[0])/n_bins
-  binsize=.0056
-  n_bins = Ceil((ra_range_sculptor[1]-ra_range_sculptor[0])/binsize)
+  ;binsize=.0056
+  ;n_bins = Ceil((ra_range_sculptor[1]-ra_range_sculptor[0])/binsize)
   
   n_bins_dec = CEIL((dec_range_sculptor[0]-dec_range_sculptor[1])/binsize)
   ra_result = histogram(sculptor_comp_ra, binsize=binsize, min=ra_range_sculptor[0], reverse_indices=ri_ra)
