@@ -30,24 +30,24 @@ pro zeroed_cal
   X = FINDGEN((n_freq - 1)/2) + 1
   x_axis = shift([0.0, X, n_freq/2, -n_freq/2 + X]/(n_freq*T)*1E9,shift_num)
   
-  restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_2013longrun/longrun_gain_ave/norm_gain_plus_phase_dig_poi.sav'
-  restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_2013longrun/longrun_gain_ave/longrun_gain_plus_phase_dig_poi.sav'
-  
+  ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_2013longrun/longrun_gain_ave/norm_gain_plus_phase_dig_poi.sav'
+  ;restore, '/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_2013longrun/longrun_gain_ave/longrun_gain_plus_phase_dig_poi.sav' ;pol,poi,freq,tile
+  restore, '/nfs/mwa-10/r1/EoRuvfits/analysis/ave_cals/full_ave_amp.sav' ;[384, 5, 2, 128]
+  longrun_gain = FLTARR(n_pol,n_poi,n_freq,n_tiles)
+  for pol_i=0,n_pol-1 do for poi_i=0,n_poi-1 do for freq_i=0,n_freq-1 do for tile_i=0,n_tiles-1 do $
+    longrun_gain[pol_i,poi_i,freq_i,tile_i]=amp_mean_obs3[freq_i,poi_i,pol_i,tile_i]
+  ;restore, '/nfs/mwa-10/r1/EoRuvfits/analysis/ave_cals/full_ave_phase_dayref.sav' ;[384, 5, 2, 128]
   denom = (80000.*16.)^2. + (80000.)^2.
   
-  coarse_1 = PTRARR(8,/allocate)
-  coarse_2 = PTRARR(8,/allocate)
+  ;***calculate index regions within the coarse band lines (not including the foreground center) 
+  coarse_1 = PTRARR(8,/allocate) ;negative indices
+  coarse_2 = PTRARR(8,/allocate) ;positive indices
   
   for harmonic_i=1,7 do begin
     high_line = ( ((T*16.*float(harmonic_i))/denom)-(T/denom) )*1E9
     low_line = ( ((T*16.*float(harmonic_i))/denom)+(T/denom) )*1E9
     if harmonic_i EQ 1 then high_line_all=high_line else high_line_all=[high_line_all,high_line]
     if harmonic_i EQ 1 then low_line_all=low_line else low_line_all=[low_line_all,low_line]
-  ;cgoplot, [high_line, high_line],[-1,1],  linestyle=2
-  ;cgoplot, [low_line, low_line],[-1,1],  linestyle=2
-  ;coarse_band_wh = where((abs(x_axis) LT low_line) AND (abs(x_axis) GT high_line),nc)
-  ;if harmonic_i EQ 1 then coarse_bands_wh = coarse_band_wh else coarse_bands_wh = [coarse_bands_wh,coarse_band_wh]
-  ;*coarse[harmonic_i] = where((abs(x_axis) GT low_line) AND (abs(x_axis) GT high_line))
   endfor
   
   for harmonic_i=0,6 do begin
@@ -57,10 +57,11 @@ pro zeroed_cal
       inds = where((abs(x_axis) GT low_line_all[harmonic_i]) AND (abs(x_axis) LT high_line_all[harmonic_i+1]))
     *coarse_1[harmonic_i] = inds[where( inds LE shift_num)]
     *coarse_2[harmonic_i] = inds[where( inds GT shift_num)]
-    
   endfor
+  ;***
   
-  obs = getvar_savefile('/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_2013longrun/metadata/1061316296_obs.sav','obs')
+  ;obs = getvar_savefile('/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_2013longrun/metadata/1061316296_obs.sav','obs')
+  obs = getvar_savefile('/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/metadata/1061316296_obs.sav','obs')
   if keyword_set(lower_band_only) then begin
     freq_use_logic = (*obs.baseline_info).freq_use
     freq_use_logic=freq_use_logic[0:255]
@@ -85,8 +86,9 @@ pro zeroed_cal
   for pol_i=0, n_pol-1 do for poi_i=0, n_poi-1 do for tile_i=0, n_tiles-1 do fft_flat_ar[pol_i,poi_i,*,tile_i]=fft_flat
   
   ;n_coarse_bands = N_elements(wh_fft_flat)
-  
-  
+  n_fore = wh_fft_flat[0]*2-1 ;number of foreground modes before the first coarse band line
+  fore_modes = [shift_num-(INDGEN((n_fore-1)/2)+1),shift_num,shift_num+(INDGEN((n_fore-1)/2)+1)]
+  fore_modes = fore_modes[sort(fore_modes)]
   
   if ~keyword_set(double_mode) then n_mode = 3 else n_mode=5
   mode_index = INTARR(n_pol,n_poi,n_mode,n_tiles) ;3 modes for each cable reflection: neg, center, and pos ;5 modes for each cable reflection: neg, center, pos, next to neg, next to pos
@@ -185,6 +187,7 @@ pro zeroed_cal
       endfor
     endfor
   endif
+
   
   
   con_signal=complex(FLTARR(n_pol,n_poi,n_freq,n_tiles))
@@ -207,7 +210,7 @@ pro zeroed_cal
             
             con_signal[pol_i,poi_i,mode_index[pol_i,poi_i,mode_i,tile_num],tile_num] = fft_longrun[pol_i,poi_i,mode_index[pol_i,poi_i,mode_i,tile_num],tile_num]
             
-            con_vals = reform(fft_longrun[pol_i,poi_i,mode_index[pol_i,poi_i,mode_i,tile_num],tile_num] * fft_longrun[pol_i,poi_i,wh_fft_flat,tile_num])
+            con_vals = reform(fft_longrun[pol_i,poi_i,mode_index[pol_i,poi_i,mode_i,tile_num],tile_num] * (fft_longrun[pol_i,poi_i,wh_fft_flat,tile_num]))
             wh_flip = where((con_locs) GE n_freq, n_count)
             if n_count GT 0 then con_locs[wh_flip] =  (abs(con_locs[wh_flip])-n_freq)
             con_signal[pol_i,poi_i,abs(con_locs),tile_num] += (con_vals)
@@ -221,16 +224,49 @@ pro zeroed_cal
     endfor
   endfor
   
+  
+  ;****Foreground modes convolution
+    con_signal_fore=complex(FLTARR(n_pol,n_poi,n_freq,n_tiles))
+  
+
+    for pol_i=0,n_pol-1 do begin
+      for poi_i=0,n_poi-1 do begin
+        for tile_i=0, n_tiles-1 do begin
+        
+          tile_num = tile_i
+          con_loc_total = INTARR(FLOAT(n_fore) * N_elements(wh_fft_flat))
+          
+          for mode_i=0,n_fore-1 do begin
+          
+            con_locs = (fore_modes[mode_i] + wh_fft_flat ) - (shift_num)
+            
+            con_signal_fore[pol_i,poi_i,fore_modes[mode_i],tile_num] = fft_longrun[pol_i,poi_i,fore_modes[mode_i],tile_num]
+            
+            con_vals = reform(fft_longrun[pol_i,poi_i,fore_modes[mode_i],tile_num] * fft_longrun[pol_i,poi_i,wh_fft_flat,tile_num])
+            wh_flip = where((con_locs) GE n_freq, n_count)
+            if n_count GT 0 then con_locs[wh_flip] =  (abs(con_locs[wh_flip])-n_freq)
+            con_signal_fore[pol_i,poi_i,abs(con_locs),tile_num] += (con_vals)
+            
+            con_loc_total[mode_i * N_elements(wh_fft_flat): (mode_i+1)*N_elements(wh_fft_flat)-1] = con_locs
+          endfor
+          wh_con = where(reform(abs(con_signal_fore[pol_i,poi_i,abs(con_loc_total),tile_num]))/reform(abs(fft_longrun[pol_i,poi_i,abs(con_loc_total),tile_num])) GT 1., n_count)
+          if n_count GT 0 then con_signal_fore[pol_i,poi_i,abs(con_loc_total[wh_con]),tile_num]=fft_longrun[pol_i,poi_i,abs(con_loc_total[wh_con]),tile_num]
+        endfor
+      endfor
+    endfor
+    ;****
+  
   if keyword_set(hyperfine_dft) then begin
     gain_mode_fit[*,*,freq_not_use,*]=0.
     con_signal = shift(abs(fft(abs(gain_mode_fit),dim=3)),0,0,shift_num,0)
+    con_signal = shift((fft((gain_mode_fit),dim=3)),0,0,shift_num,0)
   endif
   
   zero_longrun = fft_longrun
   for harmonic_i=6, 0, -1 do begin
     ;zero_longrun[*,*,*coarse_1[harmonic_i],*] = 0.
-    zero_longrun[*,*,(*coarse_1[harmonic_i]),*] = con_signal[*,*,(*coarse_1[harmonic_i]),*]
-    zero_longrun[*,*,(*coarse_2[harmonic_i]),*] = con_signal[*,*,(*coarse_2[harmonic_i]),*]
+    zero_longrun[*,*,(*coarse_1[harmonic_i]),*] = con_signal[*,*,(*coarse_1[harmonic_i]),*] + con_signal_fore[*,*,(*coarse_1[harmonic_i]),*]
+    zero_longrun[*,*,(*coarse_2[harmonic_i]),*] = con_signal[*,*,(*coarse_2[harmonic_i]),*] + con_signal_fore[*,*,(*coarse_2[harmonic_i]),*]
     
   ;zero_longrun[*,*,*coarse_2[harmonic_i],*] = 0.
   ;zero_longrun[*,*,(*coarse_2[harmonic_i])[8],where(*tile_use_arr[1] EQ 1)] = fft_longrun[*,*,(*coarse_2[harmonic_i])[8],where(*tile_use_arr[1] EQ 1)]

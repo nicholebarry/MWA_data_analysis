@@ -1,6 +1,9 @@
 pro simple_thesis_plots
+
   cable_bp=1
   ;saved_bp=1
+  ;tile_bp=1
+  auto_bp=1
   if keyword_set(cable_bp) then begin
     filename= '/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013zenith_calonly/calibration/1061316296_cal.sav'
     restore, filename
@@ -10,12 +13,49 @@ pro simple_thesis_plots
     *cal.gain[pol_i]=*cal.gain[pol_i]+*cal.gain_residual[pol_i]
     cal_bandpass=vis_cal_bandpass(cal,obs,cal_remainder=cal_remainder,cable_bandpass_fit=1)
     if keyword_set(saved_bp) then cal_bandpass=vis_cal_bandpass(cal,obs,cal_remainder=cal_remainder,saved_run_bp=1,cable_bandpass_fit=1)
+    if keyword_set(tile_bp) then begin
+      restore, '/nfs/mwa-10/r1/EoRuvfits/analysis/ave_cals/full_ave_amp.sav' ;'amp_mean_obs3' 384, 5, 2, 128
+      cal_bandpass = Pointer_copy(cal)
+      ;cal_bandpass.gain[0] = reform(amp_mean_obs3[*,2,0,*]) ;choose zenith pointing, XX
+      ;cal_bandpass.gain[1] = reform(amp_mean_obs3[*,2,1,*]) ;choose zenith pointing, XX
+      
+      cal.amp_degree = 4
+      cal.mode_fit=0
+      cal_polyfit = vis_cal_polyfit(cal,obs,digital_gain_jump_polyfit=1)
+      amp_mean = FLTARR(384,128)
+      freq_use=where((*obs.baseline_info).freq_use)
+      
+      for tile_i=0,127 do begin
+        resistant_mean,abs((*cal.gain[0])[freq_use,tile_i]),2,res_mean
+        IF res_mean NE 0 THEN amp_mean[freq_use,tile_i]=res_mean ELSE amp_mean[freq_use,tile_i]=0.
+      endfor
+      
+      *cal_bandpass.gain[0] = abs(*cal_polyfit.gain[0])*abs(reform(amp_mean_obs3[*,2,0,*])) / amp_mean
+      zeros = (where(amp_mean EQ 0))
+      (*cal_bandpass.gain[0])[zeros]=0.
+    ;*cal_bandpass.gain[1] = abs(*cal_polyfit.gain[1])*abs(reform(amp_mean_obs3[*,2,1,*]))*exp(Complex(0,1)* atan((*cal.gain[1]),/phase) )
+    endif
+    if keyword_set(auto_bp) then begin
+      restore, '/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_Aug2017_autocal_wo_cable_w_digjump/calibration/1061316296_cal.sav'
+      cal_bandpass = Pointer_copy(cal)
+      for tile_i=0,127 do begin
+        ;      amp_params = *cal.amp_params[0,tile_i]
+        ;      fit = FLTARR(384)
+        ;      fit[0:255] = amp_params[0,0] + amp_params[0,1]*FINDGEN(256)
+        ;      fit[256:383] = amp_params[1,0] + amp_params[1,1]*(FINDGEN(128)+256.)\
+        (*cal_bandpass.gain[0])[*,tile_i] = abs((*cal_bandpass.gain[0])[*,tile_i]) / mean(abs((*cal.gain[0])[*,tile_i]))
+        zeros = where(reform((*obs.baseline_info).freq_use EQ 0))
+        (*cal_bandpass.gain[0])[zeros,tile_i]=0.
+      endfor
+      
+    endif
+    
     freq_arr = (*obs.baseline_info).freq
     
-    cgps_open,'/nfs/eor-00/h1/nbarry/bp_cable.pdf',/quiet,/nomatch
+    ;cgps_open,'/nfs/eor-00/h1/nbarry/bp_auto.pdf',/quiet,/nomatch
     cgplot, freq_arr / 1E6, (*cal_bandpass.gain[0])[*,0], psym=16, yrange=[.8,1.2], xrange = [(freq_arr[0]) / 1E6 - 1., (freq_arr[383]) / 1E6 + 1.], $
       color='royal blue', ytitle='Normalized calibration amplitude', $
-      title = 'Cable bandpass for zenith observation 8/23/2013', aspect=.5, charsize=1, symsize=.5, position=[.1,.4,.9,.95]
+      title = 'Auto bandpass for zenith observation 8/23/2013', aspect=.5, charsize=1, symsize=.5, position=[.1,.4,.9,.95]
     cgoplot, freq_arr / 1E6, (*cal_bandpass.gain[0])[*,2], psym=16,color='firebrick', symsize=.5
     cgoplot, freq_arr / 1E6, (*cal_bandpass.gain[0])[*,37], psym=16,color='forest green', symsize=.5
     cgoplot, freq_arr / 1E6, (*cal_bandpass.gain[0])[*,35], psym=16,color='dark orchid', symsize=.5
@@ -82,7 +122,7 @@ pro simple_thesis_plots
     cgoplot, freq_arr / 1E6, 100.*(bandpass_arr[1,*] - (*cal_bandpass.gain[0])[*,33])/bandpass_arr[1,*],color='gold'
     ;cgoplot,freq_arr / 1E6, 100.*(bandpass_arr[1,*] - (*cal_bandpass.gain[0])[*,36])/bandpass_arr[1,*],psym=16,color='teal', symsize=.5
     cgoplot, freq_arr / 1E6, 100.*(bandpass_arr[1,*] - (*cal_bandpass.gain[0])[*,36])/bandpass_arr[1,*],color='turquoise'
-    cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
+    ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
     stop
     
   endif
@@ -152,7 +192,7 @@ pro simple_thesis_plots
     
   endif
   ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  auto_corr=1
+  ;auto_corr=1
   ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   if keyword_set(auto_corr) then begin
     obs = getvar_savefile('/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_autos/metadata/1061316296_obs.sav','obs')
@@ -194,7 +234,7 @@ pro simple_thesis_plots
   ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   
-  amplitude_poly=1
+  ;amplitude_poly=1
   if keyword_set(amplitude_poly) then begin
     day=['Aug23','Aug27','Sep02','Sep04','Sep06','Sep09','Sep11','Sep13','Sep17','Sep19','Sep30','Oct02','Oct04','Oct08','Oct10','Oct15','Oct23','Oct25','Oct29']
     day_num=N_elements(day)

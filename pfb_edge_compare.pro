@@ -10,7 +10,7 @@ pro pfb_edge_compare
   
   amp_degree=2
   
-  obs = getvar_savefile('/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_notimeavg_cal_cableave/metadata/1061316296_obs.sav','obs')
+  obs = getvar_savefile('/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/metadata/1061316296_obs.sav','obs')
   freq_use=where((*obs.baseline_info).freq_use,nf_use)
   anti_freq_use=where((*obs.baseline_info).freq_use EQ 0,nf_use)
   tile_names=ULONG((*obs.baseline_info).tile_names)
@@ -75,9 +75,9 @@ pro pfb_edge_compare
   endfor
   
   ;****************************End of read in and parse temperature data
-  stop
   
   dig_jump_edges = FLTARR(2,N_elements(day_name_array),n_cable)
+  digjump_amount_byday = FLTARR(2,N_elements(day_name_array),n_cable)
   edges = FLTARR(2,N_elements(day_name_array),24,n_cable)
   
   for day_i=0, N_elements(day_name_array)-1 do begin
@@ -93,33 +93,35 @@ pro pfb_edge_compare
     all_subbands = FLTARR(2,n_obs,24,14,6) ;pol,obs,subband num, num of freq channels in subband, cable
     
     gain = (FLTARR(2,n_obs,384,128))
+    digjump_amount = (FLTARR(2,n_obs,128))
+    digjump_amount_cableavg = (FLTARR(2,n_obs,6))
     ave_gain = (FLTARR(2,n_obs,384,n_cable))
     for pol_i=0,0 do begin
       for obs_i=0, n_obs-1 do begin
-        cal = getvar_savefile('/nfs/mwa-09/r1/djc/EoR2013/Aug23/fhd_nb_2013longrun/calibration/'+strtrim(obsids[obs_i],2)+'_cal.sav','cal')
+        cal = getvar_savefile('/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/calibration/'+strtrim(obsids[obs_i],2)+'_cal.sav','cal')
         (*cal.gain[pol_i]) = (*cal.gain[pol_i]) + (*cal.gain_residual[pol_i])
         
-;        for tile_j=0, N_elements(*tile_use_arr[1])-1 do begin
-;          tile_i = (*tile_use_arr[1])[tile_j]
-;          if (cal.mode_params[pol_i,tile_i] NE !NULL) then begin
-;            mode_i = (*cal.mode_params[pol_i,tile_i])[0]
-;            amp_use = (*cal.mode_params[pol_i,tile_i])[1]
-;            phase_use = (*cal.mode_params[pol_i,tile_i])[2]
-;            gain_mode_fit=amp_use*exp(-Complex(0,1)*2.*!Pi*(mode_i*findgen(384)/384)+Complex(0,1)*phase_use)
-;            (*cal.gain[pol_i])[*,tile_i] -= gain_mode_fit
-;          endif
-;        endfor
+        ;        for tile_j=0, N_elements(*tile_use_arr[1])-1 do begin
+        ;          tile_i = (*tile_use_arr[1])[tile_j]
+        ;          if (cal.mode_params[pol_i,tile_i] NE !NULL) then begin
+        ;            mode_i = (*cal.mode_params[pol_i,tile_i])[0]
+        ;            amp_use = (*cal.mode_params[pol_i,tile_i])[1]
+        ;            phase_use = (*cal.mode_params[pol_i,tile_i])[2]
+        ;            gain_mode_fit=amp_use*exp(-Complex(0,1)*2.*!Pi*(mode_i*findgen(384)/384)+Complex(0,1)*phase_use)
+        ;            (*cal.gain[pol_i])[*,tile_i] -= gain_mode_fit
+        ;          endif
+        ;        endfor
         
         gain_fit = FLTARR(384,128)
-;        gain_ref = abs((*cal.gain[pol_i])[freq_use,*])
-;
-;        for tile_i=0,127 do begin
-;        
-;          fit_params1=poly_fit(freq_use[0:223],gain_ref[0:223,tile_i],1)
-;          fit_params2=poly_fit(freq_use[224:335],gain_ref[224:335,tile_i],1)
-;          gain_fit[freq_use[0]:freq_use[223],tile_i] = fit_params1[0]*findgen(freq_use[223])^0 +fit_params1[1]*findgen(freq_use[223])^1
-;          gain_fit[freq_use[224]:freq_use[335],tile_i] = fit_params2[0]*(findgen(freq_use[335] - freq_use[224]+1) + freq_use[224])^0 +fit_params2[1]*(findgen(freq_use[335] - freq_use[224]+1) + freq_use[224])^1
-;        endfor
+        ;        gain_ref = abs((*cal.gain[pol_i])[freq_use,*])
+        ;
+        ;        for tile_i=0,127 do begin
+        ;
+        ;          fit_params1=poly_fit(freq_use[0:223],gain_ref[0:223,tile_i],1)
+        ;          fit_params2=poly_fit(freq_use[224:335],gain_ref[224:335,tile_i],1)
+        ;          gain_fit[freq_use[0]:freq_use[223],tile_i] = fit_params1[0]*findgen(freq_use[223])^0 +fit_params1[1]*findgen(freq_use[223])^1
+        ;          gain_fit[freq_use[224]:freq_use[335],tile_i] = fit_params2[0]*(findgen(freq_use[335] - freq_use[224]+1) + freq_use[224])^0 +fit_params2[1]*(findgen(freq_use[335] - freq_use[224]+1) + freq_use[224])^1
+        ;        endfor
         
         gain[pol_i,obs_i,*,*] = abs(*cal.gain[pol_i]); / gain_fit
         
@@ -130,20 +132,22 @@ pro pfb_edge_compare
             gain_fit[subband_low[subband_i]:subband_high[subband_i+1],tile_i] = fit_params_sub[0]*findgen(14)^0 + fit_params_sub[1]*findgen(14)^1
           endfor
           for cable_i=0,5 do begin
-            subband_mean = mean(reform(abs(gain[pol_i,obs_i,subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]]) / gain_fit[subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]] ),dim = 1)
+            ;subband_mean = mean(reform(abs(gain[pol_i,obs_i,subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]]) / gain_fit[subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]] ),dim = 1)
             ;for freq_i=0, 13 do subband_mean_freq[freq_i,*] = subband_mean
-            all_subbands[pol_i,obs_i,subband_i,*,cable_i]=mean(abs(gain[pol_i,obs_i,subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]])/ gain_fit[subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]],dim=4,/NAN); / subband_mean_freq
+            all_subbands[pol_i,obs_i,subband_i,*,cable_i]=reform(mean(abs(gain[pol_i,obs_i,subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]])/ gain_fit[subband_low[subband_i]:subband_high[subband_i+1],*tile_use_arr[cable_i]],dim=4,/NAN)); / subband_mean_freq
           endfor
+        endfor
+        
+        digjump_amount[pol_i,obs_i,*]=reform(gain[pol_i,obs_i,freq_use[223],*] - gain[pol_i,obs_i,freq_use[224],*])
+        
+        for cable_i=0,5 do begin
+          digjump_amount_cableavg[pol_i,obs_i,cable_i] = mean(reform(digjump_amount[pol_i,obs_i,*tile_use_arr[cable_i]]),/NAN)
         endfor
         
       endfor
     endfor
     
-    ;gain[*,*,anti_freq_use,*]=0
-    ;all_sub_obsave = FLTARR(2,24,14,6)
-    ;Bart plots
-    
-    
+    digjump_amount_byday[*,day_i,*] = mean(reform(digjump_amount_cableavg),dim=2,/NAN)
     all_sub_obsave = mean(all_subbands,dim=2,/NAN)
     for pol_i=0,1 do begin
       for cable_i=0, n_cable - 1 do begin
@@ -153,11 +157,12 @@ pro pfb_edge_compare
         endfor
         pfb_set[day_i,pol_i,*,cable_i] = bart_plot
       endfor
-      dig_jump_coarse = mean(reform(all_sub_obsave[pol_i,[10,11,12,13,14,15],*,*]),dim=1) ;after dig jump = [16,17,18,19,20,21,22,23]
-      dig_jump_edges[pol_i,day_i,*] = mean(dig_jump_coarse[[0,14],*], dim=1)
-      edges[pol_i,day_i,*,*] =  mean(reform(all_sub_obsave[pol_i,*,[0,14],*]),dim=2)
+      dig_jump_coarse = mean(reform(all_sub_obsave[pol_i,[16,17,18,19,20,21,22,23],*,*]),dim=1) ;after dig jump = [16,17,18,19,20,21,22,23] ;before dig jump = [10,11,12,13,14,15]
+      dig_jump_edges[pol_i,day_i,*] = mean(dig_jump_coarse[[0,14],*], dim=1) ;choose first and last frequency channels for each cable type
+    ;edges[pol_i,day_i,*,*] =  mean(reform(all_sub_obsave[pol_i,*,[0,14],*]),dim=2)
+    ;digjump_amount_obsavg
     endfor
-    make_plots=1
+    make_plots=0
     if keyword_set(make_plots) then begin
       freq_arr = (*obs.baseline_info).freq
       cgps_open, '/nfs/eor-00/h1/nbarry/pfb/gain_residuals/'+string(strtrim(day_i,2),FORMAT='(I02)')+'pfb_'+day_name_array[day_i]+'zenith.png',/quiet,/nomatch
@@ -213,35 +218,45 @@ pro pfb_edge_compare
   color_byte = [10B,12B,14B,16B,18B,20B,22B,24B,26B,28B,30B,32B,34B,36B,38B,40B,42B];,44B,46B,48B]
   temperature_array2 = temperature_array[nonzero,*]
   stop
-  cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_predig.png',/quiet,/nomatch
+  dig_jump_plot=1
+  if keyword_set(dig_jump_plot) then begin
+    cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_digjump.pdf',/quiet,/nomatch
+    x_range= [.01,.1]
+    dig_jump_edges = digjump_amount_byday
+  endif else begin
+    cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_postdig.png',/quiet,/nomatch
+    
+  ;x_range= [.984,.988] ;predig
+    x_range= [.985,1.005] ;postdig
+  endelse
   
-  x_range= [.984,.988]
-  
-  cgplot, dig_jump_edges[0,nonzero,0], mean(temperature_array2[*,(*tile_use_arr[0])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.10, 0.70, 0.45, 0.92], /NoData, title='RG6_90'
+  cgplot, dig_jump_edges[0,nonzero,0], mean(temperature_array2[*,(*tile_use_arr[0])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.70, 0.45, 0.92], /NoErase,/NoData, title='RG6_90'
   for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],0], mean(temperature_array2[n_i,(*tile_use_arr[0])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.10, 0.70, 0.45, 0.920],/NoErase
+    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.70, 0.45, 0.920],/NoErase,xstyle=4,ystyle=4
     
-  cgplot, dig_jump_edges[0,nonzero,1], mean(temperature_array2[*,(*tile_use_arr[1])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.5, 0.70, 0.85, 0.92],/NoErase,/NoData,title='RG6_150'
+  cgplot, dig_jump_edges[0,nonzero,1], mean(temperature_array2[*,(*tile_use_arr[1])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.70, 0.85, 0.92],/NoErase,/NoData,title='RG6_150'
   for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],1], mean(temperature_array2[n_i,(*tile_use_arr[1])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.5, 0.70, 0.85, 0.920],/NoErase
+    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.70, 0.85, 0.920],/NoErase,xstyle=4,ystyle=4
     
-  cgplot, dig_jump_edges[0,nonzero,2], mean(temperature_array2[*,(*tile_use_arr[2])],dim=2), xrange=x_range, yrange=[10,40], psym=16, ytitle='Average Temperature ('+cgSymbol('deg')+'C)', title='RG6_230' ,charsize=.7, Position=[0.10, 0.4, 0.45, 0.620],/NoErase,/NoData
+  cgplot, dig_jump_edges[0,nonzero,2], mean(temperature_array2[*,(*tile_use_arr[2])],dim=2), xrange=x_range, yrange=[10,40], psym=16, title='RG6_230' ,charsize=.9, Position=[0.10, 0.4, 0.45, 0.620],/NoErase,/NoData
   for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],2], mean(temperature_array2[n_i,(*tile_use_arr[2])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.10, 0.4, 0.45, 0.620],/NoErase
+    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.4, 0.45, 0.620],/NoErase,xstyle=4,ystyle=4
     
-  cgplot, dig_jump_edges[0,nonzero,3], mean(temperature_array2[*,(*tile_use_arr[3])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.5, 0.4, 0.85, 0.620],/NoErase,/NoData, title='LMR400_320'
+  cgplot, dig_jump_edges[0,nonzero,3], mean(temperature_array2[*,(*tile_use_arr[3])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.4, 0.85, 0.620],/NoErase,/NoData, title='LMR400_320'
   for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],3], mean(temperature_array2[n_i,(*tile_use_arr[3])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.5, 0.4, 0.85, 0.620],/NoErase
+    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.4, 0.85, 0.620],/NoErase,xstyle=4,ystyle=4
     
-  cgplot, dig_jump_edges[0,nonzero,4], mean(temperature_array2[*,(*tile_use_arr[4])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.10, 0.1, 0.45, 0.320],/NoErase,/NoData, title='LMR400_400'
+  cgplot, dig_jump_edges[0,nonzero,4], mean(temperature_array2[*,(*tile_use_arr[4])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.1, 0.45, 0.320],/NoErase,/NoData, title='LMR400_400'
   for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],4], mean(temperature_array2[n_i,(*tile_use_arr[4])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.10, 0.1, 0.45, 0.320],/NoErase
+    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.1, 0.45, 0.320],/NoErase,xstyle=4,ystyle=4
     
-  cgplot, dig_jump_edges[0,nonzero,5], mean(temperature_array2[*,(*tile_use_arr[5])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.5, 0.1, 0.85, 0.320],/NoErase,/NoData, title='LMR400_524'
+  cgplot, dig_jump_edges[0,nonzero,5], mean(temperature_array2[*,(*tile_use_arr[5])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.1, 0.85, 0.320],/NoErase,/NoData, title='LMR400_524'
   for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],5], mean(temperature_array2[n_i,(*tile_use_arr[5])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, charsize=.7, Position=[0.5, 0.1, 0.85, 0.320],/NoErase
+    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.1, 0.85, 0.320],/NoErase,xstyle=4,ystyle=4
     
-  cgtext, .325,.04, 'Average Edge Channel Gain (before digital gain jump)',/Normal,charsize=.7
+  if keyword_set(dig_jump_plot) then cgtext, .335,.025, 'Average Digital Gain Jump',/Normal,charsize=1.2 else $
+    cgtext, .17,.025, 'Average Edge Channel Gain (after digital gain jump)',/Normal,charsize=1.2
+  cgtext, .05,.32, 'Average Temperature ('+cgSymbol('deg')+'C)',/Normal,charsize=1.2, orientation=90.
   
   cglegend, Title=day_name_array[nonzero], color=color_byte, location = [.885,.75], psym=16, charsize=1,Length=0.0
   
