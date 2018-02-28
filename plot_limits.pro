@@ -1,6 +1,6 @@
 pro plot_limits
 
-  n_papers=8
+  n_papers=9
   papers_array = PTRARR(n_papers,/allocate)
   name_array = STRARR(n_papers)
   
@@ -61,6 +61,13 @@ pro plot_limits
   *papers_array[7] = beardsley_2016_short
   name_array[7] = 'Beardsley, 2016'
   
+  barry_2018 = FLTARR(1,3)
+  barry_2018[0,0] = 6.75E3
+  barry_2018[0,1] = .2034
+  barry_2018[0,2]= 7.1
+  *papers_array[8] = barry_2018
+  name_array[8] = 'Barry, 2018'
+  
   fiducial_z = [6.,6.14,6.28,6.43,6.58,6.73,6.88,7.04,7.2 ,7.37,7.53,7.7,7.88,8.06,8.24,8.42,8.61,8.8,$
     9.,9.2,9.4,9.61,9.82,10.04,10.26,10.49,10.71,10.95,11.19,11.43,11.68,11.93,12.19,12.46,12.73,13.,13.28]
   fiducial_val = [0.2070598,0.4520246,0.8806551,1.628951,2.754617,4.320467,6.392936,9.135006,12.36413,$
@@ -82,10 +89,10 @@ pro plot_limits
     [161,116,188]]
   color_num=[10,20,30,40,50,60,70,80]
   color_byte = [10B,20B,30B,40B,50B,60B,70B,80B]
-  sym_array = ['Filled Diamond','Filled Bowtie','Filled Up Triangle','Filled Lower Half Circle','Filled Standing Bar','Filled Circle','Filled Laying Bar','Filled Star']
-  sym_num = [14,24,17,40,26,16,28,46]
+  sym_array = ['Filled Diamond','Filled Bowtie','Filled Up Triangle','Filled Lower Half Circle','Filled Standing Bar','Filled Circle','Filled Laying Bar','Filled Star','Filled Down Triangle']
+  sym_num = [14,24,17,40,26,16,28,46,18]
   
-  color_names = ['purple', 'teal', 'blue', 'firebrick','purple', 'teal', 'blue', 'firebrick']
+  color_names = ['purple', 'teal', 'blue', 'firebrick','purple', 'teal', 'blue', 'firebrick', 'green']
   
   x_range= [6,11]
   y_range = [1E-1,1E8]
@@ -123,15 +130,16 @@ pro plot_limits
       
       if n_count GT 0 then begin
       
-        TVLCT, rgbcolors[0,papers_i], rgbcolors[1,papers_i], rgbcolors[2,papers_i], color_num[papers_i]
+        ;TVLCT, rgbcolors[0,papers_i], rgbcolors[1,papers_i], rgbcolors[2,papers_i], color_num[papers_i]
         
         cgplot, k_arr[inds,2], k_arr[inds,0], color=color_names[papers_i],psym=sym_array[papers_i],$
-          xrange=x_range, yrange=y_range,/ylog, charsize=1, Position=positions[*,plot_i],/NoErase,XTICKFORMAT="(A1)",YTICKFORMAT="(A1)"
+          xrange=x_range, yrange=y_range,/ylog, charsize=1, Position=positions[*,plot_i],/NoErase,XTICKFORMAT="(A1)",YTICKFORMAT="(A1)", symsize=1.1
           
       endif
       
       if plot_i EQ 3 then begin
-        cglegend, Title=name_array[papers_i], color=color_names[papers_i], location = locations[*,papers_i], psym=sym_num[papers_i], charsize=1,Length=0
+        if papers_i NE 8 then cglegend, Title=name_array[papers_i], color=color_names[papers_i], location = locations[*,papers_i], psym=sym_num[papers_i], charsize=1,Length=0,symsize=1.1 $
+        else cglegend, Title=name_array[papers_i], color=color_names[papers_i], location = [.435,-.024], psym=sym_num[papers_i], charsize=1,Length=0,symsize=1.1
         ;stop
       endif
       

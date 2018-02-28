@@ -1,5 +1,9 @@
 pro pfb_edge_compare
 
+  dig_jump_plot=0
+  all_edge_plot=0
+  ;or channel edges after dig jump
+  
   filename='/nfs/eor-00/h1/nbarry/MWA/IDL_code/obs_list/beardsley_thesis_list.txt'
   readcol, filename, obsids, format='A', /silent
   
@@ -99,6 +103,7 @@ pro pfb_edge_compare
     for pol_i=0,0 do begin
       for obs_i=0, n_obs-1 do begin
         cal = getvar_savefile('/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/calibration/'+strtrim(obsids[obs_i],2)+'_cal.sav','cal')
+        ;cal = getvar_savefile('/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/calibration/'+strtrim(obsids[obs_i],2)+'_cal.sav','cal')
         (*cal.gain[pol_i]) = (*cal.gain[pol_i]) + (*cal.gain_residual[pol_i])
         
         ;        for tile_j=0, N_elements(*tile_use_arr[1])-1 do begin
@@ -159,32 +164,57 @@ pro pfb_edge_compare
       endfor
       dig_jump_coarse = mean(reform(all_sub_obsave[pol_i,[16,17,18,19,20,21,22,23],*,*]),dim=1) ;after dig jump = [16,17,18,19,20,21,22,23] ;before dig jump = [10,11,12,13,14,15]
       dig_jump_edges[pol_i,day_i,*] = mean(dig_jump_coarse[[0,14],*], dim=1) ;choose first and last frequency channels for each cable type
-    ;edges[pol_i,day_i,*,*] =  mean(reform(all_sub_obsave[pol_i,*,[0,14],*]),dim=2)
-    ;digjump_amount_obsavg
+      edges[pol_i,day_i,*,*] =  mean(reform(all_sub_obsave[pol_i,*,[0,14],*]),dim=2)
     endfor
-    make_plots=0
+    make_plots=1
+    plot_autos=1
     if keyword_set(make_plots) then begin
       freq_arr = (*obs.baseline_info).freq
-      cgps_open, '/nfs/eor-00/h1/nbarry/pfb/gain_residuals/'+string(strtrim(day_i,2),FORMAT='(I02)')+'pfb_'+day_name_array[day_i]+'zenith.png',/quiet,/nomatch
-      cgplot, freq_arr[freq_use], pfb_set[day_i,0,*,3], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]], freq_arr[freq_use[335]]], $
-        Position=[0.10, 0.85, 0.9, 0.95], XTICKFORMAT="(A1)", charsize=0.7, title = 'LMR400_320'
-      cgplot, freq_arr[freq_use], pfb_set[day_i, 0,*,5], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]], freq_arr[freq_use[335]]], $
-        Position=[0.10, 0.7, 0.9, 0.80],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='LMR400_524'
-      cgplot, freq_arr[freq_use], pfb_set[day_i,0,*,2], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]], freq_arr[freq_use[335]]], $
-        Position=[0.10, 0.55, 0.9, 0.65],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='RG6_230'
-      cgplot, freq_arr[freq_use], pfb_set[day_i,0,*,0], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]], freq_arr[freq_use[335]]], $
-        Position=[0.10, 0.4, 0.9, 0.50],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='RG6_90'
-      cgplot, freq_arr[freq_use], pfb_set[day_i,0,*,4], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]], freq_arr[freq_use[335]]], $
-        Position=[0.10, 0.25, 0.9, 0.35],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='LMR400_400'
-      cgplot, freq_arr[freq_use], pfb_set[day_i,0,*,2], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]], freq_arr[freq_use[335]]], $
-        Position=[0.10, 0.1, 0.9, 0.20],/NoErase, charsize=0.7, title='RG6_150', xtitle='Frequency'
-      cgtext,.1,.96,day_name_array[day_i] + ' zenith pointing',/normal, charsize=1
+      color_i='black'
+      if keyword_set(plot_autos) then begin
+        restore, '/nfs/eor-00/h1/nbarry/pfb/pfb_set_auto.sav'
+        color_j='royal blue'
+      endif
+      cgps_open, '/nfs/eor-00/h1/nbarry/pfb/gain_residuals/'+string(strtrim(day_i,2),FORMAT='(I02)')+'pfb_'+day_name_array[day_i]+'zenith.pdf',/quiet,/nomatch
+      cgplot, freq_arr[freq_use] / 1e6, pfb_set[day_i,0,*,0], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.85, 0.9, 0.95], XTICKFORMAT="(A1)", charsize=0.7, title = 'RG6_90', yticks=2, color=color_i
+      if keyword_set(plot_autos) then $
+        cgoplot, freq_arr[freq_use] / 1e6, pfb_set_auto[day_i,0,*,0], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.85, 0.9, 0.95], XTICKFORMAT="(A1)",YTICKFORMAT="(A1)", charsize=0.7,  yticks=2, color=color_j, /noerase
+      cgplot, freq_arr[freq_use] / 1e6, pfb_set[day_i, 0,*,1], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.7, 0.9, 0.80],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='RG6_150', yticks=2, color=color_i
+      if keyword_set(plot_autos) then $
+        cgoplot, freq_arr[freq_use] / 1e6, pfb_set_auto[day_i, 0,*,1], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.7, 0.9, 0.80],/NoErase, XTICKFORMAT="(A1)",YTICKFORMAT="(A1)", charsize=0.7,  yticks=2, color=color_j
+      cgplot, freq_arr[freq_use] / 1e6, pfb_set[day_i,0,*,2], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.55, 0.9, 0.65],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='RG6_230', yticks=2, color=color_i
+      if keyword_set(plot_autos) then $
+        cgoplot, freq_arr[freq_use] / 1e6, pfb_set_auto[day_i,0,*,2], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.55, 0.9, 0.65],/NoErase, XTICKFORMAT="(A1)",YTICKFORMAT="(A1)", charsize=0.7,  yticks=2, color=color_j
+      cgplot, freq_arr[freq_use] / 1e6, pfb_set[day_i,0,*,3], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.4, 0.9, 0.50],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='LMR400_320', yticks=2, color=color_i
+      if keyword_set(plot_autos) then $
+        cgoplot, freq_arr[freq_use] / 1e6, pfb_set_auto[day_i,0,*,3], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.4, 0.9, 0.50],/NoErase, XTICKFORMAT="(A1)",YTICKFORMAT="(A1)", charsize=0.7,  yticks=2, color=color_j
+      cgplot, freq_arr[freq_use] / 1e6, pfb_set[day_i,0,*,4], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.25, 0.9, 0.35],/NoErase, XTICKFORMAT="(A1)", charsize=0.7, title='LMR400_400', yticks=2, color=color_i
+      if keyword_set(plot_autos) then $
+        cgoplot, freq_arr[freq_use] / 1e6, pfb_set_auto[day_i,0,*,4], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.25, 0.9, 0.35],/NoErase, XTICKFORMAT="(A1)",YTICKFORMAT="(A1)", charsize=0.7,  yticks=2, color=color_j
+      cgplot, freq_arr[freq_use] / 1e6, pfb_set[day_i,0,*,5], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.1, 0.9, 0.20],/NoErase, charsize=0.7, title='LMR400_524', yticks=2, color=color_i
+      if keyword_set(plot_autos) then $
+        cgoplot, freq_arr[freq_use] / 1e6, pfb_set_auto[day_i,0,*,5], yrange=[.97,1.03], xrange = [freq_arr[freq_use[0]] / 1e6, freq_arr[freq_use[335]] / 1e6], $
+        Position=[0.10, 0.1, 0.9, 0.20],/NoErase, charsize=0.7, yticks=2, color=color_j
+      ;cgtext,.1,.96,day_name_array[day_i] + ' zenith pointing',/normal, charsize=1
+      cgtext,.1,.96,'Cross',/normal, charsize=1,color=color_i
+      if keyword_set(plot_autos) then cgtext,.855,.96,'Auto',/normal, charsize=1,color=color_j
+      cgtext, .05,.355, 'Center-normalized gain',/Normal,charsize=1.2, orientation=90.
+      cgtext, .4,.025, 'Frequency (MHz)',/Normal,charsize=1.2
       cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
+      stop
     endif
   endfor
-  
-  ;rgbcolors = [[59,245,7],[49,219,26],[29,181,69],[11,158,107],[10,245,174],[10,196,178],[5,215,247],[6,145,191],[9,104,237],[8,89,201],$
-  ;  [55,87,230],[19,38,242],[74,44,245],[108,69,247],[59,12,247],[160,78,237],[122,5,247]]
   
   rgbcolors= $
     [[177,22,51],$
@@ -205,62 +235,144 @@ pro pfb_edge_compare
     [0,56,185],$
     [132,115,255]]
   rgbcolors=reverse(rgbcolors)
-  
-  
-  ;rgbcolors=[[69,190,207],[144,23,3],[240,87,249],[45,165,30],[42,25,77],[1,53,8],[167,138,28],[251,193,236],[52,86,193],[246,229,194],[148,33,145],[253,88,89],[239,233,110],$
-  ;  [14,128,63],[96,50,14],[176,247,108],[74,126,157],[47,14,36],[212,120,250],[202,29,168]]
   color_num = [10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48]
   
+  if keyword_set(all_edge_plot) then begin
+    rgbcolors=$
+      [[228,134,161],$
+      [214,63,91],$
+      [164,79,86],$
+      [200,79,48],$
+      [217,144,103],$
+      [219,133,46],$
+      [137,106,42],$
+      [198,167,62],$
+      [153,181,52],$
+      [159,178,106],$
+      [82,115,55],$
+      [73,147,61],$
+      [95,196,87],$
+      [81,183,144],$
+      [70,174,206],$
+      [100,138,212],$
+      [99,101,214],$
+      [101,87,160],$
+      [186,126,223],$
+      [194,150,217],$
+      [164,79,201],$
+      [210,85,181],$
+      [156,79,136],$
+      [209,67,131]]
+    rgbcolors=reverse(rgbcolors)
+    color_num = [10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56]
+  endif
+  
   nonzero = where((dig_jump_edges[0,*,0] NE 0) AND (temperature_array[*,0] NE 0))
-  for n_i=0, N_elements(nonzero)-1 do $
+  ;if keyword_set(all_edge_plot) then begin
+  ;  for coarse_i=0, 23 do begin
+  ;    if coarse_i eq 0 then color_iter = INTARR(N_elements(nonzero))+coarse_i else color_iter = [color_iter, INTARR(N_elements(nonzero))+coarse_i]
+  ;  endfor
+  ;endif else
+  color_iter = nonzero  ;colors per coarse band or per day
+  
+  ;for n_i=0, N_elements(color_iter)-1 do $
+  for n_i=0, N_elements(rgbcolors[0,*])-1 do $
     TVLCT, rgbcolors[0,n_i], rgbcolors[1,n_i], rgbcolors[2,n_i], color_num[n_i]
     
-  color_byte = [10B,12B,14B,16B,18B,20B,22B,24B,26B,28B,30B,32B,34B,36B,38B,40B,42B];,44B,46B,48B]
+  if keyword_set(all_edge_plot) then begin
+    color_byte = [10B,12B,14B,16B,18B,20B,22B,24B,26B,28B,30B,32B,34B,36B,38B,40B,42B,44B,46B,48B,50B,52B,54B,56B]
+  ;for coarse_i=0, 23 do begin
+  ;  if coarse_i eq 0 then color_byte = BYTARR(N_elements(nonzero))+pre_color_byte[coarse_i] else color_byte = [color_byte, BYTARR(N_elements(nonzero))+pre_color_byte[coarse_i]]
+  ;endfor
+  endif else color_byte = [10B,12B,14B,16B,18B,20B,22B,24B,26B,28B,30B,32B,34B,36B,38B,40B,42B]
   temperature_array2 = temperature_array[nonzero,*]
+  
   stop
-  dig_jump_plot=1
+  
   if keyword_set(dig_jump_plot) then begin
     cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_digjump.pdf',/quiet,/nomatch
     x_range= [.01,.1]
     dig_jump_edges = digjump_amount_byday
   endif else begin
-    cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_postdig.png',/quiet,/nomatch
-    
-  ;x_range= [.984,.988] ;predig
-    x_range= [.985,1.005] ;postdig
+    if keyword_set(all_edge_plot) then begin
+      cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_allcoarseedges.pdf',/quiet,/nomatch
+      x_range= [.98,1.01]
+      edges = edges[*,nonzero,*,*]
+    ;dig_jump_edges = reform(edges,2,(N_elements(nonzero)*24),6)
+    endif else begin
+      cgps_open,'/nfs/eor-00/h1/nbarry/pfb/gain_residuals/temp_season_postdig.png',/quiet,/nomatch
+      ;x_range= [.984,.988] ;predig
+      x_range= [.985,1.005] ;postdig
+    endelse
   endelse
   
-  cgplot, dig_jump_edges[0,nonzero,0], mean(temperature_array2[*,(*tile_use_arr[0])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.70, 0.45, 0.92], /NoErase,/NoData, title='RG6_90'
-  for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],0], mean(temperature_array2[n_i,(*tile_use_arr[0])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.70, 0.45, 0.920],/NoErase,xstyle=4,ystyle=4
+  if ~keyword_set(all_edge_plot) then begin
+    cgplot, dig_jump_edges[0,color_iter,0], mean(temperature_array2[*,(*tile_use_arr[0])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.70, 0.45, 0.92], /NoErase,/NoData, title='RG6_90'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],0], mean(temperature_array2[n_i,(*tile_use_arr[0])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.70, 0.45, 0.920],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,1], mean(temperature_array2[*,(*tile_use_arr[1])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.70, 0.85, 0.92],/NoErase,/NoData,title='RG6_150'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],1], mean(temperature_array2[n_i,(*tile_use_arr[1])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.70, 0.85, 0.920],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,2], mean(temperature_array2[*,(*tile_use_arr[2])],dim=2), xrange=x_range, yrange=[10,40], psym=16, title='RG6_230' ,charsize=.9, Position=[0.10, 0.4, 0.45, 0.620],/NoErase,/NoData
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],2], mean(temperature_array2[n_i,(*tile_use_arr[2])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.4, 0.45, 0.620],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,3], mean(temperature_array2[*,(*tile_use_arr[3])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.4, 0.85, 0.620],/NoErase,/NoData, title='LMR400_320'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],3], mean(temperature_array2[n_i,(*tile_use_arr[3])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.4, 0.85, 0.620],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,4], mean(temperature_array2[*,(*tile_use_arr[4])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.1, 0.45, 0.320],/NoErase,/NoData, title='LMR400_400'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],4], mean(temperature_array2[n_i,(*tile_use_arr[4])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.1, 0.45, 0.320],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,5], mean(temperature_array2[*,(*tile_use_arr[5])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.1, 0.85, 0.320],/NoErase,/NoData, title='LMR400_524'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],5], mean(temperature_array2[n_i,(*tile_use_arr[5])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.1, 0.85, 0.320],/NoErase,xstyle=4,ystyle=4
+      
+    if keyword_set(dig_jump_plot) then cgtext, .335,.025, 'Average Digital Gain Jump',/Normal,charsize=1.2 else $
+      cgtext, .17,.025, 'Average Edge Channel Gain (after digital gain jump)',/Normal,charsize=1.2
+    cgtext, .05,.32, 'Average Temperature ('+cgSymbol('deg')+'C)',/Normal,charsize=1.2, orientation=90.
     
-  cgplot, dig_jump_edges[0,nonzero,1], mean(temperature_array2[*,(*tile_use_arr[1])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.70, 0.85, 0.92],/NoErase,/NoData,title='RG6_150'
-  for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],1], mean(temperature_array2[n_i,(*tile_use_arr[1])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.70, 0.85, 0.920],/NoErase,xstyle=4,ystyle=4
+    cglegend, Title=day_name_array[nonzero], color=color_byte, location = [.885,.75], psym=16, charsize=1,Length=0.0
     
-  cgplot, dig_jump_edges[0,nonzero,2], mean(temperature_array2[*,(*tile_use_arr[2])],dim=2), xrange=x_range, yrange=[10,40], psym=16, title='RG6_230' ,charsize=.9, Position=[0.10, 0.4, 0.45, 0.620],/NoErase,/NoData
-  for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],2], mean(temperature_array2[n_i,(*tile_use_arr[2])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.4, 0.45, 0.620],/NoErase,xstyle=4,ystyle=4
+    cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
+  endif else begin
+    cgplot, edges[0,*,*,0], mean(temperature_array2[*,(*tile_use_arr[0])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.70, 0.45, 0.92], /NoData, title='RG6_90'
+    for n_i=0, 23 do cgplot, edges[0,*,n_i,0], mean(temperature_array2[n_i,(*tile_use_arr[0])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.70, 0.45, 0.920],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,1], mean(temperature_array2[*,(*tile_use_arr[1])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.70, 0.85, 0.92],/NoErase,/NoData,title='RG6_150'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],1], mean(temperature_array2[n_i,(*tile_use_arr[1])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.70, 0.85, 0.920],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,2], mean(temperature_array2[*,(*tile_use_arr[2])],dim=2), xrange=x_range, yrange=[10,40], psym=16, title='RG6_230' ,charsize=.9, Position=[0.10, 0.4, 0.45, 0.620],/NoErase,/NoData
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],2], mean(temperature_array2[n_i,(*tile_use_arr[2])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.4, 0.45, 0.620],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,3], mean(temperature_array2[*,(*tile_use_arr[3])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.4, 0.85, 0.620],/NoErase,/NoData, title='LMR400_320'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],3], mean(temperature_array2[n_i,(*tile_use_arr[3])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.4, 0.85, 0.620],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,4], mean(temperature_array2[*,(*tile_use_arr[4])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.1, 0.45, 0.320],/NoErase,/NoData, title='LMR400_400'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],4], mean(temperature_array2[n_i,(*tile_use_arr[4])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.1, 0.45, 0.320],/NoErase,xstyle=4,ystyle=4
+      
+    cgplot, dig_jump_edges[0,color_iter,5], mean(temperature_array2[*,(*tile_use_arr[5])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.1, 0.85, 0.320],/NoErase,/NoData, title='LMR400_524'
+    for n_i=0, N_elements(color_iter)-1 do cgplot, dig_jump_edges[0,color_iter[n_i],5], mean(temperature_array2[n_i,(*tile_use_arr[5])],dim=2), color=color_byte[n_i],$
+      xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.1, 0.85, 0.320],/NoErase,xstyle=4,ystyle=4
+      
+    if keyword_set(dig_jump_plot) then cgtext, .335,.025, 'Average Digital Gain Jump',/Normal,charsize=1.2 else $
+      cgtext, .17,.025, 'Average Edge Channel Gain (after digital gain jump)',/Normal,charsize=1.2
+    cgtext, .05,.32, 'Average Temperature ('+cgSymbol('deg')+'C)',/Normal,charsize=1.2, orientation=90.
     
-  cgplot, dig_jump_edges[0,nonzero,3], mean(temperature_array2[*,(*tile_use_arr[3])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.4, 0.85, 0.620],/NoErase,/NoData, title='LMR400_320'
-  for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],3], mean(temperature_array2[n_i,(*tile_use_arr[3])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.4, 0.85, 0.620],/NoErase,xstyle=4,ystyle=4
+    cglegend, Title=day_name_array[nonzero], color=color_byte, location = [.885,.75], psym=16, charsize=1,Length=0.0
     
-  cgplot, dig_jump_edges[0,nonzero,4], mean(temperature_array2[*,(*tile_use_arr[4])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.10, 0.1, 0.45, 0.320],/NoErase,/NoData, title='LMR400_400'
-  for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],4], mean(temperature_array2[n_i,(*tile_use_arr[4])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.10, 0.1, 0.45, 0.320],/NoErase,xstyle=4,ystyle=4
+    cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
     
-  cgplot, dig_jump_edges[0,nonzero,5], mean(temperature_array2[*,(*tile_use_arr[5])],dim=2), xrange=x_range, yrange=[10,40], psym=16, charsize=.9, Position=[0.5, 0.1, 0.85, 0.320],/NoErase,/NoData, title='LMR400_524'
-  for n_i=0, N_elements(nonzero)-1 do cgplot, dig_jump_edges[0,nonzero[n_i],5], mean(temperature_array2[n_i,(*tile_use_arr[5])],dim=2), color=color_byte[n_i],$
-    xrange=x_range, yrange=[10,40], psym=16, XTICKFORMAT="(A1)", YTICKFORMAT="(A1)", Position=[0.5, 0.1, 0.85, 0.320],/NoErase,xstyle=4,ystyle=4
-    
-  if keyword_set(dig_jump_plot) then cgtext, .335,.025, 'Average Digital Gain Jump',/Normal,charsize=1.2 else $
-    cgtext, .17,.025, 'Average Edge Channel Gain (after digital gain jump)',/Normal,charsize=1.2
-  cgtext, .05,.32, 'Average Temperature ('+cgSymbol('deg')+'C)',/Normal,charsize=1.2, orientation=90.
+  endelse
   
-  cglegend, Title=day_name_array[nonzero], color=color_byte, location = [.885,.75], psym=16, charsize=1,Length=0.0
-  
-  cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
   
   stop
   

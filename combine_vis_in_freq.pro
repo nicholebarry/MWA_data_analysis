@@ -2,8 +2,9 @@ pro combine_vis_in_freq
 
   cadence=20.
   n_freq=384.
-  obsid='1061316296'
-  file_path_root='/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/fhd_nb_bubble_removesimflags_'
+  ;obsid='1061316296'
+  obsid='1163765528'
+  file_path_root='/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/fhd_nb_hash_phaseII_'
   n_chunks=floor(n_freq/cadence)
   
   for chunk_i=0, n_chunks-1 do begin
@@ -25,8 +26,8 @@ pro combine_vis_in_freq
   endfor
   
   stop
-  save, vis_total_XX, filename='/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/fhd_nb_bubble_removesimflags/vis_data/'+obsid+'_vis_XX.sav'
-  save, vis_total_YY, filename='/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/fhd_nb_bubble_removesimflags/vis_data/'+obsid+'_vis_YY.sav'
+  save, vis_total_XX, filename='/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/fhd_nb_hash_phaseII/vis_data/'+obsid+'_vis_XX.sav'
+  save, vis_total_YY, filename='/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/fhd_nb_hash_phaseII/vis_data/'+obsid+'_vis_YY.sav'
   stop
   
 end

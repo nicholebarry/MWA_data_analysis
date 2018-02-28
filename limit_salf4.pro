@@ -5,11 +5,11 @@ pro limit_salf4
   n_cubes=4
   
   cut = STRARR(n_cubes)
-  ;cut[2]='wedge_cut_plus_res_cut'
+  cut[2]='wedge_cut_plus_res_cut'
   ;cut[2]='Aug23_longrunstyle'
   ;cut[2] = 'beardsley_thesis_list_8shist'
   cut[3] = 'beardsley_thesis_list'
-  cut[2] = 'beardsley_thesis_list'
+  ;cut[2] = 'beardsley_thesis_list'
   ;cut[1] = 'beardsley_thesis_list_firstthird'
   cut[1] = 'beardsley_thesis_list'
   ;cut[0] = 'beardsley_thesis_lis_noautocutt'
@@ -18,44 +18,47 @@ pro limit_salf4
   chans = strarr(n_cubes)
   chans[0]='ch0-95_' & band='low'
   ;chans='ch0-127_'
-  chans[2]='ch96-191_' & band='high'
-  chans[1]='ch48-143_' & band='mid'
+  chans[2]='ch0-95_' & band='high'
+  chans[1]='ch5-120_' & band='mid'
   chans[3]='ch10-127_'
   ;chans=''
   
   win = strarr(n_cubes)
-  win[3]='tk_'
-  win[2]='tk_'
-  win[1]='tk_'
+  win[3]='_'
+  win[2]=''
+  win[1]='bh_'
   win[0]='tk_'
   
   spec_window='bh_'
   
   basefile = STRARR(n_cubes)
-  ;basefile[2]=['/nfs/mwa-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/ps_jan2016/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_'+win[2]+chans]
+  basefile[2]=['/nfs/mwa-03/r1/EoR2013/fhd_apb_EoR0_high_sem1_1/ps_jan2016/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_'+win[2]+chans[2]]
   ;basefile[2]=['/nfs/mwa-05/r1/EoRuvfits/EoR2013/fhd_nb_2013longrun_savedbp/ps_large/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_tk_'+chans+'_']
-  basefile[3]=['/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/ps_redo/Combined_obs_'+cut[3]+'_cubeXX__even_odd_joint_'+win[3]+chans[3]]
-  basefile[2]=['/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/ps/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_'+win[2]+chans[2]]
+  basefile[3]=['/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/ps_bh/Combined_obs_'+cut[3]+'_cubeXX__even_odd_joint_'+win[3]+chans[3]]
+  ;basefile[2]=['/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/ps/Combined_obs_'+cut[2]+'_cubeXX__even_odd_joint_'+win[2]+chans[2]]
   ;basefile[1]=['/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_Aug2017_globalbp_w_cable_w_digjump/ps/Combined_obs_'+cut[1]+'_cubeXX__even_odd_joint_'+win[1]+chans]
   ;basefile[1]=['/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/ps/Combined_obs_'+cut[1]+'_cubeXX__even_odd_joint_'+win[1]+'ch0-127_']
-  basefile[1]=['/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/ps/Combined_obs_'+cut[1]+'_cubeXX__even_odd_joint_'+win[1]+chans[1]]
+  basefile[1]=['/nfs/mwa-01/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal_pskspan100/ps_bh/Combined_obs_'+cut[1]+'_cubeXX__even_odd_joint_maxuv100_'+win[1]+chans[1]]
   basefile[0]=['/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/ps/Combined_obs_'+cut[0]+'_cubeXX__even_odd_joint_'+win[0]+chans[0]]
   
   ranges=PTRARR(n_cubes,/allocate)
   *ranges[0]=[5,6,7,8,9,17,18,19,20,21,29,30,31,32,33,41,42]
-  *ranges[1]=[5,6,7,8,9,17,18,19,20,21,29,30,31,32,33,41,42,43]
-  *ranges[2]=[5,6,7,8,9,17,18,19,20,21,29,30,31,32,33,41,42,43]
+  ;*ranges[1]=[5,6,7,8,9,17,18,19,20,21,29,30,31,32,33,41,42,43]
+  ;*ranges[1]=[3,4,5,6,7,8,16,17,18,19,20,21,22,23,24,29,30,31,32,33,34,35,36,44,45,46,47,48,49,50,51,52,53,54]
+  ;*ranges[1]=[0,1,2,9,10,11,12,13,14,24,25,26,27,28,29,37,38,39,40,41,42,43,55,56,57]
+  ;*ranges[2]=[5,6,7,8,9,17,18,19,20,21,29,30,31,32,33,41,42,43]
+  *ranges[2]=intarr(41)
   *ranges[3]=[6,7,8,9,10,11,21,22,23,24,25,26,36,37,38,39,40,41,50,51,52]
   
   cubes=['res']
   pols=['yy']
   
   endfile = STRARR(n_cubes)
-  ;endfile[2]='_bh_dencorr_no_120deg_wedge_cbw3_kperplambda10-60_kpar0.15-200_1dkpower.idlsave'
+  endfile[2]='_bh_dencorr_no_120deg_wedge_cbw3_kperplambda10-60_kpar0.15-200_1dkpower.idlsave'
   ;endfile[2]='_averemove_bh_dencorr_no_horizon_wedge_kperplambda10-50_1dkpower.idlsave'
   endfile[3]='_averemove_'+spec_window+'dencorr_no_120deg_wedge_kperplambda10-60_1dkpower.idlsave'
-  endfile[2]='_averemove_'+spec_window+'dencorr_no_120deg_wedge_kperplambda10-60_1dkpower.idlsave'
-  endfile[1]='_averemove_'+spec_window+'dencorr_no_120deg_wedge_kperplambda10-60_1dkpower.idlsave'
+  ;endfile[2]='_averemove_'+spec_window+'dencorr_no_120deg_wedge_kperplambda10-60_1dkpower.idlsave'
+  endfile[1]='_averemove_sw'+spec_window+'dencorr_no_110deg_wedge_kperplambda20-80_1dkpower.idlsave'
   endfile[0]='_averemove_'+spec_window+'dencorr_no_120deg_wedge_kperplambda10-60_1dkpower.idlsave'
   
   limit_percent=0.9772 ;2 sigma
@@ -63,13 +66,16 @@ pro limit_salf4
   
   ;color_array=['black','blue','green','purple']
   color_num = [10,12,14,16]
-  ;rgbcolors = [[137,117,202],[113,166,89],[203,86,131],[197,120,62]]
-  rgbcolors=[[131,119,203],[114,166,89],[202,86,139],[91,169,101]];,[198,118,63]]
+  rgbcolors = [[137,117,202],[113,166,89],[203,86,131],[197,120,62]]
+  ;rgbcolors=[[131,119,203],[114,166,89],[202,86,139],[91,169,101]];,[198,118,63]]
   
   for n_i=0, n_cubes-1 do $
     TVLCT, rgbcolors[0,n_i], rgbcolors[1,n_i], rgbcolors[2,n_i], color_num[n_i]
     
   color_array = [10B,12B,14B,16B]
+  
+  pdf_plot=0
+  if keyword_set(pdf_plot) then thickness = 5 else thickness = 3
   
   for j=0,N_elements(pols)-1 do begin
     for cube_i=0,n_cubes-1 do begin
@@ -81,29 +87,46 @@ pro limit_salf4
       k=(k_edges[1:(n_k-1)]+k_edges[0:(n_k-2)])/2.
       delta=power*(k^3.)/(2.*!pi^2.)
       dsigma=(k^3.)/(2.*!pi^2.)/sqrt(weights)
+      if cube_i EQ 1 then dsigma[0] = !Values.F_INFINITY
       ;limits=abs(delta)+2.*dsigma ; actual value plus two sigma
       limits=dsigma*(inverf(limit_percent-(1.-limit_percent)*erf(delta/dsigma/sqrt(2)))*sqrt(2))+delta
       lim=min(limits,ind)
       header='#Limit: '+number_formatter(lim)+' mK^2, at k = '+number_formatter(k[ind]/hubble_param)+' h Mpc^-1 ('+cut[cube_i]+' '+chans+' '+cubes+' '+win[cube_i]+' '+pols[j]+')'
       print,header
       
-      ;remove first bins
-      limits=limits[3:N_elements(limits)-1]
-      limits[*ranges[cube_i]] = !Values.F_NAN
-      k=k[3:N_elements(k)-1]/hubble_param
+;      if (cube_i NE 3) AND (cube_i NE 1) then begin
+;      ;remove first bins
+;      ;limits=limits[3:N_elements(limits)-1]
+;      limits[*ranges[cube_i]] = !Values.F_NAN
+;      ;k=k[3:N_elements(k)-1]/hubble_param
+      k=k/hubble_param
+;      endif else begin
+;        
+;        limits=limits[3:N_elements(limits)-1]
+;      limits[*ranges[cube_i]] = !Values.F_NAN
+;      
+;      k=k[3:N_elements(k)-1]/hubble_param
+;        endelse
       
-      ;if (cube_i EQ 0) then cgPS_Open,'/nfs/mwa-00/h1/nbarry/'+pols[j]+'_limit_comparison_salf_1.png',/quiet,/nomatch
-      if cube_i EQ 3 then cgplot, k,abs(limits),/xlog,/ylog,psym=10, xrange=[.15,1.7], yrange=[10^2.,10^7.],ytitle='$\Delta$$\up2$ (mK$\up2$)', $
-        xtitle='k (h Mpc$\up-1$)', title='UW preliminary EoR limit', charsize =1.25, color=color_array[cube_i],thick=5; else $
+      
+      
+      ;if (cube_i EQ 0) then cgPS_Open,'/nfs/mwa-00/h1/nbarry/'+pols[j]+'_limit_US_MWA_prelim_compare.png',/quiet,/nomatch
+      if (cube_i EQ 1) then cgplot, k,abs(limits),/xlog,/ylog,psym=10, xrange=[.15,1.7], yrange=[10^2.,10^7.],ytitle='$\Delta$$\up2$ (mK$\up2$)', $
+        xtitle='k (h Mpc$\up-1$)', title='US MWA preliminary EoR limit', charsize =1.25, color=color_array[cube_i],thick=thickness
+      if (cube_i EQ 2) then cgoplot, k,abs(limits),/xlog,/ylog,psym=10, xrange=[.15,1.7], yrange=[10^2.,10^7.],ytitle='$\Delta$$\up2$ (mK$\up2$)', $
+        xtitle='k (h Mpc$\up-1$)', title='US MWA preliminary EoR limit', charsize =1.25, color=color_array[cube_i],thick=thickness
+      ;if (cube_i EQ 3) then cgoplot, k,abs(limits),/xlog,/ylog,psym=10, xrange=[.15,1.7], yrange=[10^2.,10^7.],ytitle='$\Delta$$\up2$ (mK$\up2$)', $
+      ;  xtitle='k (h Mpc$\up-1$)', title='US MWA preliminary EoR limit', charsize =1.25, color=color_array[cube_i],thick=thickness; else $
       ;    cgoplot, k,abs(limits),/xlog,/ylog,psym=10, xrange=[.08,1.5],color=color_array[cube_i],thick=3
-      if cube_i EQ 3 then  cgoplot, k,dsigma,/xlog,/ylog,psym=10,linestyle=2, color=color_array[cube_i],thick=5
+      if (cube_i EQ 2) OR (cube_i EQ 1) then  cgoplot, k,dsigma,/xlog,/ylog,psym=10,linestyle=2, color=color_array[cube_i],thick=thickness
       
       
     endfor
     ;cglegend, title=['z=7.1','z=6.8','z=6.5','z=7'],color=color_array, location=[.2,.85], charsize=1, thick=3
-    cglegend, title=['z=7 upper limit','1$\sigma$ noise'],color=[color_array[3],color_array[3]], location=[.18,.85], charsize=1.25, thick=5, linestyle=[0,2]
+    ;cglegend, title=['z=7 upper limit','1$\sigma$ noise','Beardsley 2016'],color=[color_array[3],color_array[3],color_array[2]], location=[.18,.85], charsize=1.25, thick=5, linestyle=[0,2,0]
+    ;cglegend, title=['Beardsley z=7.1','z=7 upper limit, image BH, 100$\lambda$'],color=[color_array[2],color_array[1]], location=[.18,.85], charsize=1.25, thick=thickness, linestyle=[0,0,0]
     ;cgPS_Close,/png,Density=300,Resize=100.,/allow_transparent,/nomessage
-    
+    stop
     ;add_others=1
     if keyword_set(add_others) then begin
       n_papers=8
