@@ -30,7 +30,7 @@ def main():
 	subversion=1
 
 	#Get obsids to download
-	obsfile_name='/nfs/mwa-00/h1/nbarry/MWA/IDL_code/obs_list/data_update5.txt'
+	obsfile_name='/nfs/mwa-00/h1/nbarry/MWA/IDL_code/obs_list/data_update6.txt'
 	obsfile = open(obsfile_name, "r")
 	obsids = [line.split( ) for line in obsfile.readlines()]
 	obsids = [obs[0] for obs in obsids]

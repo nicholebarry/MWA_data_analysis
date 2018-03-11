@@ -30,7 +30,7 @@ def main():
 	subversion=1
 
 	#Get obsids to download
-	obsfile_name='/nfs/mwa-00/h1/nbarry/MWA/IDL_code/obs_list/data_update6.txt'
+	obsfile_name='/nfs/mwa-00/h1/nbarry/obsids_batch.txt'
 	obsfile = open(obsfile_name, "r")
 	obsids = [line.split( ) for line in obsfile.readlines()]
 	obsids = [obs[0] for obs in obsids]
@@ -60,7 +60,7 @@ def main():
 
 		#Open up the metafits file that was made with the uvfits file (assumes they are in the same location)
 		#metafits_file = "/nfs/mwa-14/r1/EoRuvfits/batch/" + obsid + ".metafits"
-		metafits_file = "/nfs/mwa-13/r1/EoRuvfits/batch/" + obsid + ".metafits"
+		metafits_file = "/nfs/mwa-11/r1/EoRuvfits/batch/" + obsid + ".metafits"
 		if not os.path.exists(metafits_file):
 			print metafits_file + ' does not exist, skipping'
 			continue
@@ -80,7 +80,7 @@ def main():
 		#cur.execute("UPDATE uvfits SET (cotter_version,bottom_freq_mhz,top_freq_mhz)=(%s,%s,%s) WHERE (path,obsid)=(%s,%s);", \
 			#(cotter_version,bottom_freq_mhz,top_freq_mhz,"/nfs/eor-14/r1/EoRuvfits/batch/" + obsid + ".uvfits",obsid))
 		cur.execute("UPDATE uvfits SET (bottom_freq_mhz,top_freq_mhz)=(%s,%s) WHERE (path,obsid)=(%s,%s);", \
-			(bottom_freq_mhz,top_freq_mhz,"/nfs/eor-13/r1/EoRuvfits/batch/" + obsid + ".uvfits",obsid))
+			(bottom_freq_mhz,top_freq_mhz,"/nfs/eor-11/r1/EoRuvfits/batch/" + obsid + ".uvfits",obsid))
 		conn.commit()
 
 	#Commit all the cur.execute, and close the connection.
