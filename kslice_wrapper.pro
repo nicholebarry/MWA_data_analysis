@@ -1,16 +1,11 @@
 pro kslice_wrapper
 
-  obs_name='beardsley_thesis_list_minustwo'
-  ;obs_name= 'Aug23_longrunstyle'
-  ;obs_name= 'obs_id_6296'
-  ;obs_name= '1061316296'
-  ;obs_name='season2_1089577208'
-  ;obs_name='season2_zenith_calcut_1-100'
-  ;obs_name='beardsley_thesis_list_int_chunk1'
+  ;obs_name='beardsley_thesis_list_minustwo'
+  obs_name= 'btl_noalltv'
   
  ;power_filename = '/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal/ps/Combined_obs_'+obs_name+'_cubeXX__even_odd_joint_tk_res_yy_averemove_bh_power.idlsave'
   ;power_filename = '/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_sim_uvf_pskspan300/ps_150/Combined_obs_'+obs_name+'_cubeXX__even_odd_joint_dirty_yy_averemove_bh_power.idlsave'
-  power_filename1 = '/nfs/mwa-01/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal_pskspan100/ps_bh/Combined_obs_'+obs_name+'_cubeXX__even_odd_joint_maxuv100_bh_ch10-127_dirty_yy_swbh_power.idlsave'
+  power_filename1 = 'Combined_obs_btl_noalltv_cubeXX__even_odd_joint_fullimg_ch8-127_res_yy_averemove_swbh_power.idlsave'
   ;power_filename = '/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_Aug2017_autocal1_v2/ps/'+obs_name+'_gridded_uvf__even_odd_joint_res_yy_averemove_bh_power.idlsave'
   restore, power_filename1
   ;power_3D_1 = getvar_savefile(power_filename1, 'power_3D')
@@ -19,7 +14,7 @@ pro kslice_wrapper
   ; dirty_power = getvar_savefile(power_filename, 'power_3D')
   
   ;metadata_struct = getvar_savefile('/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_sim_uvf_pskspan300/ps_uvf/'+obs_name+'_gridded_uvf__even_odd_joint_uvf_info.idlsave','metadata_struct')
-  metadata_struct = getvar_savefile('/nfs/mwa-01/r1/EoRuvfits/analysis/fhd_nb_2013longrun_autocal_pskspan100/ps_bh/Combined_obs_'+obs_name+'_cubeXX__even_odd_joint_info.idlsave','metadata_struct')
+  metadata_struct = getvar_savefile('Combined_obs_'+obs_name+'_cubeXX__even_odd_joint_info.idlsave','metadata_struct')
   freq = metadata_struct.frequencies
   
   z0_freq = 1420.40;E6 ;; Hz
@@ -39,16 +34,17 @@ pro kslice_wrapper
   ;power_weights = (8*(sigma2_1)^2d)
   ;power_1_num = abs(data_sum_1)^2. - abs(data_diff_1)^2.
   
-  ;for kz_i=0, N_elements(freq)/2-1 do begin
-  kz_i=8
+  for kz_i=0, N_elements(freq)/2-1 do begin
+  ;kz_i=8
   wedge_amp = [[fov_amp[kz_i]], [horizon_amp[kz_i]]]
   ;plotfile='/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_sim_uvf_pskspan300/ps_150/kzslice_weights_'+string(strtrim(kz_i,2),FORMAT='(I03)')
   ;noise_ratio is power=reform(noise_3D[*,*,kz_i])*sqrt(reform(weights_3D[*,*,kz_i]))
   ;thermal noise is reform(weight_invert(sqrt(weights_3d[*,*,kz_i])))
   ;power is power=power_3d[*,*,kz_i]
+  plotfile='/Users/nabarry/Desktop/rfi_power/all_tv/'+string(kz_i,format='(I02)')+'.png'
   kpower_slice_plot, power=power_3d[*,*,kz_i], xarr=kx_mpc, yarr=ky_mpc, kz_mpc = kz_mpc, /baseline_axis, /plot_wedge_line, $
-    slice_axis=2, kperp_lambda_conv = kperp_lambda_conv, wedge_amp=wedge_amp, /linear_axes,charsize_in=1,window=3,data_range=[10^(3.),10^(15.)];,plotfile=plotfile,/png;, data_range=[10^3.,10^15.]
-  stop
-;endfor
+    slice_axis=2, kperp_lambda_conv = kperp_lambda_conv, wedge_amp=wedge_amp, /linear_axes,charsize_in=1,window=3,plotfile=plotfile,/png;,data_range=[10^(-33.),10^(-23.)];, data_range=[10^3.,10^15.]
+  ;stop
+endfor
   
 end

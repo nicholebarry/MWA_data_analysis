@@ -1,13 +1,13 @@
 from astropy.io import fits
 import numpy as np
 
-image_file = '/nfs/mwa-01/r1/EoRuvfits/analysis/fhd_nb_channel_7_midobs_-3/output_data/1061313496_uniform_Dirty_XX.fits'
+image_file = '/Users/nabarry/1061319472_uniform_Model_XX_sim.fits'
 hdu_list = fits.open(image_file)
 image_data1 = hdu_list[0].data
 hdu_list.close()
 
 
-image_file = '/nfs/mwa-01/r1/EoRuvfits/analysis/fhd_nb_channel_7_midobs_-2/output_data/1061313496_uniform_Dirty_XX.fits'
+image_file = '/Users/nabarry/1061319472_uniform_Model_XX_BHgrid_sim.fits'
 hdu_list = fits.open(image_file)
 image_data2 = hdu_list[0].data
 hdu_list.close()
@@ -17,9 +17,9 @@ hdu_list.close()
 #final_image[zero_inds]=0
 #final_image_crop = final_image[799:1247,799:1247]
 
-final_image = abs(image_data1 - image_data2)
+final_image = (image_data1 - image_data2)
 
-outfile = '/nfs/mwa-01/r1/EoRuvfits/analysis/fhd_nb_channel_7_midobs/diff_data/dirty_xx_-2.fits'
+outfile = 'model_xx_sim_minus_BHgrid.fits'
 hdu = fits.PrimaryHDU(final_image)
 hdu.writeto(outfile, clobber=True)
 
