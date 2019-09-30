@@ -1,0 +1,8 @@
+
+
+#download CHIPS git repo
+#move all files to a src dir, make a bin dir
+#get SLALIB_C and put into src
+#get cspline.c/h, slalib.h, slamac.h, uvfits.c/h and put into srce. libsla.a will be made upon make
+#modify make file 
+
