@@ -1,0 +1,6413 @@
+skymodel fileformat 1.1
+source {
+  name "FornaxA_SY"
+  component {
+    type point
+    position 03h24m21.219s -37d31m46.183s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.297339038876151 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m02.136s -37d30m58.595s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.679057828319048 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m02.588s -37d30m53.173s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0803464668437267 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m02.134s -37d30m53.195s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0968475369545304 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m04.854s -37d30m42.262s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.107159072420135 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m05.306s -37d30m36.839s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.118734398580217 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m05.757s -37d30m31.417s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.131398400577129 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m19.782s -37d28m42.66s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.134459821805096 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m23.409s -37d28m37.049s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0742222255517862 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m22.502s -37d28m37.102s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0817057969832156 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m20.687s -37d28m37.208s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.1490980727 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m22.953s -37d28m31.675s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0892540636286176 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m23.404s -37d28m26.249s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.161234654118062 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m22.043s -37d28m26.329s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.253961142040779 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m24.309s -37d28m20.794s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.287514873004325 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m23.4s -37d28m15.448s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.340870119640501 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m27.024s -37d28m04.43s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.205967043961631 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m26.57s -37d28m04.458s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.490098778283578 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.608s -37d27m14.949s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.191931229011009 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m23.966s -37d27m18.648s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.197625660429848 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m26.233s -37d27m13.182s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.134475901574739 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m25.779s -37d27m13.196s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.121320879013594 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m24.872s -37d27m13.222s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.10838112233735 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m23.058s -37d27m13.273s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.511293709083517 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m43.323s -37d27m03.961s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.285050862057014 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m42.87s -37d27m03.993s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.315731111055325 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m44.227s -37d26m58.498s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.118838667542054 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m44.678s -37d26m53.066s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.286030265026709 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m45.582s -37d26m47.602s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.410749659057518 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m45.129s -37d26m47.634s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.088850541585765 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m43.457s -37d26m40.198s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.428793810995449 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m43.455s -37d26m34.798s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.111266079734434 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m45.719s -37d26m23.909s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.255046843251007 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h25m02.25s -37d23m31.941s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.401073908441148 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m57.453s -37d23m36.005s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.278268412079858 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m57.0s -37d23m36.026s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.317390168161801 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m58.811s -37d23m30.543s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0901462566750288 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m56.545s -37d23m30.647s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0794559941226715 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m55.639s -37d23m30.687s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.195472104322718 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m08.313s -37d22m52.277s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.132027606828686 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m10.574s -37d22m41.359s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.177561170560857 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m10.121s -37d22m41.383s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.208397649729819 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m09.668s -37d22m41.406s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.159644280196613 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m20.083s -37d22m30.034s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.511820069620012 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m17.818s -37d22m30.163s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.13439675290389 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.006s -37d22m30.265s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0875205199127698 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m11.476s -37d22m30.511s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.529269676642751 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m11.927s -37d22m25.087s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.31360816993826 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m58.494s -37d22m20.214s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.684933786143761 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m18.265s -37d22m13.938s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.108606125681194 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m13.735s -37d22m14.189s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.354627520481144 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m34.077s -37d22m17.002s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.578152243559715 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m58.496s -37d22m14.814s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0846407898880607 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m14.186s -37d22m08.765s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.477773901758803 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m13.733s -37d22m08.789s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.430585904635135 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m33.171s -37d22m11.603s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.145671159966666 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m58.045s -37d22m09.393s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0939116825205598 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m57.592s -37d22m09.371s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.217909634342362 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m20.525s -37d22m03.008s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.120591382167267 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m35.889s -37d22m06.197s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.105820237165699 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m57.594s -37d22m03.971s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.265322347260784 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m57.141s -37d22m03.949s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.154561446714563 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m38.606s -37d22m00.786s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.117342396176843 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m57.142s -37d21m58.549s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.169524852230695 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m56.691s -37d21m53.127s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.187902890846052 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m31.842s -37d21m46.119s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.421664955840556 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m18.254s -37d21m46.938s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.15954362443246 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m17.799s -37d21m41.564s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.61305898989035 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m31.382s -37d21m29.948s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.132567731694992 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m32.285s -37d21m24.491s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.155729510993956 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m32.733s -37d21m13.662s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.39381804742102 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m32.278s -37d21m08.291s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.245326464642994 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m37.71s -37d21m02.535s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.126725482984894 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m33.634s -37d21m02.803s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.170383978630535 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m37.252s -37d20m51.765s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.10642590852207 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m33.176s -37d20m52.033s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.273207543939437 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m39.058s -37d20m40.844s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0840955578165287 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m32.719s -37d20m41.262s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.305576441374144 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m27.285s -37d20m41.603s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.496049862026895 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m38.6s -37d20m30.075s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.119016712995267 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m32.261s -37d20m30.491s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.348585621034163 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m53.999s -37d20m28.854s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.503997116915722 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.859s -37d20m19.121s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.526592475535355 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m52.64s -37d20m18.071s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0792645324255203 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m32.251s -37d20m08.891s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.387532773366884 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m41.772s -37d20m01.969s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.012566859685953 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m25.02s -37d20m01.999s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.121698539141532 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m31.338s -37d19m52.749s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.183380274969754 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m44.941s -37d19m51.147s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.125564115288133 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m43.13s -37d19m51.16s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.170034510371309 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m41.318s -37d19m45.772s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.223850207134154 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m39.055s -37d19m45.784s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.248435096624339 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m33.169s -37d19m45.802s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.656010155291247 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m23.662s -37d19m45.795s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.133954851856233 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m37.909s -37d19m39.197s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.38441575019299 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m44.035s -37d19m40.353s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.200670835276548 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m40.44s -37d19m37.261s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.335818338805642 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m52.877s -37d19m34.644s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.594981739773292 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m51.066s -37d19m34.608s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0880201028303616 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m49.708s -37d19m34.58s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.109338940016772 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m53.783s -37d19m29.261s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0711250394694477 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m50.614s -37d19m29.199s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.120943883791708 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m24.568s -37d19m24.197s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.28362727024507 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.399s -37d19m24.186s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.177979695245652 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m51.973s -37d19m23.826s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.137815902852855 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.399s -37d19m18.786s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.208906892001893 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m55.143s -37d19m18.487s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0973345211446975 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m36.582s -37d19m18.058s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.193807534046491 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m32.508s -37d19m17.939s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0792093681272034 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m31.603s -37d19m17.912s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.220648146019427 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.807s -37d19m15.739s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0808406590339755 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m20.494s -37d19m13.381s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.586861126196526 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m19.588s -37d19m13.377s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.249894913741285 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m33.867s -37d19m12.58s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.238655852652501 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m32.509s -37d19m12.539s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.419010866126699 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m32.057s -37d19m12.525s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.235117405817055 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m30.698s -37d19m12.484s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.120634783762505 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m35.185s -37d19m06.892s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.117398831512779 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m19.136s -37d19m07.974s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.242611385806438 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m55.144s -37d19m07.687s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.155789982320539 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m41.111s -37d19m07.379s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.297863551891516 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m38.395s -37d19m07.307s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.267790406710458 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m37.49s -37d19m07.283s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.24531319586469 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m29.794s -37d19m07.055s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.122179250226247 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.811s -37d19m04.939s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0903100600514735 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m34.731s -37d19m01.507s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.106348567546885 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m44.938s -37d18m57.146s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.111208225718299 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.051s -37d18m56.903s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.169877808881151 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m17.326s -37d18m51.763s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0763949030067549 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m54.694s -37d18m51.478s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.203174239029753 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m19.086s -37d18m43.287s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.128135718970547 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m33.369s -37d18m45.353s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.161543420818843 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m15.516s -37d18m46.35s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.108273467456283 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m14.158s -37d18m46.339s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.144664130357019 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m18.176s -37d18m32.539s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0810748070051906 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m12.8s -37d18m35.527s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0948112490153462 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m58.769s -37d18m35.349s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.408546127814416 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m19.079s -37d18m27.088s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.114037331726761 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m32.46s -37d18m29.183s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.20577763245357 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m16.166s -37d18m29.646s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.209553821900511 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.826s -37d18m27.139s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.142070867779739 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m42.673s -37d18m24.763s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0863341790602844 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m10.991s -37d18m24.71s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.116734943579855 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m02.844s -37d18m24.612s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.38140876065161 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.828s -37d18m21.739s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.49672140023522 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m17.975s -37d18m18.802s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.32638789656226 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m05.107s -37d18m19.242s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.308479923576314 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m59.676s -37d18m19.164s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.276712657378097 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m18.62s -37d18m10.914s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0900803871662181 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m32.004s -37d18m12.997s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.289490025657616 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.38s -37d18m10.914s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.159579250339604 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m18.165s -37d18m05.539s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.541160203562068 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m32.003s -37d18m07.597s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.44015453653403 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m31.55s -37d18m07.612s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.321029652349999 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m41.767s -37d18m08.568s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.568381935955111 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m08.276s -37d18m08.481s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0822104872490397 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.509s -37d18m08.311s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.390544762707407 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m31.618s -37d18m07.712s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.466716151242496 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m10.087s -37d18m03.101s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.52055339389522 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.058s -37d18m02.903s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.351596017550575 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m20.876s -37d17m54.584s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.16562747307604 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m53.344s -37d17m52.053s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.454470874240446 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.389s -37d17m49.314s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.225390532100928 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m25.742s -37d17m35.123s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.509546942676929 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m40.49s -37d17m33.062s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.215449580157486 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m56.426s -37d17m18.047s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.80377332152617 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m50.633s -37d17m19.598s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.57738428023829 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m40.044s -37d17m16.836s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.238075704208761 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.768s -37d17m10.123s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.128792916789705 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.315s -37d17m10.154s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.143721451257645 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m56.877s -37d17m12.627s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -1.8666150867132 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m56.425s -37d17m12.647s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.687133168911189 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m50.181s -37d17m14.189s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.519312489485233 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m39.408s -37d17m04.816s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.166439391968638 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m36.241s -37d17m05.028s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.253212463142478 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m20.771s -37d17m07.949s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.4689533997201 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.763s -37d16m59.323s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.113555840031116 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.76s -37d16m53.923s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.102176742771213 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m37.14s -37d16m54.168s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.188925242914212 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.757s -37d16m48.524s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0777787021961618 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m37.138s -37d16m48.768s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.21024359325119 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.369s -37d16m51.343s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.575881335150905 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.464s -37d16m51.305s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.368871840813185 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m40.302s -37d16m43.155s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.15001797507254 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.918s -37d16m45.924s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.334456077138025 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m39.152s -37d16m44.384s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.26347126925708 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.92s -37d16m40.524s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.11558537506567 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m31.249s -37d16m32.951s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.283922639712915 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.921s -37d16m35.124s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.260854055914408 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m39.387s -37d16m21.616s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.469432896289937 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m29.434s -37d16m22.266s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.370411990398709 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m22.139s -37d16m24.797s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.73411886865711 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m43.856s -37d16m20.046s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.713614562681791 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m42.951s -37d16m20.024s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.872172644092254 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m42.499s -37d16m20.013s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.786364013176939 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m28.523s -37d16m06.122s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.314283156064422 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m23.092s -37d16m01.052s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.134929898899381 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m24.447s -37d15m55.571s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.180245747719234 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m42.347s -37d15m34.366s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.303472864657174 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m44.316s -37d15m31.457s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.472463462760584 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m52.006s -37d15m26.226s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.302622188165981 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m24.428s -37d15m12.371s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.582459202697473 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m50.651s -37d15m15.398s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.336052057440473 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m49.747s -37d15m15.379s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.115586482057507 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m48.842s -37d15m15.36s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.15959355801584 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m23.522s -37d15m07.026s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.258988550851468 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m48.843s -37d15m09.96s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.255104242516004 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m33.918s -37d15m09.58s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.48096708285919 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m23.067s -37d15m01.652s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.1047433222625 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m33.466s -37d15m04.166s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.3332915941471 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m46.583s -37d14m59.11s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.178832969849354 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m44.774s -37d14m59.068s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.247281856020436 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.01s -37d14m45.69s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0839078418876146 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m20.786s -37d14m13.186s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.482257816678093 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.149s -37d14m02.145s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.205598949303671 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m18.062s -37d13m46.342s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.718602586264908 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m36.06s -37d13m45.999s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.291143758166495 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m34.704s -37d13m45.918s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.187283977882183 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m18.512s -37d13m40.916s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.531873643500375 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m37.421s -37d13m35.28s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.130136976949064 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m33.296s -37d13m32.153s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.305680032883463 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m31.036s -37d13m32.227s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.170832919293156 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m30.583s -37d13m32.241s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.260852421453188 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m34.711s -37d13m29.718s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.170817470169052 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m32.391s -37d13m26.783s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.206031030679784 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m31.034s -37d13m26.827s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.117501955731097 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m33.294s -37d13m21.353s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.229282719493009 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m34.649s -37d13m15.908s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.29659801327215 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m29.875s -37d13m05.256s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.104090546482653 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m29.876s -37d12m59.856s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.113394749904492 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m17.136s -37d12m52.393s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.285377137871084 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m28.069s -37d12m54.398s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0743159308313016 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.411s -37d12m49.985s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.552137370580611 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m29.878s -37d12m49.056s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.121372280773172 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m27.618s -37d12m48.983s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.650991352456137 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m36.085s -37d12m46.6s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.321365387039419 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.633s -37d12m46.573s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.230897859514553 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m15.776s -37d12m41.669s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.283714786808162 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m28.071s -37d12m43.598s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0799072385727616 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m15.322s -37d12m36.294s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.312638252553102 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.864s -37d12m39.187s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0845140069649021 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m30.785s -37d12m38.284s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.166357106644653 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m05.019s -37d12m37.31s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.356479254292696 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m04.115s -37d12m37.269s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.165713476809627 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m36.09s -37d12m35.8s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.35258666936275 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m17.128s -37d12m30.793s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.208732544557827 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.676s -37d12m30.819s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.198926245258028 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m14.868s -37d12m30.919s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.36703623332865 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m19.722s -37d12m33.156s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0805617491330842 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m03.665s -37d12m31.849s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.113180584639301 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.412s -37d12m28.385s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0975268127430072 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m02.763s -37d12m26.408s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.292631658518358 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.672s -37d12m20.019s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.126694713237823 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m17.912s -37d12m22.402s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.398331009065436 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m05.928s -37d12m21.15s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.509384392854443 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.669s -37d12m14.619s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.160270394601184 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m02.314s -37d12m15.587s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.633022554455835 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m15.311s -37d12m09.294s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.21763270864593 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.412s -37d12m12.185s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.106564503938011 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m05.932s -37d12m10.35s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.46534389575355 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m03.672s -37d12m10.249s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.255500119824793 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m03.22s -37d12m10.228s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.184111679056811 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m02.768s -37d12m10.208s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.124500753658224 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.665s -37d12m03.819s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.209813121484691 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m47.627s -37d12m06.723s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.201426946398508 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m47.175s -37d12m06.727s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.373315594315831 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m46.723s -37d12m06.731s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.790122800845815 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m20.057s -37d12m06.778s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.16623052222672 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m19.153s -37d12m06.773s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.435427048334886 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m17.345s -37d12m06.762s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.254186411499512 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m15.989s -37d12m06.753s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.28289136663406 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m03.221s -37d12m04.828s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.202568451697104 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m37.459s -37d12m03.481s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.108440062925263 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.663s -37d11m58.419s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.125099278902554 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m15.759s -37d11m58.47s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.174992994131731 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m47.627s -37d12m01.323s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.170570600699395 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m47.175s -37d12m01.327s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.13450430882166 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.865s -37d12m01.387s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.126154017852769 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.413s -37d12m01.385s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.139816221783596 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m20.961s -37d12m01.383s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.154229829201645 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m19.605s -37d12m01.376s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.187749340876986 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.661s -37d11m53.019s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.127506588643789 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m06.841s -37d11m54.19s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.54928287155195 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m03.677s -37d11m54.049s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.285920381694419 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.659s -37d11m47.619s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.102586221973417 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m02.323s -37d11m48.587s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.184051799207136 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m37.014s -37d11m47.255s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.118806889494847 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.658s -37d11m47.174s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.264081788998528 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m54.167s -37d11m39.751s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.130949588160655 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m53.156s -37d11m43.39s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.411087563553399 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m10.567s -37d11m45.105s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.361018891237002 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m53.154s -37d11m37.99s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0796258153245381 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m09.663s -37d11m39.696s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.70176203344147 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m09.211s -37d11m39.691s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.332506728562242 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m05.49s -37d11m37.93s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.563331210839757 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.653s -37d11m31.419s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.113553432208035 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m52.701s -37d11m32.609s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.190283019214985 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m52.249s -37d11m32.629s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.112666054469141 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m08.76s -37d11m34.286s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.436678249682779 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m52.247s -37d11m27.229s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.122131393988042 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m51.795s -37d11m27.249s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.158945305760387 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m51.344s -37d11m27.268s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.199483252310658 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m50.44s -37d11m27.306s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.396562763218014 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m52.698s -37d11m21.81s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.13500371866576 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m51.794s -37d11m21.849s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.681574167084227 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m37.929s -37d11m20.308s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0797383732013293 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m55.509s -37d11m12.648s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.132525358437222 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m53.249s -37d11m12.819s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.14716849146252 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m52.244s -37d11m16.429s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.24180119911476 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m38.383s -37d11m14.935s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.48022570436554 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m51.891s -37d11m07.521s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.160386400398732 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m50.987s -37d11m07.588s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.17792330363843 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m59.57s -37d11m01.534s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.120654801632699 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m46.917s -37d11m02.485s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.311012222881065 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m47.366s -37d10m57.052s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.177323703628647 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m00.373s -37d10m59.861s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.944662989945131 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m01.984s -37d11m01.798s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.117968172281452 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m01.533s -37d10m56.391s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.629286629956701 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m01.082s -37d10m50.985s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.19856353544436 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m00.63s -37d10m50.978s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.467077965863742 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m00.179s -37d10m45.571s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.590391938032106 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m59.727s -37d10m45.564s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.328201478164837 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m59.276s -37d10m40.156s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.502505114313361 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m45.088s -37d10m19.415s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.114996841784315 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.243s -37d10m20.748s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.211209017943144 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m27.741s -37d10m13.403s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.114155710836856 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m28.645s -37d09m51.804s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.103151075138231 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.041s -37d09m50.126s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.32608385814234 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.259s -37d09m42.948s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.413970681900146 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m29.548s -37d09m41.004s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0904335149686518 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m30.0s -37d09m35.604s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.081717871637798 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m17.507s -37d09m27.17s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.273643734666412 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m30.0s -37d09m30.204s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.690422835467526 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.05s -37d09m17.726s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.85894506937579 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m34.818s -37d09m15.921s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.291728132782952 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m49.349s -37d09m08.17s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.48640219771652 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m48.898s -37d09m02.761s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.432643947043768 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m48.447s -37d09m02.751s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.371434552257034 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m05.087s -37d09m01.311s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.6068292783841 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.277s -37d08m59.749s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.375403693477649 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m04.848s -37d08m55.442s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.153893130097331 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m47.996s -37d08m57.341s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.410910891857459 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m22.251s -37d08m56.599s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.182018631556544 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m19.993s -37d08m56.517s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.456445226809131 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m47.545s -37d08m51.931s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.671723252258241 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m22.253s -37d08m51.199s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.164228985472782 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.349s -37d08m51.167s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.262345248807789 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m02.38s -37d08m50.388s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.366600440670904 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m33.926s -37d08m48.867s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.18825086071418 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m16.587s -37d08m44.021s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.224463783866042 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m22.706s -37d08m45.815s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.151621153715609 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.352s -37d08m40.367s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.202187199715319 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m22.257s -37d08m34.999s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.137740834497768 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m20.902s -37d08m34.95s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.222532469268996 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m20.45s -37d08m34.934s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.286935101797492 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m19.547s -37d08m34.901s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.375299699603863 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m05.742s -37d08m28.397s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.296323495450768 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m46.194s -37d08m30.3s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.29218172652847 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m19.548s -37d08m29.501s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.322279053045321 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m01.034s -37d08m23.326s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.167568094499091 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m22.261s -37d08m18.799s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.113996586908571 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m59.681s -37d08m17.862s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.188367409044639 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m59.229s -37d08m17.841s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.346027831161366 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m33.037s -37d08m16.412s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.171948015268623 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m06.188s -37d08m12.175s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.261322653947381 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m44.841s -37d08m14.069s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.258317526197682 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m06.005s -37d08m12.751s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.512108196919761 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m06.637s -37d08m06.752s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.238705603619959 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m01.491s -37d08m07.147s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.215680705283093 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m03.299s -37d08m01.83s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.415349560463833 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m02.396s -37d08m01.789s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.316436174238221 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m00.59s -37d08m01.705s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.15325594611057 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m00.138s -37d08m01.684s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.109496527790188 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m07.085s -37d07m55.929s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.179134196962871 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m06.634s -37d07m55.952s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.415250172478506 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m43.941s -37d07m57.847s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.244297645344627 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m22.266s -37d07m57.199s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.268659695159649 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m01.946s -37d07m56.368s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.277194506791163 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m00.591s -37d07m56.305s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.136851092462835 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m59.688s -37d07m56.262s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.522492355025366 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m39.595s -37d07m48.594s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.123790674172654 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m07.535s -37d07m50.506s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.147422352324438 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m07.083s -37d07m50.529s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.163420226701641 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m43.49s -37d07m52.436s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.218422003866911 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.816s -37d07m51.783s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0928680451652683 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m01.948s -37d07m50.968s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.245682539005928 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m00.593s -37d07m50.905s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.12231842063097 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m07.081s -37d07m45.129s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.134239474447436 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.366s -37d07m46.367s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.104673254631809 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m07.079s -37d07m39.729s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.214434016554428 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m06.628s -37d07m39.752s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.122462989957118 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m43.041s -37d07m41.625s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.197120752527851 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m42.589s -37d07m41.614s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.336814904184959 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m05.271s -37d07m34.42s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0932484639333801 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m42.59s -37d07m36.214s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.152317313656246 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.82s -37d07m35.583s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.232716835962591 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m05.269s -37d07m29.02s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0857363937276804 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m03.012s -37d07m29.132s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0767575474708757 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m02.109s -37d07m29.176s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.728130600615778 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m42.591s -37d07m30.814s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.13765823234922 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m42.139s -37d07m30.802s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.12378268081199 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m01.955s -37d07m29.368s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.192407417513007 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m42.14s -37d07m25.402s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.10926590284812 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m41.69s -37d07m19.991s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.198918507287082 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m38.674s -37d07m10.856s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.209637709466515 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m49.414s -37d07m15.105s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.574347886376127 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m41.239s -37d07m14.58s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.768459332619254 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.374s -37d07m13.967s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.538595384497847 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.087s -37d07m13.527s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.0194606274397 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m38.671s -37d07m05.456s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.073114299795982 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.325s -37d07m06.35s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.667399414092593 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m38.669s -37d07m00.056s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0807736573141859 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m38.217s -37d07m00.086s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0895177389080158 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h24m38.666s -37d06m54.656s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.578961690838016 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.64s -37d06m57.308s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.824872238935274 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.189s -37d06m57.289s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.662482364620945 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m34.878s -37d06m55.523s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.241749544094488 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m36.686s -37d06m50.231s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.10448091103225 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m35.331s -37d06m50.15s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.265070529141146 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.095s -37d06m46.527s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.751302827872165 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m25.978s -37d06m41.981s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.193101239050348 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m27.782s -37d06m36.527s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.17359356166531 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m27.331s -37d06m36.541s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.441876369656329 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m26.88s -37d06m36.554s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.123868917369611 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m25.525s -37d06m36.594s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.083268834727715 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m28.233s -37d06m31.113s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.190982137576014 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m26.427s -37d06m31.168s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.112034905281359 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m24.621s -37d06m31.22s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.705965481314231 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m38.049s -37d06m28.712s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.160277805570345 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m11.004s -37d06m24.965s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.472122410752547 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m29.133s -37d06m20.285s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.20656365283256 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m38.505s -37d06m17.939s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.431590305525006 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.557s -37d06m08.746s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.562933338997896 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m17.813s -37d05m59.565s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.642448803328068 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m17.813s -37d05m54.165s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.165930584817133 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m36.259s -37d05m50.805s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.200257561612842 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m17.814s -37d05m48.765s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0955423504781376 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m17.362s -37d05m48.762s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.11279261650832 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m18.266s -37d05m37.968s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.123078713422388 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m37.62s -37d05m34.686s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.113660825778603 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m36.717s -37d05m34.632s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.220352257186684 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m36.724s -37d05m18.433s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.159322904305534 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m20.974s -37d05m16.383s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.222135106713863 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m15.559s -37d05m16.349s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.288121621175882 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.221s -37d05m09.289s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.340732913114793 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m00.667s -37d05m05.378s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.186629421723327 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m21.877s -37d05m00.187s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.182699930753424 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m02.924s -37d05m00.011s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.272954775448136 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m02.022s -37d04m59.998s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.247247678643674 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m00.217s -37d04m59.971s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.169792969625449 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m22.329s -37d04m54.788s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.203355327087975 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m04.278s -37d04m54.63s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.37214432230389 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m59.315s -37d04m54.557s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.155000916258635 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m58.863s -37d04m54.549s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.122704910238569 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m03.376s -37d04m49.218s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.437349619320981 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m57.51s -37d04m49.127s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0916678438952852 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m57.059s -37d04m49.119s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.428539262683155 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m08.324s -37d04m47.651s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.169833779166847 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m38.542s -37d04m46.14s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.288857985600913 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m39.476s -37d04m43.98s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.202210650150362 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m25.036s -37d04m43.997s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.248109449628892 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m03.828s -37d04m43.824s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.480333253897198 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m57.962s -37d04m43.734s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.110845999983999 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m39.476s -37d04m38.58s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.322685257222558 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m03.829s -37d04m38.424s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.534099399279679 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.609s -37d04m38.311s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.3117456173478 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m23.232s -37d04m33.192s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.257844757939559 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m04.281s -37d04m27.63s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.590419967160939 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m36.768s -37d04m22.392s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.156516566679521 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m08.333s -37d04m20.651s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.137718347994177 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.688s -37d04m15.309s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.38109661742054 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m06.529s -37d04m15.173s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0944970066207205 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m39.007s -37d04m13.766s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.18065685434559 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m34.963s -37d04m11.597s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.106503884630849 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.592s -37d04m09.947s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.285847579003795 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.689s -37d04m09.909s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.18649240613873 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m08.336s -37d04m09.851s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.125978349468867 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.593s -37d04m04.547s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.256870974424678 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m08.337s -37d04m04.451s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.114802408660465 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m16.916s -37d03m55.359s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.765334569996 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m03.833s -37d03m55.224s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.715599878788477 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m07.889s -37d03m53.632s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.105692255027984 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m06.987s -37d03m53.593s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.086334620434402 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m06.536s -37d03m53.573s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0792294507299625 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m36.316s -37d03m49.993s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.121289632034264 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m22.782s -37d03m44.59s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.607279233724319 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m22.331s -37d03m44.588s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.672997975162424 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m07.443s -37d03m44.47s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.770336378996403 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m06.09s -37d03m44.454s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.01755984343429 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m06.088s -37d03m42.753s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.703450422076962 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m24.586s -37d03m39.196s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.503757521535233 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m24.135s -37d03m39.195s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.550580334882766 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m14.661s -37d03m37.712s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.613786547789932 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m12.857s -37d03m37.64s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.411982848138288 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m25.94s -37d03m33.8s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.798854291481675 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m25.038s -37d03m33.797s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.461191151286218 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m12.858s -37d03m32.24s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.375993011982281 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h23m39.922s -37d03m27.119s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.193484769211817 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m26.842s -37d03m28.401s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.398260773724092 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m12.409s -37d03m26.821s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.204796020394095 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m14.666s -37d03m21.512s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.51479451534061 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.284s -37d03m19.897s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.373309582784685 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.737s -37d03m14.523s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.961079599044035 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m41.286s -37d03m14.497s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.41227083762545 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m16.926s -37d03m05.4s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.698616948354552 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m14.672s -37d02m59.912s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.315651318728411 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m16.479s -37d02m49.183s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.457228582184305 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m42.661s -37d02m20.575s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.308143601169819 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m42.663s -37d02m15.175s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.309251681016528 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.904s -37d02m00.784s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.763739654815589 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m45.806s -37d01m56.09s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.203474176513211 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m21.905s -37d01m55.384s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.560327753544153 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m44.026s -37d01m48.251s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.458494605322986 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m28.672s -37d01m44.815s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.312739599944166 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m28.221s -37d01m44.8s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.27289664926169 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m26.417s -37d01m44.741s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.119558706957941 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m28.222s -37d01m39.4s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.113595082965853 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m27.32s -37d01m39.371s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0858252934822605 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m25.516s -37d01m39.31s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.134233528675058 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m27.321s -37d01m33.971s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.123778987321846 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m26.87s -37d01m33.956s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.166044271114802 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m26.42s -37d01m33.941s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.243290687711699 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m24.616s -37d01m33.879s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.831972080375414 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m43.582s -37d01m32.026s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.257719403146034 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m25.97s -37d01m28.526s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.44563459940523 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m25.068s -37d01m28.495s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.263958438752149 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m24.617s -37d01m28.479s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.371021181382895 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m44.035s -37d01m26.651s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.586707240758148 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m44.488s -37d01m21.276s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.233688633682805 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m44.037s -37d01m21.251s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.258911351394062 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m25.972s -37d01m17.726s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.376790594384353 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m44.492s -37d01m10.476s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.165506421419927 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m44.945s -37d01m05.101s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.212442913351318 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m27.78s -37d01m01.585s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.491355608248018 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m54.833s -37d00m56.878s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.759355557590278 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m45.4s -37d00m54.326s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.112813210829444 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m17.376s -37d00m51.762s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.715968077876961 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m16.925s -37d00m51.759s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0878427398090894 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m16.474s -37d00m51.755s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.112031291996376 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m15.122s -37d00m51.745s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.165890817654052 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.186s -37d00m51.503s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.601338735576661 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m28.684s -37d00m50.815s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.397754421545054 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m45.853s -37d00m48.951s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.273973135502158 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m16.925s -37d00m46.359s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0739631996916378 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m16.024s -37d00m46.352s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.358854754144073 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m13.77s -37d00m46.334s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.380083169038181 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m29.136s -37d00m45.429s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.625093675517221 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m08.36s -37d00m40.88s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.259799605886973 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m07.458s -37d00m40.87s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.283499532090271 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.638s -37d00m40.711s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.537627548091641 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m02.95s -37d00m35.411s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.368781678365699 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m59.795s -37d00m35.364s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.437797529357062 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m57.54s -37d00m35.326s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.488425618066824 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m54.839s -37d00m08.278s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.305787710296921 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m41.315s -37d00m07.98s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.43301731948477 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m47.627s -37d00m02.731s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.827286696368893 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m45.824s -37d00m02.69s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.980925533570398 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m52.586s -36d59m57.435s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.164328805740107 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m40.867s -36d59m57.168s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.08298684973731 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m53.94s -36d59m46.661s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.477947440354111 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m52.588s -36d59m46.635s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.218078711198956 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m51.686s -36d59m46.617s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.181792934937389 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m54.392s -36d59m41.27s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0980740839496678 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m51.687s -36d59m41.217s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.123795763682889 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m37.714s -36d59m40.884s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.744003124806591 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m49.037s -36d59m33.522s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0887720477176327 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m38.619s -36d59m24.709s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.585586313831604 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m37.717s -36d59m24.684s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.526358786272233 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m49.493s -36d59m17.346s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.178916303140178 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m40.425s -36d59m08.557s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.46279383415196 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m49.948s -36d59m06.569s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.143642963083234 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m39.978s -36d58m46.945s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.375016514922271 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m52.211s -36d58m39.687s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.563691909142187 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m52.215s -36d58m28.887s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.24302016355668 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m39.982s -36d58m25.345s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.277778913309644 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m39.531s -36d58m25.333s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.30631117479913 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m40.433s -36d58m19.956s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.254888591193373 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m38.638s -36d57m42.109s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.192334229095377 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m38.188s -36d57m42.096s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.211520772861512 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m53.584s -36d57m40.356s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.159678349775512 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m37.739s -36d57m31.284s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.170927773781249 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m55.84s -36d57m29.669s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.626929722628711 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m53.588s -36d57m29.556s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0801365184747563 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m53.139s -36d57m24.133s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0969173311560057 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m57.199s -36d57m08.136s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.22094889434352 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m53.595s -36d57m07.956s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.118874223508275 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m37.294s -36d57m04.271s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.137176113100935 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m36.843s -36d57m04.259s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.122642341137268 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m54.048s -36d57m02.579s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.132416266122943 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m36.844s -36d56m58.859s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.11007927275948 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m57.653s -36d56m57.358s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.200770537006443 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m53.599s -36d56m57.156s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.106888209394246 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m36.846s -36d56m48.059s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.0827407440978433 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m36.396s -36d56m48.046s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.70434699898884 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m02.17s -36d56m19.771s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.184096655318811 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m05.331s -36d55m52.915s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.168247783382328 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m15.138s -36d55m49.344s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.139699786205599 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m13.337s -36d55m49.329s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0834449555385434 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m11.536s -36d55m43.912s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0917919301934364 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m10.635s -36d55m43.903s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.101078021328358 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m07.588s -36d55m36.814s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.138770740988214 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m07.138s -36d55m36.794s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.152135870820389 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m19.642s -36d55m33.174s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.644604947454537 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m08.492s -36d55m26.053s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.124153552667508 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m07.034s -36d55m22.263s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.11271094409402 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m06.134s -36d55m16.852s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.127384269799847 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m05.684s -36d55m16.846s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.334959840392301 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.396s -36d55m15.291s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.112056828605129 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m50.933s -36d55m14.418s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.088250497270539 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m05.684s -36d55m11.446s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.153584754302948 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h22m05.234s -36d55m11.44s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.58104143996794 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m09.848s -36d55m09.91s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.102019241199805 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.299s -36d55m04.529s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0922330805777339 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m10.751s -36d54m59.148s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.083991375209462 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m11.203s -36d54m53.767s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0767168858555212 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m50.041s -36d54m52.77s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0761517102054256 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m11.205s -36d54m48.367s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.712383266706615 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h20m49.596s -36d54m36.547s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.604075366838728 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.247s -36d52m34.7s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.105400003796802 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m55.799s -36d52m18.492s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.18089706687198 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type point
+    position 03h21m56.25s -36d52m13.1s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.0780675577229109 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m24.827s -37d30m51.968s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.427205952086461 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m44.488s -37d19m51.15s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.745206969638855 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m23.159s -37d18m43.05s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.00904764535276 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m25.411s -37d18m15.915s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.55812251134542 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m24.506s -37d18m15.97s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.420470241554121 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m25.409s -37d18m10.515s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.664546771503131 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m19.969s -37d17m49.236s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.95196341917163 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h20m29.649s -37d16m49.208s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -2.4028479498094 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m12.251s -37d16m44.864s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 7.93914848778591 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m11.799s -37d16m44.888s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.66503851190877 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m11.797s -37d16m39.489s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.47487197600414 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h20m27.873s -37d15m33.494s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.283528871091486 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m26.679s -37d15m20.153s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 5.76436734507461 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h20m27.428s -37d15m17.265s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.225453827174184 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h20m26.983s -37d15m01.037s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.299530632738314 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m25.779s -37d14m58.523s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.90879753406554 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m25.78s -37d14m53.123s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.948511232054421 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m25.328s -37d14m53.108s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.636746300681077 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m24.424s -37d14m53.077s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 6.92153080488163 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m23.971s -37d14m53.061s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.88671365674042 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m25.782s -37d14m47.723s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.320311108172199 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m25.329s -37d14m47.708s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.289473205845757 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m23.973s -37d14m47.661s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.09883844876841 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m23.521s -37d14m47.645s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 6.53421674410875 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m24.879s -37d14m42.292s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.275713872064269 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m24.88s -37d14m36.892s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.969024170609133 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m24.429s -37d14m31.477s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.448546244376029 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m23.978s -37d14m26.061s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.42658758956611 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m23.979s -37d14m20.661s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.05179290038684 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m21.733s -37d13m21.182s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.55099870966944 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m21.735s -37d13m15.782s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.74950234245661 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m21.284s -37d13m10.366s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 12.5322613384915 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m05.383s -37d12m53.018s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.14956714199431 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m03.106s -37d12m04.53s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.67379492031782 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h24m04.001s -37d11m37.486s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.10251933791964 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h25m02.254s -37d10m12.72s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy -0.269508195775244 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m18.272s -37d03m06.768s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.436923535830387 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m17.821s -37d02m55.965s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.406898887629212 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m15.566s -37d02m50.549s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.435629013868475 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m15.116s -37d02m45.146s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.645497774302705 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m11.959s -37d02m34.318s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.734083673971203 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m11.508s -37d02m34.314s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.696218282804632 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m09.705s -37d02m23.495s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.979641040261341 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h22m05.196s -37d02m07.242s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.07153675289345 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m43.103s -37d01m39.825s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.6433068255248 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m42.652s -37d01m39.814s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.85060459499618 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m40.4s -37d01m23.557s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.593014489884036 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m39.047s -37d01m23.521s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.39149805750985 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m49.87s -37d01m18.38s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.98775332580869 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m43.107s -37d01m18.225s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.92097203702261 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m41.304s -37d01m12.78s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.416358671116196 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m47.617s -37d01m07.531s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.02082534486008 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m46.265s -37d01m07.501s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.57113016835578 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m42.658s -37d01m07.414s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.672791496266026 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m40.854s -37d01m07.368s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.624533247714449 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 477.931582718047 477.931582718047 0
+    position 03h21m43.109s -37d01m02.025s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.938672979280427 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m21.595s -37d18m13.307s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.08685384361795 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m21.142s -37d18m13.319s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 3.40949147426663 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m20.689s -37d18m13.331s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.32790549014785 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m20.237s -37d18m13.343s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 1.36610696691895 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m21.594s -37d18m07.907s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 4.22528535806555 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m25.664s -37d17m56.993s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.487795098427548 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m25.212s -37d17m57.006s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.511285609350462 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m27.474s -37d17m51.539s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 2.17616939156915 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m25.211s -37d17m51.606s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 0.535909280937792 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m21.588s -37d17m40.907s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 9.66461652744257 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m38.774s -37d16m57.165s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 16.1756097211065 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m56.868s -37d16m45.627s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 105.804546594501 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m56.416s -37d16m45.647s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 18.4330739764117 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m53.249s -37d16m45.788s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 31.3887061595195 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m48.724s -37d16m45.98s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 21.524312245593 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m56.867s -37d16m40.227s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 26.1717856693153 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m56.414s -37d16m40.247s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 57.4173026987327 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m53.247s -37d16m40.388s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 6.30879086997923 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h23m52.795s -37d16m40.408s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 31.2366547058547 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h21m33.091s -37d08m56.954s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 105.638460148718 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h21m32.639s -37d08m56.94s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 97.0302676035716 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h21m33.092s -37d08m51.554s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 184.637304591193 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h21m32.641s -37d08m51.54s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 80.4234405919787 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h21m37.626s -37d07m19.884s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 11.0386481672719 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h21m38.079s -37d07m14.496s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 12.2771001212861 0 0 0
+      polynomial { 0 }
+    }
+  }
+  component {
+    type gaussian
+    shape 955.863165436095 955.863165436095 0
+    position 03h21m38.082s -37d06m58.296s
+    sed {
+      frequency 82.835 MHz
+      fluxdensity Jy 22.6931612535178 0 0 0
+      polynomial { 0 }
+    }
+  }
+}

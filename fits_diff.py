@@ -1,13 +1,13 @@
 from astropy.io import fits
 import numpy as np
 
-image_file = '/Users/nabarry/1061319472_uniform_Model_XX_sim.fits'
+image_file = '/fred/oz048/MWA/CODE/FHD/fhd_nb_2014_data_pointing_beam_coarse_corr_no_ao_nodiffuse_tenthperc_noFoV_cal_stop/output_data/1088285600_uniform_Model_YY.fits'
 hdu_list = fits.open(image_file)
 image_data1 = hdu_list[0].data
 hdu_list.close()
 
 
-image_file = '/Users/nabarry/1061319472_uniform_Model_XX_BHgrid_sim.fits'
+image_file = '/fred/oz048/MWA/CODE/FHD/fhd_nb_2014_data_pointing_beam_coarse_corr_no_ao_galaxypoint_cal_stop/output_data/1088285600_uniform_Model_YY.fits'
 hdu_list = fits.open(image_file)
 image_data2 = hdu_list[0].data
 hdu_list.close()
@@ -19,7 +19,7 @@ hdu_list.close()
 
 final_image = (image_data1 - image_data2)
 
-outfile = 'model_xx_sim_minus_BHgrid.fits'
+outfile = 'model_yy_galaxy.fits'
 hdu = fits.PrimaryHDU(final_image)
 hdu.writeto(outfile, clobber=True)
 
